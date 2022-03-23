@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CurrencyFragment : Fragment(R.layout.fragment_currency) {
@@ -25,6 +26,8 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         data.hint = getData()
         val adapter = CurrencyAdapter()
 
+
+
         //calendar
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -34,12 +37,16 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         data.setOnClickListener {
 
 
-
-                 val datePickerDialog = DatePickerDialog(view.context,DatePickerDialog.OnDateSetListener{
-                view, year, month, dayOfMonth ->
-                //set to editText
-                data.setText(""+dayOfMonth+ month + year)
-            },year,month,day)
+            val datePickerDialog = DatePickerDialog(
+                view.context,
+                DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                    //set to editText
+                    data.setText("" + dayOfMonth + month + year)
+                },
+                year,
+                month,
+                day
+            )
             datePickerDialog.show()
 
         }
@@ -50,28 +57,27 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         binding.apply {
             recyclerView.layoutManager = GridLayoutManager(view.context, 3)
             recyclerView.adapter = adapter
-            val currency = Currency("jj", "iii")
-            adapter.add(currency)
 
         }
+        //val currency = Currency("jj", "iii")
+        val currencyList = ArrayList<Currency>()
+        for (i in 1 ..120){
+            currencyList.add(Currency("AUD","55.00Р"))
+        }
+        adapter.setItems(currencyList)
     }
-
-
 
 
     companion object {
-
         @JvmStatic
         fun newInstance() = CurrencyFragment()
-
     }
 
 
-
-    private fun getData():String{
+    private fun getData(): String {
         val currentDate = Date()
 
-        val dataFormat = SimpleDateFormat("dd MMMM yyyy",Locale.getDefault())
+        val dataFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
 
         return dataFormat.format(currentDate)
     }

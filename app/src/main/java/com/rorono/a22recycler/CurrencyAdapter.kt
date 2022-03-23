@@ -1,30 +1,39 @@
 package com.rorono.a22recycler
 
+import android.text.method.TextKeyListener.clear
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.databinding.CurrencyItemBinding
+import java.util.Collections.addAll
 
-class CurrencyAdapter:RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
+class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
-    var  currencyList = ArrayList<Currency>()
+    var onItemClick: ((Currency) -> Unit)? = null
 
+    private var currencyList = mutableListOf<Currency>()
 
+    inner class CurrencyHolder(binding: CurrencyItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private val textViewNameRate = binding.textViewNameRate
+        private val textViewExchangeRate = binding.textViewExchangeRate
+        fun bind(currency: Currency) {
+            itemView.setOnClickListener {
+                onItemClick?.let { it ->
+                    it(currency)
+                }
+            }
+            textViewNameRate.text = currency.name
+            textViewExchangeRate.text = currency.exchangeRate
 
-   inner class CurrencyHolder(item:View): RecyclerView.ViewHolder(item) {
-
-       val binding = CurrencyItemBinding.bind(item)
-             fun bind(currency: Currency) = with(binding){
-                 textViewNameRate.text = currency.name
-                 textViewExchangeRate.text = currency.exchangeRate
-             }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.currency_item,parent,false)
-        return CurrencyHolder(view)
+        val binding =
+            CurrencyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CurrencyHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CurrencyHolder, position: Int) {
@@ -32,12 +41,13 @@ class CurrencyAdapter:RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
     }
 
     override fun getItemCount(): Int {
-       return currencyList.size
+        return currencyList.size
     }
 
-    fun add(currency: Currency){
-        for (i in 1 ..120){
-            currencyList.add(Currency("AUD","55.00Р"))
+    fun setItems(items: List<Currency>) {
+        currencyList.apply {
+            clear()
+            addAll(items)
         }
         notifyDataSetChanged()
     }
