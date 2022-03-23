@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">22recycler</string>
+    <string name="app_name">Валюты</string>
     <string name="aud">AUD</string>
     <string name="_59_22p">59.22P</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

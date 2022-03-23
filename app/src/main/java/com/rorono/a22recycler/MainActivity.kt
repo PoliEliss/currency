@@ -6,24 +6,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rorono.a22recycler.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
-    private val adapter = CurrencyAdapter()
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-   init()
-
+        openFrag(CurrencyFragment.newInstance(),R.id.container)
     }
 
-    private fun init(){
-        binding.apply {
-            recyclerView.layoutManager = GridLayoutManager(this@MainActivity,3)
-            recyclerView.adapter = adapter
-            val currency = Currency("jj","iii")
-            adapter.add( currency)
-
-        }
+    private fun openFrag(fragment: CurrencyFragment, idContainer:Int){
+        supportFragmentManager.beginTransaction().replace(idContainer,fragment).commit()
     }
+
 
 }
