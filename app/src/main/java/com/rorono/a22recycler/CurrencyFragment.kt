@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
@@ -25,6 +26,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         val data = binding.editTextData
         data.hint = getData()
         val adapter = CurrencyAdapter()
+        adapter.onItemClick = {currencyList -> Toast.makeText(view.context, currencyList.name,Toast.LENGTH_LONG).show() }
 
 
 
