@@ -22,19 +22,15 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_22recycler)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        openFrag(CurrencyFragment.newInstance(), R.id.container)
 
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.container) as NavHostFragment
-       val navController = navHostFragment.navController
+
+
 
     }
 
 
-    private fun openFrag(fragment: CurrencyFragment, idContainer: Int) {
-        supportFragmentManager.beginTransaction().replace(idContainer, fragment).commit()
-    }
+
 
 
 

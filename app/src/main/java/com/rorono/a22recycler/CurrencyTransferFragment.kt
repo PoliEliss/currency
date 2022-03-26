@@ -23,8 +23,6 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
 
     companion object {
