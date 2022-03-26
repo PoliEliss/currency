@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CurrencyFragment"
-    android:id="@+id/container">
-
+    tools:context=".CurrencyFragment">
 
     <LinearLayout
         android:layout_marginTop="32dp"
@@ -33,6 +31,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
 
     </LinearLayout>
 

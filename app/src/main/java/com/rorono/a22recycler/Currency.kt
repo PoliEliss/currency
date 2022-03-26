@@ -5,4 +5,7 @@ data class Currency(
     var name:String,
     var exchangeRate:String
 
-)
+) {
+
+
+}

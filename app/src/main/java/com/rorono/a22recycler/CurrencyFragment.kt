@@ -9,6 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.createNavigateOnClickListener
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import java.text.SimpleDateFormat
@@ -18,7 +25,6 @@ import kotlin.collections.ArrayList
 
 class CurrencyFragment : Fragment(R.layout.fragment_currency) {
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentCurrencyBinding.bind(view)
@@ -26,7 +32,16 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         val data = binding.editTextData
         data.hint = getData()
         val adapter = CurrencyAdapter()
-        adapter.onItemClick = {currencyList -> Toast.makeText(view.context, currencyList.name,Toast.LENGTH_LONG).show() }
+        // adapter.onItemClick = { }
+
+
+        adapter.onItemClick = {
+
+            val action = CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment()
+          findNavController().navigate(action)
+        }
+
+
 
 
 
@@ -63,10 +78,12 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         }
         //val currency = Currency("jj", "iii")
         val currencyList = ArrayList<Currency>()
-        for (i in 1 ..120){
-            currencyList.add(Currency("AUD","55.00Р"))
+        for (i in 1..120) {
+            currencyList.add(Currency("AUD", "55.00Р"))
         }
         adapter.setItems(currencyList)
+
+
     }
 
 
@@ -86,3 +103,10 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
 
 
 }
+
+
+
+
+
+
+

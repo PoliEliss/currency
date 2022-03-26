@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/currencyFragment">
+
+    <fragment
+        android:id="@+id/currencyFragment"
+        android:name="com.rorono.a22recycler.CurrencyFragment"
+        android:label="fragment_currency"
+        tools:layout="@layout/fragment_currency" >
+        <action
+            android:id="@+id/action_currencyFragment_to_currencyTransferFragment"
+            app:destination="@id/currencyTransferFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/currencyTransferFragment"
+        android:name="com.rorono.a22recycler.CurrencyTransferFragment"
+        android:label="fragment_currency_transfer"
+        tools:layout="@layout/fragment_currency_transfer" >
+
+    </fragment>
+</navigation>

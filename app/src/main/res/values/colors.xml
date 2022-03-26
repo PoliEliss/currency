@@ -11,5 +11,7 @@
     <color name="gray">#808080</color>
     <color name="gainsboro">#DCDCDC</color>
     <color name="black_currency">#000000</color>
+    <color name="grey_fragment2">#F2F5FB</color>
+    <color name="hint_currency">#222222</color>
 
 </resources>

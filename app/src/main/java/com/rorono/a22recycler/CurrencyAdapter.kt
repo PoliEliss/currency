@@ -22,7 +22,9 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
             itemView.setOnClickListener {
                 onItemClick?.let { it ->
                     it(currency)
+
                 }
+
             }
             textViewNameRate.text = currency.name
             textViewExchangeRate.text = currency.exchangeRate

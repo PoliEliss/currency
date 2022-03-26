@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CurrencyTransferFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CurrencyTransferFragment"
+    android:background="@color/grey_fragment2"
+    android:orientation="vertical"
+    android:id="@+id/fragment2">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar3"
+            app:title="AUD"
+            app:titleMarginStart="72dp"
+            app:navigationIcon="@drawable/arrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme">
+        </androidx.appcompat.widget.Toolbar>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="Австралийский доллар"
+                android:textColor="@color/black_currency"
+                android:textSize="18sp" />
 
-</FrameLayout>
+            <TextView
+                android:layout_marginTop="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Курс"
+                android:textColor="@color/hint_currency"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/_59_22p"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black_currency"
+                android:textSize="26sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/layout_bg">
+
+            <EditText
+                android:id="@+id/editTextData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/blu"
+                android:hint="yyyy"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="21dp"
+                android:backgroundTint="@color/blu"
+                android:hint="yyyy"
+                android:inputType="number" />
+
+    </LinearLayout>
+
+</LinearLayout>
