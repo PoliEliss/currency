@@ -14,6 +14,7 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
     private var currencyList = mutableListOf<Currency>()
 
+
     inner class CurrencyHolder(binding: CurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val textViewNameRate = binding.textViewNameRate
