@@ -14,19 +14,12 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
+        app:title="Валюты"
+        app:titleMarginStart="72dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/container">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="72dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="9dp"
-            android:text="Валюты"
-            android:textColor="@color/black_currency"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.fragment.app.FragmentContainerView

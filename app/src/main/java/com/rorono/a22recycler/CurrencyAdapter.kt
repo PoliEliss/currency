@@ -32,7 +32,6 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
             textViewExchangeRate.text = currency.exchangeRate + "Р"
 
 
-
         }
     }
 

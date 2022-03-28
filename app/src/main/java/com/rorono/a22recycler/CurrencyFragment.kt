@@ -37,12 +37,12 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
 
         adapter.onItemClick = {
 
-            val action = CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment()
-          findNavController().navigate(action)
+            val action =
+                CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                    it.name, it.exchangeRate
+                )
+            findNavController().navigate(action)
         }
-
-
-
 
 
         //calendar
@@ -79,7 +79,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         //val currency = Currency("jj", "iii")
         val currencyList = ArrayList<Currency>()
         for (i in 1..120) {
-            currencyList.add(Currency("AUD", "90.00"))
+            currencyList.add(Currency("AUD", "60.00"))
         }
         adapter.setItems(currencyList)
 

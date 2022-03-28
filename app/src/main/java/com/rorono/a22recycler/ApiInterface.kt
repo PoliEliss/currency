@@ -8,13 +8,13 @@ import retrofit2.http.GET
 interface ApiInterface {
 
     @GET("volley_array.json")
-    fun getCurrency() : Call<List<Currency>>
+    fun getCurrency(): Call<List<Currency>>
 
     companion object {
 
         var BASE_URL = "http://velmm.com/apis/"
 
-        fun create() : ApiInterface {
+        fun create(): ApiInterface {
 
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())

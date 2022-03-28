@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rorono.a22recycler.databinding.ActivityMainBinding
 
 
-
 class MainActivity : AppCompatActivity() {
-
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,16 +19,5 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_22recycler)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-
-
-
     }
-
-
-
-
-
-
 }

@@ -16,30 +16,40 @@ import android.widget.Toast.makeText as makeText1
 
 class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
-private lateinit var binding: FragmentCurrencyTransferBinding
+    val args: CurrencyTransferFragmentArgs by navArgs()
 
-
+    private lateinit var binding: FragmentCurrencyTransferBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
-       return binding.root
+
+        binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
 
 
+        val titleToolbarTitle = args.test
+        binding.toolbarCurrencyTransferFragment.title = titleToolbarTitle
+
+        val textViewExchangeRate = args.test2
+        binding.textViewExchangeRateTransferFragment.text = "$textViewExchangeRate Р"
+
+        binding.textInputLayoutCurrencyConvertor.hint = titleToolbarTitle
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {
-           val action = CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
+            val action =
+                CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
             findNavController().navigate(action)
 
-            binding.textInputLayoutCurrencyConvertor.hint = currency.name
+            // val textInputEditTextCurrency =  binding.textInputLayoutCurrencyConvertor
+            // textInputEditTextCurrency.hint = currency.name
 
         }
-
 
 
     }
