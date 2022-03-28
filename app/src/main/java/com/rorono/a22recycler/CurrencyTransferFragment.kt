@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toolbar
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
@@ -27,6 +28,11 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
 
+        val textEditTextCurrencyConvertor = binding.textInputEditTextCurrencyConvertor
+        val textEditTextTransferRubl = binding.textInputEditTextTransferRubl
+
+
+
 
         val titleToolbarTitle = args.test
         binding.toolbarCurrencyTransferFragment.title = titleToolbarTitle
@@ -36,6 +42,16 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
         binding.textInputLayoutCurrencyConvertor.hint = titleToolbarTitle
 
+
+        textEditTextCurrencyConvertor.addTextChangedListener {
+            if (textEditTextCurrencyConvertor.text.toString()!=""){
+                var valuta = textEditTextCurrencyConvertor.text.toString().toDouble() * args.test2.toDouble()
+                val result = Math.floor(valuta*1000)/1000
+
+                textEditTextTransferRubl.text?.clear()
+                textEditTextTransferRubl.setText(result.toString())
+            }
+        }
         return binding.root
     }
 
