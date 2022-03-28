@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
+import kotlin.math.floor
 import android.widget.Toast.makeText as makeText1
 
 
@@ -43,15 +44,35 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
         binding.textInputLayoutCurrencyConvertor.hint = titleToolbarTitle
 
 
-        textEditTextCurrencyConvertor.addTextChangedListener {
+        textEditTextCurrencyConvertor.setOnClickListener {
             if (textEditTextCurrencyConvertor.text.toString()!=""){
                 var valuta = textEditTextCurrencyConvertor.text.toString().toDouble() * args.test2.toDouble()
-                val result = Math.floor(valuta*1000)/1000
+               var  result = floor(valuta * 1000) /1000
 
                 textEditTextTransferRubl.text?.clear()
                 textEditTextTransferRubl.setText(result.toString())
+            } else{
+                textEditTextTransferRubl.text?.clear()
             }
         }
+        textEditTextTransferRubl.setOnClickListener {
+            if ( textEditTextTransferRubl.text.toString()!=""){
+                var valuta = textEditTextTransferRubl.text.toString().toDouble() / args.test2.toDouble()
+                var  result = floor(valuta * 1000) / 1000
+                textEditTextCurrencyConvertor.text?.clear()
+                textEditTextCurrencyConvertor.setText(result.toString())
+            } else{
+                textEditTextCurrencyConvertor.text?.clear()
+            }
+        }
+
+
+
+
+
+
+
+
         return binding.root
     }
 
@@ -62,8 +83,7 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
                 CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
             findNavController().navigate(action)
 
-            // val textInputEditTextCurrency =  binding.textInputLayoutCurrencyConvertor
-            // textInputEditTextCurrency.hint = currency.name
+
 
         }
 
