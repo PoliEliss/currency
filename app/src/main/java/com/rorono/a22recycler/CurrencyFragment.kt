@@ -79,7 +79,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         //val currency = Currency("jj", "iii")
         val currencyList = ArrayList<Currency>()
         for (i in 1..120) {
-            currencyList.add(Currency("AUD", "55.00Р"))
+            currencyList.add(Currency("AUD", "90.00"))
         }
         adapter.setItems(currencyList)
 

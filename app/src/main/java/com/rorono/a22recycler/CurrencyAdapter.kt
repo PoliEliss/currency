@@ -19,6 +19,7 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         private val textViewNameRate = binding.textViewNameRate
         private val textViewExchangeRate = binding.textViewExchangeRate
+
         fun bind(currency: Currency) {
             itemView.setOnClickListener {
                 onItemClick?.let { it ->
@@ -28,7 +29,9 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
             }
             textViewNameRate.text = currency.name
-            textViewExchangeRate.text = currency.exchangeRate
+            textViewExchangeRate.text = currency.exchangeRate + "Р"
+
+
 
         }
     }

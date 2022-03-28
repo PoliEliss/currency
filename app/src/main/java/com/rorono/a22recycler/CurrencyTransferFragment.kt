@@ -18,6 +18,7 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
 private lateinit var binding: FragmentCurrencyTransferBinding
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +32,13 @@ private lateinit var binding: FragmentCurrencyTransferBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {
+           val action = CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
+            findNavController().navigate(action)
 
+            binding.textInputLayoutCurrencyConvertor.hint = currency.name
+
+        }
 
 
 

@@ -1,103 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CurrencyTransferFragment"
     android:background="@color/grey_fragment2"
     android:orientation="vertical"
-    android:id="@+id/fragment2">
+    tools:context=".CurrencyTransferFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar3"
-            app:title="AUD"
-            app:titleMarginStart="72dp"
-            app:navigationIcon="@drawable/arrow"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarCurrencyTransferFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/arrow"
+        app:title="AUD"
+        app:titleMarginStart="72dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Австралийский доллар"
+        android:textColor="@color/black_currency"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:text="Курс"
+        android:textColor="@color/hint_currency"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/_59_22p"
+        android:textColor="@color/black_currency"
+        android:textSize="26sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_bg"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutCurrencyConvertor"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme">
-        </androidx.appcompat.widget.Toolbar>
-            <TextView
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Name"
+            android:textColorHint="@color/blu"
+            app:expandedHintEnabled="false"
+            app:hintTextColor="@color/blu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
-                android:text="Австралийский доллар"
-                android:textColor="@color/black_currency"
-                android:textSize="18sp" />
+                android:hint="@string/_0" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_marginTop="6dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Курс"
-                android:textColor="@color/hint_currency"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_marginTop="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/_59_22p"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black_currency"
-                android:textSize="26sp" />
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@drawable/layout_bg">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Name"
+            app:boxStrokeColor="@color/blu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
-
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:textColorHint="@color/blu"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditText2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="20dp"
-                app:expandedHintEnabled="false"
-                app:hintTextColor="@color/blu"
-                android:hint="Name"
-
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditText"
-                    android:hint="0"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout1"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="20dp"
-                android:hint="Name"
-                app:boxStrokeColor="@color/blu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditText2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
