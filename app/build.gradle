@@ -51,9 +51,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
     // splashscreen
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
 
     //Retrofit
@@ -64,6 +64,8 @@ dependencies {
      //Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
     implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
 
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
 
 }

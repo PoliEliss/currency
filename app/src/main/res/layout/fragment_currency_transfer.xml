@@ -17,37 +17,37 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:navigationIcon="@drawable/arrow"
-        app:title="AUD"
-        app:titleMarginStart="35dp" />
+        app:title="@string/ada"
+        app:titleMarginStart="@dimen/toolbar_title_margin_start_fragmnet_transfer" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="Австралийский доллар"
+        android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+        android:layout_marginTop="@dimen/text_view_margin_top_name_currency"
+        android:text="@string/test_name"
         android:textColor="@color/black_currency"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_size_text_view_name_currency" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="6dp"
-        android:text="Курс"
+        android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+        android:layout_marginTop="@dimen/text_view_margin_top_fragment_currency_transfer"
+        android:text="@string/rate"
         android:textColor="@color/hint_currency"
-        android:textSize="15sp" />
+        android:textSize="@dimen/size_text_view_rate" />
 
     <TextView
-        android:id="@+id/textViewExchangeRateTransferFragment"
+        android:id="@+id/tvExchangeRate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+        android:layout_marginTop="@dimen/text_view_fragment_currency_transfer"
+        android:layout_marginBottom="@dimen/margin_bottonechangerate"
         android:text="@string/_59_22p"
         android:textColor="@color/black_currency"
-        android:textSize="26sp"
+        android:textSize="@dimen/text_size_exchange_rate_transfer_fragmnet"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -61,9 +61,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+            android:layout_marginTop="@dimen/margin_bottonechangerate"
+            android:layout_marginEnd="@dimen/text_input_layout_margin_end"
             android:hint="AUD"
             app:boxStrokeColor="@color/blu"
             app:expandedHintEnabled="false"
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextCurrencyConvertor"
+                android:id="@+id/etCurrencyConvertor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/_0"
@@ -87,9 +87,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="22dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+            android:layout_marginTop="@dimen/text_input_layout_margin_top"
+            android:layout_marginEnd="@dimen/text_input_layout_margin_end"
             android:hint="@string/rub"
             app:boxStrokeColor="@color/blu"
             app:expandedHintEnabled="false"
@@ -99,7 +99,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextTransferRubl"
+                android:id="@+id/etTransferRubles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/_0"

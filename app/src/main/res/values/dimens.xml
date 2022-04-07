@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbar_title_margin_start">72dp</dimen>
+    <dimen name="radius_card_corner">12dp</dimen>
+    <dimen name="margin_card">8dp</dimen>
+    <dimen name="padding_card">25dp</dimen>
+    <dimen name="size_name_currency">30sp</dimen>
+    <dimen name="size_item_currency_echangeRate">20sp</dimen>
+    <dimen name="linear_layout_margin_top">32dp</dimen>
+    <dimen name="edit_text_ext_view_margin_start_fragment_currency">32dp</dimen>
+    <dimen name="text_size_text_view_fragment_currency">12sp</dimen>
+    <dimen name="margin_top_text_view_data">33dp</dimen>
+    <dimen name="toolbar_title_margin_start_fragmnet_transfer">35dp</dimen>
+    <dimen name="margin_start_text_view_fragment_currency_transfer">16dp</dimen>
+    <dimen name="margin_bottonechangerate">20dp</dimen>
+    <dimen name="text_view_margin_top_name_currency">20dp</dimen>
+    <dimen name="text_size_text_view_name_currency">18sp</dimen>
+    <dimen name="text_view_margin_top_fragment_currency_transfer">6dp</dimen>
+    <dimen name="size_text_view_rate">15sp</dimen>
+    <dimen name="text_view_fragment_currency_transfer">4dp</dimen>
+    <dimen name="text_size_exchange_rate_transfer_fragmnet">26sp</dimen>
+    <dimen name="text_input_layout_margin_end">20dp</dimen>
+    <dimen name="text_input_layout_margin_top">22dp</dimen>
+</resources>

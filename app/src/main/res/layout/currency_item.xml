@@ -4,22 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_card"
     android:backgroundTint="@color/gainsboro"
-    app:cardCornerRadius="12dp"
 
-    android:layout_margin="8dp">
+    app:cardCornerRadius="@dimen/radius_card_corner">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="25dp">
+        android:padding="@dimen/padding_card">
+
         <TextView
             android:id="@+id/textViewNameRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:text="ADA"
+            android:text="@string/ada"
             android:textColor="@color/blu"
-            android:textSize="30sp"
+            android:textSize="@dimen/size_name_currency"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,9 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="89P"
+            android:text="@string/_89p"
             android:textColor="@color/gray"
-            android:textSize="20sp"
+            android:textSize="@dimen/size_item_currency_echangeRate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewNameRate"

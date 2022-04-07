@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import java.util.Collections.addAll
 
-class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
+class CurrencyAdapter() : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
-    var onItemClick: ((Currency) -> Unit)? = null
+    var onItemClick: ((Money) -> Unit)? = null
 
-    private var currencyList = mutableListOf<Currency>()
+    private var currencyList = mutableListOf<Money>()
 
 
     inner class CurrencyHolder(binding: CurrencyItemBinding) :
@@ -20,16 +20,15 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
         private val textViewNameRate = binding.textViewNameRate
         private val textViewExchangeRate = binding.textViewExchangeRate
 
-        fun bind(currency: Currency) {
+        fun bind(money: Money) {
             itemView.setOnClickListener {
-                onItemClick?.let { it ->
-                    it(currency)
+               onItemClick?.let { it ->
+                    it(money)
 
                 }
-
             }
-            textViewNameRate.text = currency.name
-            textViewExchangeRate.text = currency.exchangeRate + "Р"
+            textViewNameRate.text = money.getCode()
+            textViewExchangeRate.text = money.getCurrency().toString()
 
 
         }
@@ -49,7 +48,7 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
         return currencyList.size
     }
 
-    fun setItems(items: List<Currency>) {
+    fun setItems(items: List<Money>) {
         currencyList.apply {
             clear()
             addAll(items)

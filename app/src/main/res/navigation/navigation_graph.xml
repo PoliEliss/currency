@@ -23,7 +23,5 @@
         <action
             android:id="@+id/action_currencyTransferFragment_to_currencyFragment"
             app:destination="@id/currencyFragment" />
-        <argument android:name="test" />
-        <argument android:name="test2" />
     </fragment>
 </navigation>

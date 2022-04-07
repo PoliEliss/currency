@@ -14,8 +14,8 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
-        app:title="Валюты"
-        app:titleMarginStart="72dp"
+        app:title="@string/tolbar_title_currency"
+        app:titleMarginStart="@dimen/toolbar_title_margin_start"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/container">
 

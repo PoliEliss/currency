@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
@@ -15,52 +18,70 @@ import kotlin.math.floor
 
 
 class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
+    private val viewModel by activityViewModels <CurrencyViewModel>()
 
-    private val args: CurrencyTransferFragmentArgs by navArgs()
+    private var currency:Money? = null
 
+    //private val args: CurrencyTransferFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        currency = viewModel.changeCurrency
+    }
     private lateinit var binding: FragmentCurrencyTransferBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
 
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
-        val textEditTextCurrencyConvertor = binding.textInputEditTextCurrencyConvertor
-        val textEditTextTransferRubl = binding.textInputEditTextTransferRubl
-
-        val titleToolbarTitle = args.test
-        binding.toolbarCurrencyTransferFragment.title = titleToolbarTitle
-
-        val textViewExchangeRate = args.test2
-        binding.textViewExchangeRateTransferFragment.text = "$textViewExchangeRate Р"
-        binding.textInputLayoutCurrencyConvertor.hint = titleToolbarTitle
+        //var viewModel = ViewModelProvider(this).get(CurrencyTransferFragmentViewModel::class.java)
 
 
-        textEditTextCurrencyConvertor.addTextChangedListener {
-            if (textEditTextCurrencyConvertor.text.toString() != "" && textEditTextCurrencyConvertor.hasFocus()) {
-                val valuta =
-                    textEditTextCurrencyConvertor.text.toString().toDouble() * args.test2.toDouble()
-                val result = floor(valuta * 1000) / 1000
-                textEditTextTransferRubl.setText(result.toString())
-            } else if (textEditTextCurrencyConvertor.text.isNullOrBlank()) {
-                textEditTextTransferRubl.text?.clear()
+       // val titleToolbarTitle = args.test
+        binding.toolbarCurrencyTransferFragment.title = currency?.getCode().toString()
+       // val textViewExchangeRate = args.test2
+       // binding.textViewExchangeRateTransferFragment.text = "$textViewExchangeRate Р"
+       // binding.textInputLayoutCurrencyConvertor.hint = titleToolbarTitle
+            binding.tvExchangeRate.text = currency?.getCurrency().toString() //данные передаем
+
+
+       binding.etCurrencyConvertor.addTextChangedListener {
+            if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
+                currency?.getCurrency()?.let {
+                    convertetToRubls(it,binding.etCurrencyConvertor,binding.etTransferRubles)
+
+                }
+            } else if (binding.etCurrencyConvertor.text.isNullOrBlank()) {
+                binding.etTransferRubles.text?.clear()
             }
         }
-        textEditTextTransferRubl.addTextChangedListener {
-            if (textEditTextTransferRubl.text.toString() != "" && textEditTextTransferRubl.hasFocus()) {
-                val valuta =
-                    textEditTextTransferRubl.text.toString().toDouble() / args.test2.toDouble()
-                val result = floor(valuta * 1000) / 1000
-                textEditTextCurrencyConvertor.setText(result.toString())
-
-            } else if (textEditTextTransferRubl.text.isNullOrBlank()) {
-                textEditTextCurrencyConvertor.text?.clear()
+        binding.etTransferRubles.addTextChangedListener {
+            if (binding.etTransferRubles.text.toString() != "" && binding.etTransferRubles.hasFocus()) {
+                currency?.getCurrency()?.let {
+                     converterToCurrency(it,binding.etTransferRubles,binding.etCurrencyConvertor)
+                }
+            } else if (binding.etTransferRubles.text.isNullOrBlank()) {
+                binding.etCurrencyConvertor.text?.clear()
 
             }
         }
 
         return binding.root
+    }
+
+    private  fun converterToCurrency(i:Double,inET:EditText, ouET:EditText){
+        val valuta =
+            inET.text.toString().toDouble() / i
+        val result = floor(valuta * 1000) / 1000
+       ouET.setText(result.toString())
+    }
+
+    private fun convertetToRubls(i: Double,inET: EditText,ouET: EditText){
+        val valuta =
+            inET.text.toString().toDouble() * i
+        val result = floor(valuta * 1000) / 1000
+        ouET.setText(result.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

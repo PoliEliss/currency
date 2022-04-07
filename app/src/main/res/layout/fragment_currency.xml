@@ -6,7 +6,7 @@
     tools:context=".CurrencyFragment">
 
     <LinearLayout
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/linear_layout_margin_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -14,18 +14,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blu"
-            android:text="Дата"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="33dp"
-            android:textSize="12sp"/>
+            android:text="@string/data"
+            android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_fragment_currency"
+            android:layout_marginTop="@dimen/margin_top_text_view_data"
+            android:textSize="@dimen/text_size_text_view_fragment_currency"/>
 
         <EditText
             android:id="@+id/editTextData"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_fragment_currency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blu"
-            android:hint="yyyy"/>
+            android:hint="@string/edit_data"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
