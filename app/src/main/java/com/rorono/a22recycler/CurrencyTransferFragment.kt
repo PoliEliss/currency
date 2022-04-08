@@ -40,10 +40,13 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
        // val titleToolbarTitle = args.test
         binding.toolbarCurrencyTransferFragment.title = currency?.getCode().toString()
+        binding.tvFullNameCurrency.text = currency?.getTitle()
        // val textViewExchangeRate = args.test2
        // binding.textViewExchangeRateTransferFragment.text = "$textViewExchangeRate Р"
-       // binding.textInputLayoutCurrencyConvertor.hint = titleToolbarTitle
-            binding.tvExchangeRate.text = currency?.getCurrency().toString() //данные передаем
+        binding.textInputLayoutCurrencyConvertor.hint = currency?.getCode()
+
+
+            binding.tvExchangeRate.text = (floor(currency!!.getCurrency()*100)/100).toString() //данные передаем
 
 
        binding.etCurrencyConvertor.addTextChangedListener {

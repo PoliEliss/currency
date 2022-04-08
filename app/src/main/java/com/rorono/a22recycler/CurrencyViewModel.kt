@@ -17,17 +17,19 @@ class CurrencyViewModel() : ViewModel() {
     private val service: NetworkService = NetworkService()
 
     var changeCurrency: Money? = null
+    var nam:String ="2022-04-07"
 
-    fun getData(): String {
+         fun getData(): String {
         val currentDate = Date()
-        val dataFormat = SimpleDateFormat("dd MM yyyy", Locale.getDefault())
+        val dataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dataFormat.format(currentDate)
     }
 
     fun getCbrEntity(block: (cbr: CbrEntity) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             delay(1000)
-            block(service.getCbrEntity())
+
+            block(service.getCbrEntity(nam))
         }
     }
 

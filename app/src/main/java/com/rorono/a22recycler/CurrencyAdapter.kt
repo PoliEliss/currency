@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import java.util.Collections.addAll
+import kotlin.math.floor
 
 class CurrencyAdapter() : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
@@ -28,7 +29,7 @@ class CurrencyAdapter() : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>()
                 }
             }
             textViewNameRate.text = money.getCode()
-            textViewExchangeRate.text = money.getCurrency().toString()
+            textViewExchangeRate.text = (floor(money.getCurrency()*100)/100).toString() + "Р"
 
 
         }
