@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-var name: String = "2022-04-05"
 
 class CurrencyFragment : Fragment(R.layout.fragment_currency) {
     var adapter = CurrencyAdapter()
@@ -31,6 +30,9 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         val data: EditText = binding.editTextData
         data.hint = viewModel.getData()
 
+        val dataTest:String = viewModel.getData()
+        Log.d("TEST","dataTest ${dataTest}")
+
 
         adapter.onItemClick = {
             viewModel.changeCurrency = it
@@ -40,67 +42,31 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             findNavController().navigate(action)
         }
 
-
         //calendar
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val materialDatePicker = MaterialDatePicker.Builder.datePicker().build()
-        /*data.setOnClickListener {
-
-            materialDatePicker.show(parentFragmentManager, "DatePicker")
-            data.setOnClickListener {
-                materialDatePicker.addOnPositiveButtonClickListener {
-                   selection:Long?-> selection?.let {
-                       val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                    val date = dateFormat.format(Date(it))
-                    data.setText(date.toString())
-
-                }
-                }
 
 
-            }
-        }*/
-
-
-        data?.setOnClickListener {
+        data.setOnClickListener {
 
             val datePickerDialog = DatePickerDialog(
                 view.context,
-                DatePickerDialog.OnDateSetListener (){
+                { view, year, month, dayOfMonth ->
+                    var month = (month + 1)
 
-
-                        view, year, month, dayOfMonth ->
-                    //set to editText
-                    // data.setText("$dayOfMonth $month $year")
-                    //data.setText(selectedDate)
-                    // до этого места работает все
                     var day: String = dayOfMonth.toString()
-                    var montSmallTen: String = (month + 1).toString()
+                    var montSmallTen:String=month.toString()
+
                     if (month < 10) {
-                        montSmallTen = "0$montSmallTen"
-                        //data.setText("0$montSmallTen") // так он увеличивает т.к. у нас же январь 0
+                        montSmallTen = "0$month"
                     }
                     if (dayOfMonth < 10) {
                         day = "0$dayOfMonth"
                     }
                     data.setText("$year-$montSmallTen-$day")
-                    //Log.d("y", "$year-$montSmallTen-$day+++++++++++++++")
-                    name = "2022-04-12"
-                    Log.d("Test", "$name")
-
-
-                   // var netv: NetworkService = NetworkService()
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-
-
-                    //data.hint = ("" + year + "-" + "0" + month + "-" + "0" + dayOfMonth)
-
-
-                    //data.setText("$year-${month+1}-$dayOfMonth")
-
+                    Log.d("TEST","$year-$month-$day")
 
                 },
                 year,
@@ -108,8 +74,6 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
                 day
             )
             datePickerDialog.show()
-
-
         }
 
 
@@ -119,14 +83,13 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             recyclerView.layoutManager = GridLayoutManager(view.context, 3)
             recyclerView.adapter = adapter
         }
-        getCurrency()
+        getCurrency(data = "2022-06-10")
     }
 
 
-    fun getCurrency(){
-        viewModel.getCurrency()
-        viewModel.listCurrency.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            response->
+    fun getCurrency(data:String) {
+        viewModel.getCurrency(data = data)
+        viewModel.listCurrency.observe(viewLifecycleOwner, androidx.lifecycle.Observer { response ->
             adapter.setItems(response)
             adapter.notifyDataSetChanged()
         })
