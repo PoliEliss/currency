@@ -7,11 +7,13 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.rorono.a22recycler.databinding.ActivityMainBinding
+import com.rorono.a22recycler.network.RetrofitInstance
+import com.rorono.a22recycler.repository.Repository
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: CurrencyViewModel by viewModels()
+  lateinit var viewModel: CurrencyViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,17 +21,9 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_22recycler)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-       // val repository = Repository()
-
-       // val viewModelFactory = MainViewModelFactory(repository)
-
-       // viewModel.getValute()
-       // viewModel.myResponce.observe(this, Observer { responce->
-          //  Log.d("Responce",responce.Name.toString())
-          //  Log.d("Responce",responce.CharCode.toString())
-          //  Log.d("Responce",responce.Value.toString())
-       // })
+        val repository = Repository(retrofit = RetrofitInstance)
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this,viewModelFactory)[CurrencyViewModel::class.java]
 
     }
 

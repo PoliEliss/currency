@@ -14,13 +14,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
+import com.rorono.a22recycler.models.Valuta
 import kotlin.math.floor
 
 
 class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
     private val viewModel by activityViewModels <CurrencyViewModel>()
 
-    private var currency:Money? = null
+    private var currency:Valuta? = null
 
     //private val args: CurrencyTransferFragmentArgs by navArgs()
 
@@ -39,19 +40,19 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
 
        // val titleToolbarTitle = args.test
-        binding.toolbarCurrencyTransferFragment.title = currency?.getCode().toString()
-        binding.tvFullNameCurrency.text = currency?.getTitle()
+        binding.toolbarCurrencyTransferFragment.title = currency?.value.toString()
+        binding.tvFullNameCurrency.text = currency?.name.toString()
        // val textViewExchangeRate = args.test2
        // binding.textViewExchangeRateTransferFragment.text = "$textViewExchangeRate Р"
-        binding.textInputLayoutCurrencyConvertor.hint = currency?.getCode()
+        binding.textInputLayoutCurrencyConvertor.hint = currency?.value.toString()
 
 
-            binding.tvExchangeRate.text = (floor(currency!!.getCurrency()*100)/100).toString() //данные передаем
+            binding.tvExchangeRate.text = (floor(currency!!.value*100)/100).toString() //данные передаем
 
 
        binding.etCurrencyConvertor.addTextChangedListener {
             if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
-                currency?.getCurrency()?.let {
+                currency?.value?.let {
                     convertetToRubls(it,binding.etCurrencyConvertor,binding.etTransferRubles)
 
                 }
@@ -61,7 +62,7 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
         }
         binding.etTransferRubles.addTextChangedListener {
             if (binding.etTransferRubles.text.toString() != "" && binding.etTransferRubles.hasFocus()) {
-                currency?.getCurrency()?.let {
+                currency?.value?.let {
                      converterToCurrency(it,binding.etTransferRubles,binding.etCurrencyConvertor)
                 }
             } else if (binding.etTransferRubles.text.isNullOrBlank()) {

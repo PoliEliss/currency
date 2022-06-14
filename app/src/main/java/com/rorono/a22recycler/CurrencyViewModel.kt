@@ -2,44 +2,34 @@ package com.rorono.a22recycler
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rorono.a22recycler.models.CbrEntity
-import com.rorono.a22recycler.network.NetworkService
+import androidx.lifecycle.viewModelScope
+import com.rorono.a22recycler.models.Valuta
+import com.rorono.a22recycler.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CurrencyViewModel() : ViewModel() {
+class CurrencyViewModel(private val repository: Repository) : ViewModel() {
 
-    private val service: NetworkService = NetworkService()
+    val listCurrency: MutableLiveData<List<Valuta>> = MutableLiveData()
 
-    var changeCurrency: Money? = null
-    var nam:String ="2022-04-07"
+    var changeCurrency: Valuta? = null
 
-         fun getData(): String {
+    fun getData(): String {
         val currentDate = Date()
         val dataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dataFormat.format(currentDate)
     }
 
-    fun getCbrEntity(block: (cbr: CbrEntity) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(1000)
-
-            block(service.getCbrEntity(nam))
+    fun getCurrency() {
+        viewModelScope.launch {
+            val response = repository.getCurrency()
+            val list = response.currencies.values.toList()
+            listCurrency.value = list
         }
     }
-
-    // fun getValute(){
-    //  viewModelScope.launch {
-    //   val responce:Valute = repository.getValute()
-    //   myResponce.value = responce
-
-    //}
 }
 
 
-//}
