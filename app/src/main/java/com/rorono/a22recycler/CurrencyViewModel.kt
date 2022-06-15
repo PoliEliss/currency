@@ -21,7 +21,6 @@ class CurrencyViewModel(private val repository: Repository) : ViewModel() {
         Log.d("TEST","currentData ${currentDate}")
         val dataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dataFormat.format(currentDate)
-
     }
 
 

@@ -30,8 +30,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         val data: EditText = binding.editTextData
         data.hint = viewModel.getData()
 
-        val dataTest:String = viewModel.getData()
-        Log.d("TEST","dataTest ${dataTest}")
+
 
 
         adapter.onItemClick = {
@@ -66,14 +65,14 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
                         day = "0$dayOfMonth"
                     }
                     data.setText("$year-$montSmallTen-$day")
-                    Log.d("TEST","$year-$month-$day")
-
+                    getCurrency(data = data.text.toString())
                 },
                 year,
                 month,
                 day
             )
             datePickerDialog.show()
+
         }
 
 
@@ -83,11 +82,12 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             recyclerView.layoutManager = GridLayoutManager(view.context, 3)
             recyclerView.adapter = adapter
         }
-        getCurrency(data = "2022-06-10")
+        getCurrency(data = data.hint.toString())
     }
 
 
     fun getCurrency(data:String) {
+        Log.d("TEST","Data!!! ${data}")
         viewModel.getCurrency(data = data)
         viewModel.listCurrency.observe(viewLifecycleOwner, androidx.lifecycle.Observer { response ->
             adapter.setItems(response)
