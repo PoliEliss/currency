@@ -13,4 +13,5 @@
     <string name="edit_data">20.03.2022</string>
     <string name="test_name">Австралийский доллар</string>
     <string name="rate">Курс</string>
+    <string name="attention">Внимание! \n Не удается получить данные за указанную дату</string>
 </resources>

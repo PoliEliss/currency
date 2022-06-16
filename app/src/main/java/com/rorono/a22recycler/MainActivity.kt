@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
   lateinit var viewModel: CurrencyViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_22recycler)
@@ -26,6 +25,4 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this,viewModelFactory)[CurrencyViewModel::class.java]
 
     }
-
-
 }

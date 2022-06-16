@@ -6,6 +6,7 @@
     tools:context=".CurrencyFragment">
 
     <LinearLayout
+        android:id="@+id/contentLayout"
         android:layout_marginTop="@dimen/linear_layout_margin_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

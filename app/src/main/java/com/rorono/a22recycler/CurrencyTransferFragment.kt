@@ -19,7 +19,6 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
     private var currency:Valuate? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currency = viewModel.changeCurrency
@@ -32,13 +31,10 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
 
-
         binding.toolbarCurrencyTransferFragment.title = currency?.value.toString()
         binding.tvFullNameCurrency.text = currency?.name.toString()
-
         binding.textInputLayoutCurrencyConvertor.hint = (floor(currency!!.value*100)/100).toString()
-
-            binding.tvExchangeRate.text = (floor(currency!!.value*100)/100).toString()
+        binding.tvExchangeRate.text = (floor(currency!!.value*100)/100).toString()
 
 
        binding.etCurrencyConvertor.addTextChangedListener {
@@ -61,7 +57,6 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
             }
         }
-
         return binding.root
     }
 
