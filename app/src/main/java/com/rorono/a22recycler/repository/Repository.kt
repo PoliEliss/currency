@@ -11,8 +11,7 @@ class Repository(private val retrofit: RetrofitInstance) {
         try {
             val response = retrofit.api.getCurrency(data = data)
             if (response.isSuccessful) {
-                val result = Result.Success(response.body()!!.currencies)
-                return@withContext result
+                return@withContext Result.Success(response.body()!!.currencies)
             } else {
                 return@withContext Result.Error("Не удалось отобразить данные за этот день \n Пожалуйста, выберите другую дату")
             }

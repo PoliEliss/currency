@@ -1,5 +1,6 @@
 package com.rorono.a22recycler
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
@@ -43,15 +44,9 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             findNavController().navigate(action)
         }
 
-        //calendar
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
+        val (year, month, day) = createCalendar()
 
         data.setOnClickListener {
-
             val datePickerDialog = DatePickerDialog(
                 view.context,
                 { view, year, month, dayOfMonth ->
@@ -81,18 +76,26 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             recyclerView.adapter = adapter
         }
 
-
         getCurrency(data = data.hint.toString())
         viewModel.messageError.observe(viewLifecycleOwner) { error ->
             getToastError(error)
         }
     }
 
+    private fun createCalendar(): Triple<Int, Int, Int> {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        return Triple(year, month, day)
+    }
+
     private fun getToastError(error: String) {
           Toast.makeText(requireActivity(),error,Toast.LENGTH_LONG).show()
     }
 
-    fun getCurrency(data: String) {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun getCurrency(data: String) {
         viewModel.getCurrency(data = data)
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
             adapter.setItems(response)

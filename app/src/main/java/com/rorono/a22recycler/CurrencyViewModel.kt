@@ -24,12 +24,13 @@ class CurrencyViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun getCurrency(data: String) {
-        viewModelScope.launch {
+       viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val response = repository.getCurrency(data)
                 withContext(Dispatchers.Main) {
                     when (response) {
                         is Result.Success -> {
+                            Log.d("TEST","SUCCESS")
                             listCurrency.postValue(response.valuate.values.toList())
                         }
                         is Result.Error -> {
@@ -39,6 +40,7 @@ class CurrencyViewModel(private val repository: Repository) : ViewModel() {
                 }
             }
         }
+
     }
 }
 
