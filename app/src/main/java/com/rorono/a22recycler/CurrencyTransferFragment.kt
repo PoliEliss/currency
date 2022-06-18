@@ -9,32 +9,28 @@ import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
 import com.rorono.a22recycler.models.Valuate
 import kotlin.math.floor
 
 
 class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
-    private val viewModel by activityViewModels <CurrencyViewModel>()
 
-    private var currency:Valuate? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        currency = viewModel.changeCurrency
-    }
+    private val args:CurrencyTransferFragmentArgs by navArgs()
     private lateinit var binding: FragmentCurrencyTransferBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        var currency = args.data
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
 
-        binding.toolbarCurrencyTransferFragment.title = currency?.value.toString()
-        binding.tvFullNameCurrency.text = currency?.name.toString()
-        binding.textInputLayoutCurrencyConvertor.hint = (floor(currency!!.value*100)/100).toString()
-        binding.tvExchangeRate.text = (floor(currency!!.value*100)/100).toString()
+        binding.toolbarCurrencyTransferFragment.title = currency.value.toString()
+        binding.tvFullNameCurrency.text = currency.name.toString()
+        binding.textInputLayoutCurrencyConvertor.hint = (floor(currency.value*100)/100).toString()
+        binding.tvExchangeRate.text = (floor(currency.value*100)/100).toString()
 
 
        binding.etCurrencyConvertor.addTextChangedListener {

@@ -36,13 +36,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         data.hint = viewModel.getData()
 
 
-        adapter.onItemClick = {
-            viewModel.changeCurrency = it
 
-            val action =
-                CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment()
-            findNavController().navigate(action)
-        }
 
         val (year, month, day) = createCalendar()
 
@@ -100,6 +94,14 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
             adapter.setItems(response)
             adapter.notifyDataSetChanged()
+            adapter.onItemClick = {
+               // viewModel.changeCurrency = it
+
+
+                val action =
+                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(it)
+                findNavController().navigate(action)
+            }
         }
     }
 }
