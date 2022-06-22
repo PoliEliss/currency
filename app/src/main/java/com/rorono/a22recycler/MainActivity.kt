@@ -23,6 +23,5 @@ class MainActivity : AppCompatActivity() {
         val repository = Repository(retrofit = RetrofitInstance)
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this,viewModelFactory)[CurrencyViewModel::class.java]
-
     }
 }

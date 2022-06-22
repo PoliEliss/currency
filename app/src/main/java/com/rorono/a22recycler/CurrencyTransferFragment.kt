@@ -27,7 +27,7 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
         var currency = args.data
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
 
-        binding.toolbarCurrencyTransferFragment.title = currency.value.toString()
+        binding.toolbarCurrencyTransferFragment.title = currency.name.toString()
         binding.tvFullNameCurrency.text = currency.name.toString()
         binding.textInputLayoutCurrencyConvertor.hint = (floor(currency.value*100)/100).toString()
         binding.tvExchangeRate.text = (floor(currency.value*100)/100).toString()

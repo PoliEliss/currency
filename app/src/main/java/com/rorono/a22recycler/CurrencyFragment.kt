@@ -95,9 +95,6 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             adapter.setItems(response)
             adapter.notifyDataSetChanged()
             adapter.onItemClick = {
-               // viewModel.changeCurrency = it
-
-
                 val action =
                     CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(it)
                 findNavController().navigate(action)

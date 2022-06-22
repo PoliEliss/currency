@@ -15,8 +15,6 @@ import java.util.*
 class CurrencyViewModel(private val repository: Repository) : ViewModel() {
     val listCurrency: MutableLiveData<List<Valuate>> = MutableLiveData()
     val messageError: MutableLiveData<String> = MutableLiveData()
-   // var changeCurrency: Valuate? = null
-
     fun getData(): String {
         val currentDate = Date()
         val dataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -40,7 +38,6 @@ class CurrencyViewModel(private val repository: Repository) : ViewModel() {
                 }
             }
         }
-
     }
 }
 
