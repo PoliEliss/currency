@@ -1,6 +1,7 @@
 package com.rorono.a22recycler
 
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,11 +14,15 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CurrencyViewModel(private val repository: Repository) : ViewModel() {
-    val listCurrency: MutableLiveData<List<Currency>> = MutableLiveData()
+    private val _listCurrency: MutableLiveData<List<Currency>> = MutableLiveData()
+    val listCurrency: LiveData<List<Currency>>
+        get() = _listCurrency
 
-    val messageError: MutableLiveData<String> = MutableLiveData()
+    private val _messageError: MutableLiveData<String> = MutableLiveData()
+    val messageError: LiveData<String>
+        get() = _messageError
 
-    val date:MutableLiveData<String> = MutableLiveData(getData())
+    val date: MutableLiveData<String> = MutableLiveData(getData())
 
     fun getData(): String {
         val currentDate = Date()
@@ -26,16 +31,16 @@ class CurrencyViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun getCurrency(date: String) {
-       viewModelScope.launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val response = repository.getCurrency(date)
                 withContext(Dispatchers.Main) {
                     when (response) {
                         is Result.Success -> {
-                            listCurrency.postValue(response.currency.values.toList())
+                            _listCurrency.postValue(response.currency.values.toList())
                         }
                         is Result.Error -> {
-                            messageError.postValue(response.error)
+                            _messageError.postValue(response.error)
                         }
                     }
                 }

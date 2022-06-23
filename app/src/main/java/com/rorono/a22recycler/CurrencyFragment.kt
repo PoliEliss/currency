@@ -15,7 +15,7 @@ import java.util.*
 
 
 class CurrencyFragment : Fragment(R.layout.fragment_currency) {
-    var adapter = CurrencyAdapter()
+    private var adapter = CurrencyAdapter()
     private val viewModel by activityViewModels<CurrencyViewModel>()
 
     @SuppressLint("NotifyDataSetChanged")
