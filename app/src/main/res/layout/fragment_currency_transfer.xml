@@ -21,14 +21,14 @@
         app:titleMarginStart="@dimen/toolbar_title_margin_start_fragmnet_transfer" />
 
     <TextView
-        android:id="@+id/tv_fullNameCurrency"
+        android:id="@+id/tvFullNameCurrency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
         android:layout_marginTop="@dimen/text_view_margin_top_name_currency"
-        android:text="@string/test_name"
         android:textColor="@color/black_currency"
-        android:textSize="@dimen/text_size_text_view_name_currency" />
+        android:textSize="@dimen/text_size_text_view_name_currency"
+        tools:text="Австралийский доллар" />
 
     <TextView
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
         android:textSize="@dimen/size_text_view_rate" />
 
     <TextView
-        android:id="@+id/tvExchangeRate"
+        android:id="@+id/tvRate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
@@ -65,13 +65,13 @@
             android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
             android:layout_marginTop="@dimen/margin_bottonechangerate"
             android:layout_marginEnd="@dimen/text_input_layout_margin_end"
-            android:hint="AUD"
             app:boxStrokeColor="@color/blu"
             app:expandedHintEnabled="false"
             app:hintTextColor="@color/blu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:hint="AUD">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCurrencyConvertor"
@@ -80,11 +80,10 @@
                 android:hint="@string/_0"
                 android:inputType="numberDecimal" />
 
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutTransferRubl"
+            android:id="@+id/textInputLayoutTransferRubles"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

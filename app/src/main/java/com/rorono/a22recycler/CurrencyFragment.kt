@@ -23,7 +23,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentCurrencyBinding.bind(view)
         val recyclerView = binding.recyclerView
-        val date: EditText = binding.editTextData
+        val date: EditText = binding.etDate
         date.hint = viewModel.getData()
         viewModel.date.observe(requireActivity()) {
             viewModel.getCurrency(it)

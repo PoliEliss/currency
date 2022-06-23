@@ -12,31 +12,32 @@ import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
 import com.rorono.a22recycler.utils.Rounding
 
 
-
 class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
     private val args: CurrencyTransferFragmentArgs by navArgs()
     private lateinit var binding: FragmentCurrencyTransferBinding
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val currency = args.currency
+        val roundedCurrency = Rounding.getRounding(currency.value)
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
         binding.toolbarCurrencyTransferFragment.title = currency.charCode
         binding.tvFullNameCurrency.text = currency.fullName
         binding.textInputLayoutCurrencyConvertor.hint = currency.charCode
+        binding.etCurrencyConvertor.hint = getString(R.string._0)
         (Rounding.getRounding(currency.value).toString() + " P").also {
-            binding.tvExchangeRate.text = it
+            binding.tvRate.text = it
         }
-
         binding.etCurrencyConvertor.addTextChangedListener {
             if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
                 val enteredValue = binding.etCurrencyConvertor.text.toString().toDouble()
                 binding.etTransferRubles.setText(
                     transferToRubles(
-                        currency.value,
+                        roundedCurrency,
                         enteredValue = enteredValue
                     ).toString()
                 )
@@ -49,7 +50,7 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
                 val enteredValue = binding.etTransferRubles.text.toString().toDouble()
                 binding.etCurrencyConvertor.setText(
                     converterToCurrency(
-                        currency.value,
+                        roundedCurrency,
                         enteredValue
                     ).toString()
                 )
