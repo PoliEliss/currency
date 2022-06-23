@@ -24,7 +24,7 @@
             android:id="@+id/action_currencyTransferFragment_to_currencyFragment"
             app:destination="@id/currencyFragment" />
         <argument
-            android:name="data"
-            app:argType="com.rorono.a22recycler.models.Valuate" />
+            android:name="Currency"
+            app:argType="com.rorono.a22recycler.models.Currency" />
     </fragment>
 </navigation>

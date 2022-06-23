@@ -3,9 +3,9 @@ package com.rorono.a22recycler.models
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Valuate(
+data class Currency(
     @SerializedName("Name")
-    val name: String,
+    val fullName: String,
     @SerializedName("CharCode")
     val charCode: String,
     @SerializedName("Value")

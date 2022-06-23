@@ -5,69 +5,59 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
-import com.rorono.a22recycler.models.Valuate
-import kotlin.math.floor
+import com.rorono.a22recycler.utils.Rounding
+
 
 
 class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
-    private val args:CurrencyTransferFragmentArgs by navArgs()
+    private val args: CurrencyTransferFragmentArgs by navArgs()
     private lateinit var binding: FragmentCurrencyTransferBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        var currency = args.data
+        val currency = args.currency
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
+        binding.toolbarCurrencyTransferFragment.title = currency.charCode
+        binding.tvFullNameCurrency.text = currency.fullName
+        binding.textInputLayoutCurrencyConvertor.hint = currency.charCode
+        (Rounding.getRounding(currency.value).toString() + " P").also {
+            binding.tvExchangeRate.text = it
+        }
 
-        binding.toolbarCurrencyTransferFragment.title = currency.name.toString()
-        binding.tvFullNameCurrency.text = currency.name.toString()
-        binding.textInputLayoutCurrencyConvertor.hint = (floor(currency.value*100)/100).toString()
-        binding.tvExchangeRate.text = (floor(currency.value*100)/100).toString()
-
-
-       binding.etCurrencyConvertor.addTextChangedListener {
+        binding.etCurrencyConvertor.addTextChangedListener {
             if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
-                currency?.value?.let {
-                    convertetToRubls(it,binding.etCurrencyConvertor,binding.etTransferRubles)
-
-                }
+                val enteredValue = binding.etCurrencyConvertor.text.toString().toDouble()
+                binding.etTransferRubles.setText(
+                    transferToRubles(
+                        currency.value,
+                        enteredValue = enteredValue
+                    ).toString()
+                )
             } else if (binding.etCurrencyConvertor.text.isNullOrBlank()) {
                 binding.etTransferRubles.text?.clear()
             }
         }
         binding.etTransferRubles.addTextChangedListener {
             if (binding.etTransferRubles.text.toString() != "" && binding.etTransferRubles.hasFocus()) {
-                currency?.value?.let {
-                     converterToCurrency(it,binding.etTransferRubles,binding.etCurrencyConvertor)
-                }
+                val enteredValue = binding.etTransferRubles.text.toString().toDouble()
+                binding.etCurrencyConvertor.setText(
+                    converterToCurrency(
+                        currency.value,
+                        enteredValue
+                    ).toString()
+                )
             } else if (binding.etTransferRubles.text.isNullOrBlank()) {
                 binding.etCurrencyConvertor.text?.clear()
-
             }
         }
         return binding.root
-    }
-
-    private  fun converterToCurrency(i:Double,inET:EditText, ouET:EditText){
-        val valuta =
-            inET.text.toString().toDouble() / i
-        val result = floor(valuta * 1000) / 1000
-       ouET.setText(result.toString())
-    }
-
-    private fun convertetToRubls(i: Double,inET: EditText,ouET: EditText){
-        val valuta =
-            inET.text.toString().toDouble() * i
-        val result = floor(valuta * 1000) / 1000
-        ouET.setText(result.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,6 +67,16 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
                 CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
             findNavController().navigate(action)
         }
+    }
+
+    private fun converterToCurrency(rate: Double, enteredValue: Double): Double {
+        val valuate = enteredValue / rate
+        return Rounding.getRounding(valuate)
+    }
+
+    private fun transferToRubles(rate: Double, enteredValue: Double): Double {
+        val valuate = enteredValue * rate
+        return Rounding.getRounding(valuate)
     }
 }
 
