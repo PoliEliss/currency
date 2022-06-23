@@ -23,13 +23,13 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
         savedInstanceState: Bundle?
     ): View {
         val currency = args.currency
-        val roundedCurrency = Rounding.getRounding(currency.value)
+        val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
         binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
         binding.toolbarCurrencyTransferFragment.title = currency.charCode
         binding.tvFullNameCurrency.text = currency.fullName
         binding.textInputLayoutCurrencyConvertor.hint = currency.charCode
         binding.etCurrencyConvertor.hint = getString(R.string._0)
-        (Rounding.getRounding(currency.value).toString() + " P").also {
+        (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " P").also {
             binding.tvRate.text = it
         }
         binding.etCurrencyConvertor.addTextChangedListener {
@@ -72,12 +72,12 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
     private fun converterToCurrency(rate: Double, enteredValue: Double): Double {
         val valuate = enteredValue / rate
-        return Rounding.getRounding(valuate)
+        return Rounding.getTwoNumbersAfterDecimalPoint(valuate)
     }
 
     private fun transferToRubles(rate: Double, enteredValue: Double): Double {
         val valuate = enteredValue * rate
-        return Rounding.getRounding(valuate)
+        return Rounding.getTwoNumbersAfterDecimalPoint(valuate)
     }
 }
 

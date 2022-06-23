@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class Repository(private val retrofit: RetrofitInstance) {
+open class Repository(private val retrofit: RetrofitInstance) {
     suspend fun getCurrency(data: String) = withContext(Dispatchers.IO) {
         try {
             val response = retrofit.api.getCurrency(data = data)

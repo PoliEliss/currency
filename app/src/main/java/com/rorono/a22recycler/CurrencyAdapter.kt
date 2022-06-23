@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.utils.Rounding
-import kotlin.math.floor
 
 class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
@@ -28,7 +27,7 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
             }
             textViewNameRate.text = currency.charCode
 
-            (Rounding.getRounding(currency.value).toString() + "Р").also {
+            (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "Р").also {
                 textViewExchangeRate.text = it
             }
         }
