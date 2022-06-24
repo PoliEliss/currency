@@ -7,7 +7,9 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.isNotNull
 import org.mockito.kotlin.mock
 
@@ -16,13 +18,14 @@ import org.mockito.kotlin.mock
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
 
-    private val repository: Repository = Mockito.mock(Repository::class.java)
+
     private var currencyTransferFragment: CurrencyTransferFragment? = null
 
     @Before
@@ -31,22 +34,6 @@ class ExampleUnitTest {
         //  viewModel = CurrencyViewModel(repository = repository)
         currencyTransferFragment = CurrencyTransferFragment()
     }
-
-    @After
-    fun after() {
-        Mockito.reset(repository)
-    }
-
-    /*  @Test
-     suspend fun repository():Unit {
-          val testDate = "2022-06-23"
-          val viewModel = CurrencyViewModel(repository=repository)
-          Mockito.`when`(repository.getCurrency("2022-06-23")).thenReturn(isNotNull())
-          viewModel.getCurrency(testDate)
-          val actual =viewModel.listCurrency.value
-          assertEquals(isNotNull(),actual)
-      }*/
-
 
     @Test
     fun getPositiveRoundingWithOneNumberAfterDecimalPoint() {
