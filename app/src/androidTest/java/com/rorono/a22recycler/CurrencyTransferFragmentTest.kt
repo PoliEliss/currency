@@ -38,7 +38,7 @@ class CurrencyTransferFragmentTest {
         scenario = launchFragmentInContainer()
         val retrofit = RetrofitInstance
         val repository = Repository(retrofit = retrofit)
-        val viewModel = CurrencyViewModel(repository = repository)
+       // val viewModel = CurrencyViewModel(repository = repository)
     }
 
     @Test
