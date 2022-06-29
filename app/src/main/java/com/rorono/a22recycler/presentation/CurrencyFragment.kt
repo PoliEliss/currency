@@ -1,8 +1,9 @@
-package com.rorono.a22recycler
+package com.rorono.a22recycler.presentation
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.EditText
@@ -10,13 +11,16 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.rorono.a22recycler.CurrencyAdapter
+import com.rorono.a22recycler.CurrencyViewModel
+import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import java.util.*
 
 
 class CurrencyFragment : Fragment(R.layout.fragment_currency) {
     private var adapter = CurrencyAdapter()
-    private val viewModel by activityViewModels<CurrencyViewModel>()
+    private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +52,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
                         day = "0$dayOfMonth"
                     }
                     date.hint = "$year-$montSmallTen-$day"
-                   viewModel.getCurrency(date = date.hint.toString())
+                    viewModel.getCurrency(date = date.hint.toString())
                     viewModel.date.value = date.hint.toString()
                 },
                 year,
@@ -66,13 +70,31 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         viewModel.getCurrency(date = date.hint.toString())
         viewModel.messageError.observe(viewLifecycleOwner) { error ->
             getToastError(error)
+            binding.tvAttention.visibility = View.VISIBLE
+            val textAttention =
+                getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
+            binding.tvAttention.text = textAttention
+            viewModel.getCurrencyDao()
+        }
+        viewModel.listRoom.observe(viewLifecycleOwner) { list ->
+            adapter.setItems(list)
+            adapter.notifyDataSetChanged()
+            adapter.onItemClick = {
+                val action =
+                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                        it
+                    )
+                findNavController().navigate(action)
+            }
         }
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
             adapter.setItems(response)
             adapter.notifyDataSetChanged()
             adapter.onItemClick = {
                 val action =
-                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(it)
+                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                        it
+                    )
                 findNavController().navigate(action)
             }
         }
@@ -87,7 +109,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
     }
 
     private fun getToastError(error: String) {
-          Toast.makeText(requireActivity(),error,Toast.LENGTH_LONG).show()
+        Toast.makeText(requireActivity(), error, Toast.LENGTH_LONG).show()
     }
 }
 
