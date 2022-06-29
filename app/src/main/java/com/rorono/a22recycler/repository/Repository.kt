@@ -6,8 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-open class Repository(private val retrofit: RetrofitInstance) {
-    suspend fun getCurrency(data: String) = withContext(Dispatchers.IO) {
+class Repository(private val retrofit: RetrofitInstance) {
+    suspend fun getCurrency(data: String): Result = withContext(Dispatchers.IO) {
         try {
             val response = retrofit.api.getCurrency(data = data)
             if (response.isSuccessful) {
@@ -16,7 +16,7 @@ open class Repository(private val retrofit: RetrofitInstance) {
                 return@withContext Result.Error("Не удалось отобразить данные за этот день \n Пожалуйста, выберите другую дату")
             }
         } catch (e: Exception) {
-            return@withContext Result.Error(e.toString())
+            return@withContext Result.Error("Отсутствует интернет подключение")
         }
     }
 }
