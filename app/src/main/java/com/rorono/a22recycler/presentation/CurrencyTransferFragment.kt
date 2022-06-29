@@ -1,27 +1,27 @@
-package com.rorono.a22recycler
+package com.rorono.a22recycler.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.rorono.a22recycler.CurrencyViewModel
+import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
 import com.rorono.a22recycler.utils.Rounding
-import java.io.IOException
 import java.lang.Exception
-
-import kotlin.NumberFormatException
 
 
 class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
 
     private val args: CurrencyTransferFragmentArgs by navArgs()
     private lateinit var binding: FragmentCurrencyTransferBinding
+    private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
 
     override fun onCreateView(
 
@@ -46,7 +46,7 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
                 val enteredValue = binding.etCurrencyConvertor.text.toString().toDouble()
                 try {
                     binding.etTransferRubles.setText(
-                        transferToRubles(
+                       viewModel.transferToRubles(
                             roundedCurrency,
                             enteredValue = enteredValue
                         ).toString()
@@ -65,12 +65,13 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
         binding.etTransferRubles.addTextChangedListener {
             if (binding.etTransferRubles.text.toString() != "" && binding.etTransferRubles.hasFocus()) {
                 if (binding.etTransferRubles.text.toString() == ".") {
-                    binding.etTransferRubles.setText("0")
+                    binding.etTransferRubles.setText("0.")
+                    binding.etTransferRubles.setSelection(binding.etTransferRubles.length())
                 }
                 val enteredValue = binding.etTransferRubles.text.toString().toDouble()
                 try {
                     binding.etCurrencyConvertor.setText(
-                        converterToCurrency(
+                        viewModel.converterToCurrency(
                             roundedCurrency,
                             enteredValue
                         ).toString()
@@ -99,21 +100,6 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
         }
     }
 
-    fun converterToCurrency(rate: Double, enteredValue: Double): Double {
-        if (rate < 0 || enteredValue < 0) {
-            throw IllegalArgumentException()
-        }
-        val valuate = enteredValue / rate
-        return Rounding.getTwoNumbersAfterDecimalPoint(valuate)
-    }
-
-    fun transferToRubles(rate: Double, enteredValue: Double): Double {
-        if (rate < 0 || enteredValue < 0) {
-            throw java.lang.IllegalArgumentException()
-        }
-        val valuate = enteredValue * rate
-        return Rounding.getTwoNumbersAfterDecimalPoint(valuate)
-    }
 }
 
 
