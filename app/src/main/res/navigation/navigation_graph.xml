@@ -27,4 +27,14 @@
             android:name="Currency"
             app:argType="com.rorono.a22recycler.models.Currency" />
     </fragment>
+    <fragment
+        android:id="@+id/savedCurrencyFragment"
+        android:name="com.rorono.a22recycler.presentation.SavedCurrencyFragment"
+        android:label="fragment_saved_currency"
+        tools:layout="@layout/fragment_saved_currency" />
+    <fragment
+        android:id="@+id/settingsCurrencyFragment"
+        android:name="com.rorono.a22recycler.presentation.SettingsCurrencyFragment"
+        android:label="fragment_settings_currency"
+        tools:layout="@layout/fragment_settings_currency" />
 </navigation>
