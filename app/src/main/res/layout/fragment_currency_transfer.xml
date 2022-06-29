@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey_fragment2"
     android:orientation="vertical"
-    tools:context=".CurrencyTransferFragment">
+    tools:context=".presentation.CurrencyTransferFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarCurrencyTransferFragment"
