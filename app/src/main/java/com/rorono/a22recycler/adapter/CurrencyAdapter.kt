@@ -1,4 +1,4 @@
-package com.rorono.a22recycler
+package com.rorono.a22recycler.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
