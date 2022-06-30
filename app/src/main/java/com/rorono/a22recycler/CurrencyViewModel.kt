@@ -66,7 +66,6 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
             val listCurrencyItem = mutableListOf<CurrencyItem>()
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    dataBase.deleteAllCurrency()
                     for (i in currency) {
                         model =
                             CurrencyItem(
@@ -85,7 +84,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
 
     fun getCurrencyDao() {
         val testRoom =
-            mutableListOf<Currency>()//сделать на основном уровне Лист и короче его возвращать из этой функции
+            mutableListOf<Currency>()//@todo сделать на основном уровне Лист и короче его возвращать из этой функции
         viewModelScope.launch {
             var currency: Currency
             val currencyItem: List<CurrencyItem> =
