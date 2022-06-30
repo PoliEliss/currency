@@ -40,8 +40,17 @@
             android:textAlignment="center"
             android:text="@string/attention_error_get_data" />
 
+         <SearchView
+             android:id="@+id/searchView"
+             android:queryHint="Enter currency"
+             android:backgroundTint="@color/blu"
+             android:iconifiedByDefault="false"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="50dp"/>

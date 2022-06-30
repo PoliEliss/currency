@@ -3,9 +3,11 @@ package com.rorono.a22recycler.presentation
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.EditText
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,7 +16,9 @@ import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.CurrencyViewModel
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
+import com.rorono.a22recycler.models.Currency
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CurrencyFragment : Fragment(R.layout.fragment_currency) {
@@ -75,12 +79,13 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             binding.tvAttention.text = textAttention
             viewModel.getCurrencyDao()
         }
+
         viewModel.listRoom.observe(viewLifecycleOwner) { list ->
             adapter.setItems(list)
             adapter.notifyDataSetChanged()
             adapter.onItemClick = {
                 val action =
-                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
                         it
                     )
                 findNavController().navigate(action)
@@ -91,11 +96,34 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             adapter.notifyDataSetChanged()
             adapter.onItemClick = {
                 val action =
-                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
                         it
                     )
                 findNavController().navigate(action)
             }
+            binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    val n = mutableListOf<Currency>()
+                    binding.searchView.clearFocus()
+                    if (newText!!.isNotEmpty()) {
+                        for (i in response) {
+                            if (i.charCode.contains(newText.uppercase())) {
+                                n.add(i)
+                                adapter.setItems(n)
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+                    } else {
+                        adapter.setItems(response)
+                        adapter.notifyDataSetChanged()
+                    }
+                    return false
+                }
+            })
         }
     }
 
