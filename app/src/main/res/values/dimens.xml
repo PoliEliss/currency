@@ -2,8 +2,8 @@
 <resources>
     <dimen name="toolbar_title_margin_start">72dp</dimen>
     <dimen name="radius_card_corner">12dp</dimen>
-    <dimen name="margin_card">8dp</dimen>
-    <dimen name="padding_card">25dp</dimen>
+    <dimen name="margin_card">5dp</dimen>
+    <dimen name="padding_card">15dp</dimen>
     <dimen name="size_name_currency">30sp</dimen>
     <dimen name="size_item_currency_echangeRate">20sp</dimen>
     <dimen name="linear_layout_margin_top">32dp</dimen>
