@@ -61,7 +61,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
 
 
     private fun setCurrencyDao(currency: List<Currency>, date: String) {
-        if (date == getData()) {
+        if (date == getData() && currency.isNotEmpty()) {
             var model: CurrencyItem
             val listCurrencyItem = mutableListOf<CurrencyItem>()
             viewModelScope.launch {
@@ -92,12 +92,10 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
             Log.d("TEST", "LiSTGETORDERMODEL${currencyItem}")
 
             for (i in currencyItem) {
-                Log.d("TEST", "I ${i}")
                 currency =
                     Currency(fullName = i.fullName, charCode = i.charCode, value = i.value)
                 testRoom.add(currency)
                 listRoom.value = testRoom
-                Log.d("TEST", "TestRoom ${listRoom.value}")
             }
         }
     }
