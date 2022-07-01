@@ -3,6 +3,7 @@ package com.rorono.a22recycler.presentation
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.EditText
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.CurrencyViewModel
+import com.rorono.a22recycler.NetworkConnection
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import java.util.*
@@ -21,6 +23,7 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
     private var adapter = CurrencyAdapter()
     private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
 
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,9 +32,11 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         val date: EditText = binding.etDate
         date.hint = viewModel.getData()
         viewModel.date.observe(requireActivity()) {
+
             viewModel.getCurrency(it)
             date.hint = it
         }
+
 
         val (year, month, day) = createCalendar()
 
@@ -66,38 +71,52 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             recyclerView.adapter = adapter
         }
 
-        viewModel.getCurrency(date = date.hint.toString())
         viewModel.messageError.observe(viewLifecycleOwner) { error ->
             getToastError(error)
-            binding.tvAttention.visibility = View.VISIBLE
-            val textAttention =
-                getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
-            binding.tvAttention.text = textAttention
-            viewModel.getCurrencyDao()
         }
-        viewModel.listRoom.observe(viewLifecycleOwner) { list ->
-            adapter.setItems(list)
-            adapter.notifyDataSetChanged()
-            adapter.onItemClick = {
-                val action =
-                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
-                        it
-                    )
-                findNavController().navigate(action)
+
+
+
+        val networkConnection = NetworkConnection(requireActivity())
+        networkConnection.observe(viewLifecycleOwner, androidx.lifecycle.Observer { isConnected ->
+            if (isConnected) {
+                Toast.makeText(requireActivity(), "Интернет есть", Toast.LENGTH_LONG).show()
+                viewModel.getCurrency(date.hint.toString())
+                binding.tvAttention.visibility = View.GONE
+                viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
+                    adapter.setItems(response)
+                    adapter.notifyDataSetChanged()
+                    adapter.onItemClick = {
+                        val action =
+                            CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                                it
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
+            } else {
+                binding.recyclerView.visibility = View.VISIBLE
+                Toast.makeText(requireActivity(), "Интернета Нет", Toast.LENGTH_LONG).show()
+                viewModel.getCurrencyDao()
+                viewModel.listRoom.observe(viewLifecycleOwner) { list ->
+                    binding.tvAttention.visibility = View.VISIBLE
+                    val textAttention =
+                        getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
+                    binding.tvAttention.text = textAttention
+                    adapter.setItems(list)
+                    adapter.notifyDataSetChanged()
+                    adapter.onItemClick = {
+                        val action =
+                            CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                                it
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
             }
-        }
-        viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-            adapter.setItems(response)
-            adapter.notifyDataSetChanged()
-            adapter.onItemClick = {
-                val action =
-                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
-                        it
-                    )
-                findNavController().navigate(action)
-            }
-        }
+        })
     }
+
 
     private fun createCalendar(): Triple<Int, Int, Int> {
         val calendar = Calendar.getInstance()
