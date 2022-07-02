@@ -25,9 +25,7 @@ class NetworkConnection(private val context: Context) : LiveData<Boolean>() {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
                 connectivityManager.registerDefaultNetworkCallback(connectivityManagerCallback())
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
-                lolipopNetworkRequest()
-            }
+
             else -> {
                 context.registerReceiver(
                     networkReceiver,
@@ -41,36 +39,22 @@ class NetworkConnection(private val context: Context) : LiveData<Boolean>() {
 
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun lolipopNetworkRequest() {
-        val requestBuilder = NetworkRequest.Builder()
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-        connectivityManager.registerNetworkCallback(
-            requestBuilder.build(),
-            connectivityManagerCallback()
-        )
-    }
+
 
     private fun connectivityManagerCallback(): ConnectivityManager.NetworkCallback {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkCallbacks = object : ConnectivityManager.NetworkCallback() {
+        networkCallbacks = object : ConnectivityManager.NetworkCallback() {
 
-                override fun onLost(network: Network) {
-                    super.onLost(network)
-                    postValue(false)
-                }
-
-                override fun onAvailable(network: Network) {
-                    super.onAvailable(network)
-                    postValue(true)
-                }
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                postValue(false)
             }
-            return networkCallbacks
-        } else {
-            throw IllegalAccessException("Error")
+
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                postValue(true)
+            }
         }
+        return networkCallbacks
     }
 
     private val networkReceiver = object : BroadcastReceiver() {
