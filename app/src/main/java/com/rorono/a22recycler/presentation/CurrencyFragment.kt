@@ -3,38 +3,44 @@ package com.rorono.a22recycler.presentation
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
-import com.rorono.a22recycler.CurrencyViewModel
-import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import java.util.*
 
 
-class CurrencyFragment : Fragment(R.layout.fragment_currency) {
+class CurrencyFragment :
+    BaseViewBindingFragment<FragmentCurrencyBinding>(FragmentCurrencyBinding::inflate) {
     private var adapter = CurrencyAdapter()
     private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentCurrencyBinding.bind(view)
-        val recyclerView = binding.recyclerView
+
         val date: EditText = binding.etDate
-        date.hint = viewModel.getData()
+        date.hint = viewModel.getDate()
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            getData(NetManager(requireContext()).isOnline(), date = date.hint.toString())
+            binding.swipeRefreshLayout.isRefreshing = false
+
+        }
         viewModel.date.observe(requireActivity()) {
             viewModel.getCurrency(it)
             date.hint = it
         }
 
         val (year, month, day) = createCalendar()
-
         date.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 view.context,
@@ -66,32 +72,33 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
             recyclerView.adapter = adapter
         }
 
-        viewModel.getCurrency(date = date.hint.toString())
         viewModel.messageError.observe(viewLifecycleOwner) { error ->
             getToastError(error)
-            binding.tvAttention.visibility = View.VISIBLE
+        }
+
+        viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
+
+            adapter.setItems(response)
+            adapter.notifyDataSetChanged()
+            adapter.onItemClick = {
+
+                val action =
+                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                        it
+                    )
+                findNavController().navigate(action)
+            }
+        }
+        viewModel.listRoom.observe(viewLifecycleOwner) { list ->
+
             val textAttention =
                 getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
             binding.tvAttention.text = textAttention
-            viewModel.getCurrencyDao()
-        }
-        viewModel.listRoom.observe(viewLifecycleOwner) { list ->
             adapter.setItems(list)
             adapter.notifyDataSetChanged()
             adapter.onItemClick = {
                 val action =
-                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
-                        it
-                    )
-                findNavController().navigate(action)
-            }
-        }
-        viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-            adapter.setItems(response)
-            adapter.notifyDataSetChanged()
-            adapter.onItemClick = {
-                val action =
-                   CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
                         it
                     )
                 findNavController().navigate(action)
@@ -99,18 +106,39 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
         }
     }
 
-    private fun createCalendar(): Triple<Int, Int, Int> {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        return Triple(year, month, day)
+    override fun onResume() {
+        super.onResume()
+        getData(NetManager(context = requireContext()).isOnline(), viewModel.date.value.toString())
+
+    }
+
+   private fun getData(networkConnection: Boolean, date: String) {//text
+        if (networkConnection) {
+            binding.tvAttention.visibility = View.GONE
+            viewModel.getCurrency(date)
+
+        } else {
+            viewModel.getCurrencyDao()
+            binding.tvAttention.visibility = View.VISIBLE
+
+        }
     }
 
     private fun getToastError(error: String) {
-        Toast.makeText(requireActivity(), error, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
     }
 }
+
+private fun createCalendar(): Triple<Int, Int, Int> {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    return Triple(year, month, day)
+}
+
+
+
 
 
 

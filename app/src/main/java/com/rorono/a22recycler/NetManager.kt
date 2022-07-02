@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
 
+
 class NetManager(private val context: Context) {
     fun isOnline(): Boolean {
         val connectivityManager =

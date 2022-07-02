@@ -2,7 +2,6 @@ package com.rorono.a22recycler
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.network.RetrofitInstance
 import com.rorono.a22recycler.presentation.CurrencyTransferFragment
@@ -71,7 +70,7 @@ class ExampleUnitTest {
 
     @Test
     fun getData() {
-        val actual = viewModel!!.getData()
+        val actual = viewModel!!.getDate()
         val expected = "2022-06-28"
         assertEquals(expected, actual)
     }
