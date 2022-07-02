@@ -5,47 +5,54 @@
     android:layout_height="match_parent"
     tools:context=".presentation.CurrencyFragment">
 
-    <LinearLayout
-        android:id="@+id/contentLayout"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/linear_layout_margin_top"
-        android:orientation="vertical">
+        android:visibility="visible">
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_fragment_currency"
-            android:layout_marginTop="@dimen/margin_top_text_view_data"
-            android:text="@string/date"
-            android:textColor="@color/blu"
-            android:textSize="@dimen/text_size_text_view_fragment_currency" />
-
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_fragment_currency"
-            android:backgroundTint="@color/blu"
-            android:hint="@string/edit_date" />
-
-        <TextView
-            android:id="@+id/tvAttention"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/red"
-            android:visibility="gone"
-            android:textAlignment="center"
-            android:text="@string/attention_error_get_data" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <LinearLayout
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="50dp"/>
+            android:layout_marginTop="@dimen/linear_layout_margin_top"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_fragment_currency"
+                android:layout_marginTop="@dimen/margin_top_text_view_data"
+                android:text="@string/date"
+                android:textColor="@color/blu"
+                android:textSize="@dimen/text_size_text_view_fragment_currency" />
 
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_fragment_currency"
+                android:backgroundTint="@color/blu"
+                android:hint="@string/edit_date" />
+
+            <TextView
+                android:id="@+id/tvAttention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/attention_error_get_data"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:visibility="gone" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="50dp" />
+
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>
