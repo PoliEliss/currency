@@ -1,14 +1,10 @@
 package com.rorono.a22recycler
 
 
-import android.util.Log
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.database.CurrencyItem
 import com.rorono.a22recycler.models.Currency
@@ -30,15 +26,16 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
     val messageError: LiveData<String>
         get() = _messageError
 
-    val date: MutableLiveData<String> = MutableLiveData(getData())
+    val date: MutableLiveData<String> = MutableLiveData(getDate())
 
     var listRoom: MutableLiveData<List<Currency>> = MutableLiveData()
 
-    fun getData(): String {
+    fun getDate(): String {
         val currentDate = Date()
         val dataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dataFormat.format(currentDate)
     }
+
 
     fun getCurrency(date: String) {
         viewModelScope.launch {
@@ -61,11 +58,11 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
 
 
     private fun setCurrencyDao(currency: List<Currency>, date: String) {
-        if (date == getData() && currency.isNotEmpty()) {
+        if (date == getDate() && currency.isNotEmpty()) {
             var model: CurrencyItem
-            val listCurrencyItem = mutableListOf<CurrencyItem>()
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
+                    deleteAllData()
                     for (i in currency) {
                         model =
                             CurrencyItem(
@@ -73,23 +70,24 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
                                 charCode = i.charCode,
                                 value = i.value
                             )
-                        listCurrencyItem.add(model)
+                        dataBase.insertCurrency(model)
                     }
-                    dataBase.insertCurrency(listCurrencyItem)
                 }
             }
         }
     }
 
+    suspend fun deleteAllData() {
+        dataBase.deleteAllCurrency()
+    }
 
     fun getCurrencyDao() {
         val testRoom =
-            mutableListOf<Currency>()//@todo сделать на основном уровне Лист и короче его возвращать из этой функции
+            mutableListOf<Currency>()
         viewModelScope.launch {
             var currency: Currency
             val currencyItem: List<CurrencyItem> =
                 withContext(Dispatchers.IO) { dataBase.getAllCurrency() }
-            Log.d("TEST", "LiSTGETORDERMODEL${currencyItem}")
 
             for (i in currencyItem) {
                 currency =
