@@ -12,8 +12,7 @@ import com.rorono.a22recycler.R
 
 class SavedCurrencyFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
