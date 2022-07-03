@@ -10,17 +10,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.rorono.a22recycler.CurrencyViewModel
+import com.rorono.a22recycler.BaseViewBindingFragment
+import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
 import com.rorono.a22recycler.utils.Rounding
 import java.lang.Exception
 
 
-class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
+class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate){
 
     private val args: CurrencyTransferFragmentArgs by navArgs()
-    private lateinit var binding: FragmentCurrencyTransferBinding
     private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
 
     override fun onCreateView(
@@ -30,7 +30,7 @@ class CurrencyTransferFragment : Fragment(R.layout.fragment_currency_transfer) {
     ): View {
         val currency = args.currency
         val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
-        binding = FragmentCurrencyTransferBinding.inflate(layoutInflater)
+
         binding.toolbarCurrencyTransferFragment.title = currency.charCode
         binding.tvFullNameCurrency.text = currency.fullName
         binding.textInputLayoutCurrencyConvertor.hint = currency.charCode
