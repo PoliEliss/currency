@@ -23,11 +23,10 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
     private val args: CurrencyTransferFragmentArgs by navArgs()
     private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
 
-    override fun onCreateView(
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+
         val currency = args.currency
         val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
 
@@ -38,6 +37,12 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
         (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " P").also {
             binding.tvRate.text = it
         }
+        binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {
+            val action =
+                CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
+            findNavController().navigate(action)
+        }
+
         binding.etCurrencyConvertor.addTextChangedListener {
             if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
                 if (binding.etCurrencyConvertor.text.toString() == ".") {
@@ -88,18 +93,7 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
                 binding.etCurrencyConvertor.text?.clear()
             }
         }
-        return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {
-            val action =
-                CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
-            findNavController().navigate(action)
-        }
-    }
-
 }
 
 
