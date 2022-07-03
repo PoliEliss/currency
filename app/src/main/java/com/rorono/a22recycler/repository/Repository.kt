@@ -9,7 +9,6 @@ import java.lang.Exception
 
 class Repository(private val retrofit: RetrofitInstance) {
     suspend fun getCurrency(data: String): Result = withContext(Dispatchers.IO)  {
-      //  if (!netManager.isOnline()) return@withContext Result.NoInternetConnecting
             try {
                 val response = retrofit.api.getCurrency(data = data)
                 if (response.isSuccessful) {
