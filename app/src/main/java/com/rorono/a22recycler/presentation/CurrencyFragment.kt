@@ -7,21 +7,20 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
+import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import java.util.*
 
 
 class CurrencyFragment :
     BaseViewBindingFragment<FragmentCurrencyBinding>(FragmentCurrencyBinding::inflate) {
     private var adapter = CurrencyAdapter()
-    private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
+    private val viewModel by activityViewModels<CurrencyViewModel>()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,7 +32,6 @@ class CurrencyFragment :
         binding.swipeRefreshLayout.setOnRefreshListener {
             getData(NetManager(requireContext()).isOnline(), date = date.hint.toString())
             binding.swipeRefreshLayout.isRefreshing = false
-
         }
         viewModel.date.observe(requireActivity()) {
             viewModel.getCurrency(it)
@@ -77,11 +75,9 @@ class CurrencyFragment :
         }
 
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-
             adapter.setItems(response)
             adapter.notifyDataSetChanged()
             adapter.onItemClick = {
-
                 val action =
                     CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
                         it
@@ -89,8 +85,7 @@ class CurrencyFragment :
                 findNavController().navigate(action)
             }
         }
-        viewModel.listRoom.observe(viewLifecycleOwner) { list ->
-
+        viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
             val textAttention =
                 getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
             binding.tvAttention.text = textAttention
@@ -108,11 +103,10 @@ class CurrencyFragment :
 
     override fun onResume() {
         super.onResume()
-        getData(NetManager(context = requireContext()).isOnline(), viewModel.date.value.toString())
-
+        getData(NetManager(context = requireContext()).isOnline(), viewModel.getDate())
     }
 
-   private fun getData(networkConnection: Boolean, date: String) {//text
+   private fun getData(networkConnection: Boolean, date: String) {
         if (networkConnection) {
             binding.tvAttention.visibility = View.GONE
             viewModel.getCurrency(date)
@@ -120,7 +114,6 @@ class CurrencyFragment :
         } else {
             viewModel.getCurrencyDao()
             binding.tvAttention.visibility = View.VISIBLE
-
         }
     }
 
