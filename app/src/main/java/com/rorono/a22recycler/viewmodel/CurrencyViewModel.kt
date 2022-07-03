@@ -1,10 +1,11 @@
-package com.rorono.a22recycler
+package com.rorono.a22recycler.viewmodel
 
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rorono.a22recycler.Result
 import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.database.CurrencyItem
 import com.rorono.a22recycler.models.Currency
@@ -28,14 +29,13 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
 
     val date: MutableLiveData<String> = MutableLiveData(getDate())
 
-    var listRoom: MutableLiveData<List<Currency>> = MutableLiveData()
+    var currencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
 
     fun getDate(): String {
         val currentDate = Date()
         val dataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dataFormat.format(currentDate)
     }
-
 
     fun getCurrency(date: String) {
         viewModelScope.launch {
@@ -55,7 +55,6 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
             }
         }
     }
-
 
     private fun setCurrencyDao(currency: List<Currency>, date: String) {
         if (date == getDate() && currency.isNotEmpty()) {
@@ -77,23 +76,22 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
         }
     }
 
-    suspend fun deleteAllData() {
+    private suspend fun deleteAllData() {
         dataBase.deleteAllCurrency()
     }
 
     fun getCurrencyDao() {
-        val testRoom =
+        val currencyListDatabase =
             mutableListOf<Currency>()
         viewModelScope.launch {
             var currency: Currency
             val currencyItem: List<CurrencyItem> =
                 withContext(Dispatchers.IO) { dataBase.getAllCurrency() }
-
             for (i in currencyItem) {
                 currency =
                     Currency(fullName = i.fullName, charCode = i.charCode, value = i.value)
-                testRoom.add(currency)
-                listRoom.value = testRoom
+                currencyListDatabase.add(currency)
+                currencyDatabase.value = currencyListDatabase
             }
         }
     }
