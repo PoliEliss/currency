@@ -1,19 +1,26 @@
 package com.rorono.a22recycler.presentation
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.EditText
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
+import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
+import java.time.Duration
 import java.util.*
 
 
@@ -70,6 +77,7 @@ class CurrencyFragment :
             recyclerView.adapter = adapter
         }
 
+
         viewModel.messageError.observe(viewLifecycleOwner) { error ->
             getToastError(error)
         }
@@ -84,6 +92,7 @@ class CurrencyFragment :
                     )
                 findNavController().navigate(action)
             }
+            searchCurrency(response)
         }
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
             val textAttention =
@@ -99,6 +108,41 @@ class CurrencyFragment :
                 findNavController().navigate(action)
             }
         }
+        binding.ivSearch.setOnClickListener {
+            createAnimationOpenSearch()
+        }
+        binding.ivCancelSearch.setOnClickListener {
+            cancelSearch()
+        }
+    }
+
+    private fun searchCurrency(response: List<Currency>) {
+        binding.search.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.search.clearFocus()
+                return false
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val n = mutableListOf<Currency>()
+                binding.search.clearFocus()
+                if (newText!!.isNotEmpty()) {
+                    for (i in response) {
+                        if (i.charCode.contains(newText.uppercase())) {
+                            n.add(i)
+                            adapter.setItems(n)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+                } else {
+                    adapter.setItems(response)
+                    adapter.notifyDataSetChanged()
+                }
+                return false
+            }
+        })
     }
 
     override fun onResume() {
@@ -106,7 +150,33 @@ class CurrencyFragment :
         getData(NetManager(context = requireContext()).isOnline(), viewModel.getDate())
     }
 
-   private fun getData(networkConnection: Boolean, date: String) {
+    private fun createAnimationOpenSearch() {
+
+        /* val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -100f)
+          objectAnimator.duration = 400
+          objectAnimator.start()*/
+        val slide = Slide()
+        slide.duration
+        slide.slideEdge = Gravity.START
+        TransitionManager.beginDelayedTransition(binding.contentLayout, slide)
+
+        binding.tvTitleToolbar.visibility = View.GONE
+        binding.ivSearch.visibility = View.GONE
+        binding.ivCancelSearch.visibility = View.VISIBLE
+        binding.search.visibility = View.VISIBLE
+    }
+
+    private fun cancelSearch() {
+        val slide = Slide()
+        slide.slideEdge = Gravity.END
+        TransitionManager.beginDelayedTransition(binding.contentLayout, slide)
+        binding.tvTitleToolbar.visibility = View.VISIBLE
+        binding.ivSearch.visibility = View.VISIBLE
+        binding.ivCancelSearch.visibility = View.GONE
+        binding.search.visibility = View.GONE
+    }
+
+    private fun getData(networkConnection: Boolean, date: String) {
         if (networkConnection) {
             binding.tvAttention.visibility = View.GONE
             viewModel.getCurrency(date)
@@ -129,6 +199,8 @@ private fun createCalendar(): Triple<Int, Int, Int> {
     val day = calendar.get(Calendar.DAY_OF_MONTH)
     return Triple(year, month, day)
 }
+
+
 
 
 
