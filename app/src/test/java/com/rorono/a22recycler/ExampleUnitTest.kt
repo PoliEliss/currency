@@ -7,6 +7,7 @@ import com.rorono.a22recycler.network.RetrofitInstance
 import com.rorono.a22recycler.presentation.CurrencyTransferFragment
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.utils.Rounding
+import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.setMain
 import org.junit.Test
