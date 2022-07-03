@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.rorono.a22recycler.CurrencyViewModel
+import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.database.CurrencyDataBase
