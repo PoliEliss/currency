@@ -18,16 +18,15 @@ import com.rorono.a22recycler.utils.Rounding
 import java.lang.Exception
 
 
-class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate){
+class CurrencyTransferFragment :
+    BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate) {
 
     private val args: CurrencyTransferFragmentArgs by navArgs()
     private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
 
-    override fun onCreateView(
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
         val currency = args.currency
         val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
 
@@ -46,7 +45,7 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
                 val enteredValue = binding.etCurrencyConvertor.text.toString().toDouble()
                 try {
                     binding.etTransferRubles.setText(
-                       viewModel.transferToRubles(
+                        viewModel.transferToRubles(
                             roundedCurrency,
                             enteredValue = enteredValue
                         ).toString()
@@ -88,11 +87,7 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
                 binding.etCurrencyConvertor.text?.clear()
             }
         }
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {
             val action =
                 CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
@@ -101,6 +96,9 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
     }
 
 }
+
+
+
 
 
 
