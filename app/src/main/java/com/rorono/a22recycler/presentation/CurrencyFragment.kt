@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
@@ -69,6 +70,8 @@ class CurrencyFragment :
                 month,
                 day
             )
+            val today = MaterialDatePicker.todayInUtcMilliseconds()
+            datePickerDialog.datePicker.maxDate = today
             datePickerDialog.show()
         }
 
