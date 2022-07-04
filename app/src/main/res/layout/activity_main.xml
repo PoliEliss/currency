@@ -6,22 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".presentation.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:title="@string/tolbar_title_currency"
-        app:titleMarginStart="@dimen/toolbar_title_margin_start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/container">
-
-
-    </androidx.appcompat.widget.Toolbar>
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
         android:name="androidx.navigation.fragment.NavHostFragment"
