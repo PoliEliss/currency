@@ -119,7 +119,7 @@ class SavedCurrencyFragment :
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
                 Log.d("TEST3","ВТОРОЙ АДАПТЕР ${it}")
-                adapterChosenCurrency.setItems(it)
+                adapterChosenCurrency.submitList(it)
                 adapterChosenCurrency.notifyDataSetChanged()
 
             })

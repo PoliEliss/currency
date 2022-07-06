@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.databinding.ChosenCurrencyItemBinding
+import com.rorono.a22recycler.databinding.SaveCurrencyItemBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.presentation.MainActivity
 import com.rorono.a22recycler.presentation.SavedCurrencyFragment
@@ -72,11 +73,13 @@ class ChosenCurrencyAdapter : ListAdapter<Currency, ChosenCurrencyAdapter.Chosen
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChosenCurrencyHolder {
-        TODO("Not yet implemented")
+        val binding =
+            ChosenCurrencyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ChosenCurrencyHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ChosenCurrencyHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(getItem(position))
     }
 
 
