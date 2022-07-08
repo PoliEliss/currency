@@ -4,6 +4,7 @@ package com.rorono.a22recycler.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.ListAdapter
 
@@ -15,33 +16,11 @@ import com.rorono.a22recycler.models.Currency
 
 
 class CurrenciesSaveAdapter :
-    ListAdapter<Currency, CurrenciesSaveAdapter.CurrencySaveHolder>(DiffUtil()) {
+    RecyclerView.Adapter<CurrenciesSaveAdapter.CurrencySaveHolder>() {
+
+    private var oldCurrencyList = emptyList<Currency>()
+
     var onItemClick: ((Currency) -> Unit)? = null
-
-    class DiffUtil:androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
-        override fun areItemsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-           return    oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return when {
-                oldItem.fullName != newItem.fullName -> {
-                    return false
-                }
-               oldItem.isFavorite != newItem.isFavorite -> {
-                    return false
-                }
-                oldItem.charCode != newItem.charCode -> {
-                    return false
-                }
-                oldItem.value != newItem.value -> {
-                    return false
-                }
-                else -> true
-            }
-        }
-    }
-
 
     inner class CurrencySaveHolder(binding: SaveCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -50,7 +29,7 @@ class CurrenciesSaveAdapter :
 
 
         fun bind(currency: Currency) {
-            Log.d("TEST9","IsFavorite")
+            Log.d("TEST9", "IsFavorite")
             if (currency.isFavorite == 1) {
                 ivFavorite.setImageResource(R.drawable.ic_favorite)
             } else {
@@ -59,16 +38,16 @@ class CurrenciesSaveAdapter :
             itemView.setOnClickListener {
                 onItemClick?.let { view ->
                     view(currency)
-                   // ivFavorite.setImageResource(R.drawable.ic_favorite)
+                    // ivFavorite.setImageResource(R.drawable.ic_favorite)
 
-                   /* if (currency.isFavorite == 1) {
-                        Log.d("TEST2", "тыкбтык1")
-                        currency.isFavorite == 0
-                        ivFavorite.setImageResource(R.drawable.ic_favorite_border)
-                    } else {
-                        Log.d("TEST2", "тыкбтык0")
-                        ivFavorite.setImageResource(R.drawable.ic_favorite)
-                    }*/
+                    /* if (currency.isFavorite == 1) {
+                         Log.d("TEST2", "тыкбтык1")
+                         currency.isFavorite == 0
+                         ivFavorite.setImageResource(R.drawable.ic_favorite_border)
+                     } else {
+                         Log.d("TEST2", "тыкбтык0")
+                         ivFavorite.setImageResource(R.drawable.ic_favorite)
+                     }*/
                 }
 
             }
@@ -83,6 +62,17 @@ class CurrenciesSaveAdapter :
     }
 
     override fun onBindViewHolder(holder: CurrencySaveHolder, position: Int) {
-     holder.bind(getItem(position))
+        holder.bind(oldCurrencyList[position])
+    }
+
+    override fun getItemCount(): Int {
+        return oldCurrencyList.size
+    }
+
+    fun setData(newCurrencyList: List<Currency>) {
+        val diffUtil = CurrencyDiffCallback(oldCurrencyList, newCurrencyList)
+        val diffResults = DiffUtil.calculateDiff(diffUtil)
+        oldCurrencyList = newCurrencyList
+        diffResults.dispatchUpdatesTo(this)
     }
 }

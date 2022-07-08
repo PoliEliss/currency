@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_search_24"
                     android:layout_marginStart="200dp"
+                    android:visibility="visible"
                     android:contentDescription="@string/search_currency" />
 
                 <ImageView
@@ -55,12 +56,13 @@
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="false"
-                    android:visibility="gone"
+                    android:layout_marginStart="200dp"
+                    android:visibility="invisible"
                     app:iconifiedByDefault="false"
-                    app:queryHint="Enter currency name" />
+                    app:queryHint="Enter currency" />
 
             </androidx.appcompat.widget.Toolbar>
 

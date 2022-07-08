@@ -8,24 +8,12 @@ import androidx.room.*
 interface CurrencyDao {
 
     @Query("SELECT * FROM currency")
-    suspend fun getAllCurrency(): List<CurrencyItem>
+    suspend fun getAllCurrency(): MyCurrencyDaoModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCurrency(currencyItem: CurrencyItem)
+    suspend fun insertCurrency(currencyItem: MyCurrencyDaoModel)
 
     @Query("DELETE FROM currency")
     suspend fun deleteAllCurrency()
 
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSaveCurrency(currencyItem: SaveCurrencyItem)
-
-    @Query("SELECT * FROM save_currency")
-    suspend fun getAllSaveCurrency(): List<SaveCurrencyItem>
-
-    @Query("DELETE FROM save_currency")
-    suspend fun deleteAllSaveCurrency()
-
-    @Delete
-    fun deleteSaveCurrency(saveCurrencyItem: SaveCurrencyItem)
 }

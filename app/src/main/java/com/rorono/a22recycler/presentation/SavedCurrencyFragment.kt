@@ -42,89 +42,94 @@ class SavedCurrencyFragment :
             recyclerViewChosenCurrency.layoutManager = LinearLayoutManager(requireContext())
             recyclerViewChosenCurrency.adapter = adapterChosenCurrency
         }
-        viewModel.getSaveCurrencyDao()
 
-       viewModel.listCurrency.observe(viewLifecycleOwner) { listCurrency ->
-           viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { listDataBase ->
+       // viewModel.getSaveCurrencyDao()
 
-                Log.d("TEST3", "11listDataBase ${listDataBase}")
-                for (i in listDataBase) {
-                    Log.d("TEST",")))))))))")
-                    for (g in listCurrency) {
+       /* viewModel.currencyDatabase.observe(viewLifecycleOwner) { listCurrency ->
+            viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { listDataBase ->
+                for (i in listCurrency) {
+                    for (g in listDataBase) {
                         if (g.fullName == i.fullName) {
-                            g.isFavorite = 1
+                            i.isFavorite = 1
                         }
                     }
-                    adapter.submitList(listCurrency)
                 }
-                Log.d("TEST3", "adapterSubmit ${listCurrency}")
-
-
+                adapter.setData(listCurrency)
+                adapterChosenCurrency.submitList(listDataBase)
             }
-            adapter.submitList(listCurrency)
-        }
-
-
-
-       /* viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list -> //Это не работает в том случае если
-            adapterChosenCurrency.setItems(list)
-            adapterChosenCurrency.notifyDataSetChanged()
-
-
+            adapter.setData(viewModel.currencyDatabase.value!!)
         }*/
 
 
 
+        /* viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list -> //Это не работает в том случае если
+             adapterChosenCurrency.setItems(list)
+             adapterChosenCurrency.notifyDataSetChanged()
+
+
+         }*/
+
+adapter.setData(viewModel.currencyDatabase.value!!)
+
         adapter.onItemClick = {
             val list = mutableListOf<Currency>()
-            Log.d("TEST", "Click")
             list.add(it)
             if (it.isFavorite == 0) {
-                Toast.makeText(requireContext(), "hhhhh", Toast.LENGTH_LONG).show()
-                Log.d("TEST3", "isFavorite0")
-                for ( i in viewModel.listCurrency.value!!){
-                    if (i.fullName == it.fullName){
+                Toast.makeText(requireContext(), "ADD", Toast.LENGTH_LONG).show()
+               // viewModel.setSaveCurrencyDao(list)
+                val listcurrencyTest = mutableListOf<Currency>()
+                for (i in viewModel.currencyDatabase.value!!) {
+                    if (i.fullName == it.fullName) {
                         i.isFavorite = 1
-                        Log.d("TEST3","пробуем ${i.fullName}")
+                        listcurrencyTest.add(i)
                     }
                 }
-                viewModel.setSaveCurrencyDao(list)
-                viewModel.getSaveCurrencyDao()
+                Log.d("TEST13", "list Add ${listcurrencyTest}")
+                adapter.setData(listcurrencyTest)
+                adapterChosenCurrency.submitList(list)
+             //   viewModel.getSaveCurrencyDao()
             } else {
-                Log.d("TEST3", "isFavorite1")
-                Toast.makeText(requireContext(), "DELETE CURRENCY", Toast.LENGTH_LONG).show()
-                viewModel.deleteSaveCurrency(it)
-
-                for ( i in viewModel.listCurrency.value!!){
-                    if (i.fullName == it.fullName){
+              //  viewModel.deleteSaveCurrency(it)
+                Toast.makeText(requireContext(), "DELETE", Toast.LENGTH_LONG).show()
+                val listcurrencyTest = mutableListOf<Currency>()
+                for (i in viewModel.listCurrency.value!!) {
+                    listcurrencyTest.add(i)
+                    if (i.fullName == it.fullName) {
                         i.isFavorite = 0
-                        Log.d("TEST3","пробуем ${i.fullName}")
+                        listcurrencyTest.add(i)
                     }
                 }
-                viewModel.getSaveCurrencyDao()
+                Log.d("TEST13", "list DELETE ${listcurrencyTest}")
+                adapter.setData(listcurrencyTest)
+
+                val savetest = mutableListOf<Currency>()
+                for (i in viewModel.saveCurrencyDatabase.value!!) {
+                    savetest.add(i)
+                    if (i.fullName == it.fullName) {
+                        savetest.remove(i)
+                    }
+                    adapterChosenCurrency.submitList(savetest)
+                }
             }
-
-
-            // если я буду сохранять этот список валют в БД то и значение валюты будет так скажем за день, когда я ее добавила
-            // а еще наверное при добавление в бд и тот ресайкл из этого удалять значение или помечать его сердечком, чтобы нельзя было второй раз добавить
-
-            //мне здесь нужно в бз заводить их.
-            //а еще проблема в том, что мне нужно как-то записывать false или tru по поводу нажатия
-            // но смена картинки идет в адаптере.
-            //может как-то передавать значение в адаптер и в зависимости от этого закрашивать сердечко
-            // ведь у меня нет доступа напрямую к одной айтим из фрагмента
-            // а еще в тестовое отображение нужно добавить карзинку ( чтобы удалять элемент)
         }
-        viewModel.saveCurrencyDatabase.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer {
-                Log.d("TEST3","ВТОРОЙ АДАПТЕР ${it}")
-                adapterChosenCurrency.submitList(it)
-                adapterChosenCurrency.notifyDataSetChanged()
-
-            })
 
 
+        // если я буду сохранять этот список валют в БД то и значение валюты будет так скажем за день, когда я ее добавила
+        // а еще наверное при добавление в бд и тот ресайкл из этого удалять значение или помечать его сердечком, чтобы нельзя было второй раз добавить
+
+        //мне здесь нужно в бз заводить их.
+        //а еще проблема в том, что мне нужно как-то записывать false или tru по поводу нажатия
+        // но смена картинки идет в адаптере.
+        //может как-то передавать значение в адаптер и в зависимости от этого закрашивать сердечко
+        // ведь у меня нет доступа напрямую к одной айтим из фрагмента
+        // а еще в тестовое отображение нужно добавить карзинку ( чтобы удалять элемент)
+
+/* viewModel.saveCurrencyDatabase.observe( // тут понятно, просто нет изменений т.к. лист пустой поэтому и последний не удаляется
+     viewLifecycleOwner,
+     androidx.lifecycle.Observer {
+         Log.d("TEST8","ВТОРОЙ АДАПТЕР ${it}")
+         adapterChosenCurrency.submitList(it)
+     })*/
 
 
         val mIth = ItemTouchHelper(
@@ -149,7 +154,8 @@ class SavedCurrencyFragment :
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                     val position = viewHolder.bindingAdapterPosition
-                    val currency = adapterChosenCurrency.chosenCurrencyList.removeAt(position)
+                    val currency =
+                        adapterChosenCurrency.chosenCurrencyList.removeAt(position) //Это уже работать не будет
                     adapterChosenCurrency.notifyItemRemoved(position)
                     Log.d("TEST", "currency!!! ${currency}")
                     val saveCurrency = SaveCurrencyItem(
@@ -165,12 +171,15 @@ class SavedCurrencyFragment :
                 }
             })
 
-        /*  val itemTouchHelper = ItemTouchHelper(adapterChosenCurrency.getSimpleCallback())
-      itemTouchHelper.attachToRecyclerView(binding.recyclerViewChosenCurrency)*/
+
+/*  val itemTouchHelper = ItemTouchHelper(adapterChosenCurrency.getSimpleCallback())
+itemTouchHelper.attachToRecyclerView(binding.recyclerViewChosenCurrency)*/
 
 
         mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
-
     }
-
 }
+
+
+
+

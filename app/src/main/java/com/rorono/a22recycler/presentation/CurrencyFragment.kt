@@ -30,7 +30,7 @@ class CurrencyFragment :
     private var adapter = CurrencyAdapter()
     private val viewModel by activityViewModels<CurrencyViewModel>()
 
-    @SuppressLint("NotifyDataSetChanged")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,10 +38,11 @@ class CurrencyFragment :
         date.hint = viewModel.getDate()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            getData(NetManager(requireContext()).isOnline(), date = date.hint.toString())
+            getData(NetManager(requireContext()).isOnline(), date = viewModel.date.value.toString())
             binding.swipeRefreshLayout.isRefreshing = false
         }
         viewModel.date.observe(requireActivity()) {
+            Log.d("TEST", "date ${it}")
             viewModel.getCurrency(it)
             date.hint = it
         }
@@ -86,8 +87,8 @@ class CurrencyFragment :
         }
 
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-            adapter.setItems(response)
-            adapter.notifyDataSetChanged()
+
+            adapter.submitList(response)
             adapter.onItemClick = {
                 val action =
                     CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
@@ -98,11 +99,11 @@ class CurrencyFragment :
             searchCurrency(response)
         }
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
+            Log.d("TEST","from ${list}")
             val textAttention =
                 getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
             binding.tvAttention.text = textAttention
-            adapter.setItems(list)
-            adapter.notifyDataSetChanged()
+            adapter.submitList(list)
             adapter.onItemClick = {
                 val action =
                     CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
@@ -127,7 +128,7 @@ class CurrencyFragment :
                 return false
             }
 
-            @SuppressLint("NotifyDataSetChanged")
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 val n = mutableListOf<Currency>()
                 binding.search.clearFocus()
@@ -135,13 +136,12 @@ class CurrencyFragment :
                     for (i in response) {
                         if (i.charCode.contains(newText.uppercase())) {
                             n.add(i)
-                            adapter.setItems(n)
-                            adapter.notifyDataSetChanged()
+                            adapter.submitList(n)
+
                         }
                     }
                 } else {
-                    adapter.setItems(response)
-                    adapter.notifyDataSetChanged()
+                    adapter.submitList(response)
                 }
                 return false
             }
@@ -150,19 +150,14 @@ class CurrencyFragment :
 
     override fun onResume() {
         super.onResume()
-        getData(NetManager(context = requireContext()).isOnline(), viewModel.getDate())
+        getData(NetManager(context = requireContext()).isOnline(), viewModel.date.value.toString())
     }
 
     private fun createAnimationOpenSearch() {
-
-        /* val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -100f)
-          objectAnimator.duration = 400
-          objectAnimator.start()*/
-        val slide = Slide()
-        slide.duration
-        slide.slideEdge = Gravity.START
-        TransitionManager.beginDelayedTransition(binding.contentLayout, slide)
-
+        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -510f)
+        objectAnimator.duration = 2000
+        objectAnimator.start()
+        objectAnimator.repeatCount
         binding.tvTitleToolbar.visibility = View.GONE
         binding.ivSearch.visibility = View.GONE
         binding.ivCancelSearch.visibility = View.VISIBLE
@@ -177,6 +172,9 @@ class CurrencyFragment :
         binding.ivSearch.visibility = View.VISIBLE
         binding.ivCancelSearch.visibility = View.GONE
         binding.search.visibility = View.GONE
+        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", 510f)
+        objectAnimator.duration = 1000
+        objectAnimator.start()
     }
 
     private fun getData(networkConnection: Boolean, date: String) {
@@ -186,6 +184,7 @@ class CurrencyFragment :
 
         } else {
             viewModel.getCurrencyDao()
+            Log.d("TEST","viewModel ${viewModel.currencyDatabase.value}")
             binding.tvAttention.visibility = View.VISIBLE
         }
     }
