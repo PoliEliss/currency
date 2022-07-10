@@ -62,15 +62,6 @@ class SavedCurrencyFragment :
         }
 
 
-        /* viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list -> //Это не работает в том случае если
-             adapterChosenCurrency.setItems(list)
-             adapterChosenCurrency.notifyDataSetChanged()
-
-
-         }*/
-
-
-
         adapter.onItemClick = {
             val g = mutableListOf<Currency>()
 
@@ -78,7 +69,7 @@ class SavedCurrencyFragment :
             list.add(it)
             if (it.isFavorite == 0) {
                 Toast.makeText(requireContext(), "ADD", Toast.LENGTH_LONG).show()
-                // viewModel.setSaveCurrencyDao(list)
+
                 val listcurrencyTest = mutableListOf<Currency>()
                 for (i in viewModel.currencyDatabase.value!!) {
                     listcurrencyTest.add(i)
@@ -90,12 +81,11 @@ class SavedCurrencyFragment :
                     adapter.setData(listcurrencyTest)
 
                 }
-                Log.d("TEST13", "list Add ${listcurrencyTest}")
 
                 viewModel.setSaveCurrencyDao(list)
                 viewModel.getSaveCurrencyDao()
                  adapterChosenCurrency.submitList(list)
-                //   viewModel.getSaveCurrencyDao()
+
             } else {
                 //
                 Toast.makeText(requireContext(), "DELETE", Toast.LENGTH_LONG).show()
@@ -119,25 +109,6 @@ class SavedCurrencyFragment :
 
             }
         }
-
-
-        // если я буду сохранять этот список валют в БД то и значение валюты будет так скажем за день, когда я ее добавила
-        // а еще наверное при добавление в бд и тот ресайкл из этого удалять значение или помечать его сердечком, чтобы нельзя было второй раз добавить
-
-        //мне здесь нужно в бз заводить их.
-        //а еще проблема в том, что мне нужно как-то записывать false или tru по поводу нажатия
-        // но смена картинки идет в адаптере.
-        //может как-то передавать значение в адаптер и в зависимости от этого закрашивать сердечко
-        // ведь у меня нет доступа напрямую к одной айтим из фрагмента
-        // а еще в тестовое отображение нужно добавить карзинку ( чтобы удалять элемент)
-
-/* viewModel.saveCurrencyDatabase.observe( // тут понятно, просто нет изменений т.к. лист пустой поэтому и последний не удаляется
-     viewLifecycleOwner,
-     androidx.lifecycle.Observer {
-         Log.d("TEST8","ВТОРОЙ АДАПТЕР ${it}")
-         adapterChosenCurrency.submitList(it)
-     })*/
-
 
         val mIth = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
