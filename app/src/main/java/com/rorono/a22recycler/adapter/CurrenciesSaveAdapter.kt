@@ -16,9 +16,18 @@ import com.rorono.a22recycler.models.Currency
 
 
 class CurrenciesSaveAdapter :
-    RecyclerView.Adapter<CurrenciesSaveAdapter.CurrencySaveHolder>() {
+    ListAdapter<Currency, CurrenciesSaveAdapter.CurrencySaveHolder>(DIFF_CALLBACK ) {
 
-    private var oldCurrencyList = emptyList<Currency>()
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Currency>() {
+            override fun areItemsTheSame(oldItem: Currency, newItem: Currency) =
+                oldItem == newItem
+
+            override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
+                oldItem.isFavorite == newItem.isFavorite
+        }
+    }
+
 
     var onItemClick: ((Currency) -> Unit)? = null
 
@@ -29,7 +38,7 @@ class CurrenciesSaveAdapter :
 
 
         fun bind(currency: Currency) {
-            Log.d("TEST9", "IsFavorite")
+
             if (currency.isFavorite == 1) {
                 ivFavorite.setImageResource(R.drawable.ic_favorite)
             } else {
@@ -62,17 +71,7 @@ class CurrenciesSaveAdapter :
     }
 
     override fun onBindViewHolder(holder: CurrencySaveHolder, position: Int) {
-        holder.bind(oldCurrencyList[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return oldCurrencyList.size
-    }
-
-    fun setData(newCurrencyList: List<Currency>) {
-        val diffUtil = CurrencyDiffCallback(oldCurrencyList, newCurrencyList)
-        val diffResults = DiffUtil.calculateDiff(diffUtil)
-        oldCurrencyList = newCurrencyList
-        diffResults.dispatchUpdatesTo(this)
-    }
 }

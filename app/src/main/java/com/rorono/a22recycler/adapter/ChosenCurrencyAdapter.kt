@@ -19,36 +19,20 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 
-class ChosenCurrencyAdapter : ListAdapter<Currency, ChosenCurrencyAdapter.ChosenCurrencyHolder>(DiffUtil()) {
+class ChosenCurrencyAdapter :
+    ListAdapter<Currency, ChosenCurrencyAdapter.ChosenCurrencyHolder>(DiffUtil()) {
 
     var onItemClick: ((Currency) -> Unit)? = null
-     val chosenCurrencyList = mutableListOf<Currency>()
 
-    class DiffUtil:androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
+
+    class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
         override fun areItemsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return    oldItem == newItem
+            return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return when {
-                oldItem.fullName != newItem.fullName -> {
-                    return false
-                }
-                oldItem.isFavorite != newItem.isFavorite -> {
-                    return false
-                }
-                oldItem.charCode != newItem.charCode -> {
-                    return false
-                }
-                oldItem.value != newItem.value -> {
-                    return false
-                }
-                else -> true
-            }
-        }
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
+            oldItem.isFavorite == newItem.isFavorite
     }
-
-
 
     inner class ChosenCurrencyHolder(binding: ChosenCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -58,7 +42,7 @@ class ChosenCurrencyAdapter : ListAdapter<Currency, ChosenCurrencyAdapter.Chosen
 
         fun bind(currency: Currency) {
             itemView.setOnClickListener {
-             Log.d("TEST","----------------")
+                Log.d("TEST", "----------------")
             }
             ivDelete.setOnClickListener {
 
@@ -74,7 +58,11 @@ class ChosenCurrencyAdapter : ListAdapter<Currency, ChosenCurrencyAdapter.Chosen
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChosenCurrencyHolder {
         val binding =
-            ChosenCurrencyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ChosenCurrencyItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ChosenCurrencyHolder(binding)
     }
 

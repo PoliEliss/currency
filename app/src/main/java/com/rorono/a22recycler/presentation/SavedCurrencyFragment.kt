@@ -25,7 +25,7 @@ class SavedCurrencyFragment :
     BaseViewBindingFragment<FragmentSavedCurrencyBinding>(FragmentSavedCurrencyBinding::inflate) {
     private val adapter = CurrenciesSaveAdapter()
     private val adapterChosenCurrency = ChosenCurrencyAdapter()
-
+    val listChosenCurrency = mutableListOf<Currency>()
     private val viewModel by activityViewModels<CurrencyViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,23 +43,22 @@ class SavedCurrencyFragment :
             recyclerViewChosenCurrency.adapter = adapterChosenCurrency
         }
 
-       // viewModel.getSaveCurrencyDao()
+        // viewModel.getSaveCurrencyDao()
 
-       /* viewModel.currencyDatabase.observe(viewLifecycleOwner) { listCurrency ->
-            viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { listDataBase ->
-                for (i in listCurrency) {
-                    for (g in listDataBase) {
-                        if (g.fullName == i.fullName) {
-                            i.isFavorite = 1
-                        }
-                    }
-                }
-                adapter.setData(listCurrency)
-                adapterChosenCurrency.submitList(listDataBase)
-            }
-            adapter.setData(viewModel.currencyDatabase.value!!)
-        }*/
-
+        /* viewModel.currencyDatabase.observe(viewLifecycleOwner) { listCurrency ->
+             viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { listDataBase ->
+                 for (i in listCurrency) {
+                     for (g in listDataBase) {
+                         if (g.fullName == i.fullName) {
+                             i.isFavorite = 1
+                         }
+                     }
+                 }
+                 adapter.setData(listCurrency)
+                 adapterChosenCurrency.submitList(listDataBase)
+             }
+             adapter.setData(viewModel.currencyDatabase.value!!)
+         }*/
 
 
         /* viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list -> //Это не работает в том случае если
@@ -69,48 +68,66 @@ class SavedCurrencyFragment :
 
          }*/
 
-adapter.setData(viewModel.currencyDatabase.value!!)
+        viewModel.getCurrencyDao()
+
+
+        viewModel.currencyDatabase.observe(viewLifecycleOwner) {
+                Log.d("TEST16"," viewModel.currencyDatabase.observe ${it}")
+            it.forEach { currency ->
+                if (currency.isFavorite == 1) {
+                    listChosenCurrency.add(currency)
+                }
+            }
+            adapterChosenCurrency.submitList(listChosenCurrency)
+            adapter.submitList(it)
+        }
 
         adapter.onItemClick = {
-            val list = mutableListOf<Currency>()
-            list.add(it)
+
             if (it.isFavorite == 0) {
-                Toast.makeText(requireContext(), "ADD", Toast.LENGTH_LONG).show()
-               // viewModel.setSaveCurrencyDao(list)
-                val listcurrencyTest = mutableListOf<Currency>()
-                for (i in viewModel.currencyDatabase.value!!) {
-                    if (i.fullName == it.fullName) {
-                        i.isFavorite = 1
-                        listcurrencyTest.add(i)
+                Toast.makeText(requireContext(), " ${it.charCode} \n  ${it.isFavorite}", Toast.LENGTH_LONG).show()
+
+                viewModel.currencyDatabase.value!!.forEach { currency ->
+                    if (it.fullName == currency.fullName) {
+                        currency.isFavorite = 1
+                        viewModel.setCurrencyDao(
+                            viewModel.currencyDatabase.value!!,
+                            viewModel.getDate()
+                        )
+                        //listChosenCurrency.add(currency)
+                        Log.d("TEST16","listChosenCurrency!!! ${listChosenCurrency}")
+                       // adapterChosenCurrency.submitList(listChosenCurrency)
+                      //  adapter.submitList(viewModel.currencyDatabase.value!!)
+
                     }
+                    viewModel.getCurrencyDao()
                 }
-                Log.d("TEST13", "list Add ${listcurrencyTest}")
-                adapter.setData(listcurrencyTest)
-                adapterChosenCurrency.submitList(list)
-             //   viewModel.getSaveCurrencyDao()
-            } else {
-              //  viewModel.deleteSaveCurrency(it)
+                /* for (i in viewModel.currencyDatabase.value!!) {
+                     listСurrencyTest.add(i)
+                     if (i.fullName == it.fullName) {
+                         listСurrencyTest.remove(i)
+                         i.isFavorite = 1
+                         listСurrencyTest.add(i)
+                         list.add(i)
+                     }
+                 }*/
+
+
+            } /*else {
                 Toast.makeText(requireContext(), "DELETE", Toast.LENGTH_LONG).show()
                 val listcurrencyTest = mutableListOf<Currency>()
-                for (i in viewModel.listCurrency.value!!) {
+                for (i in viewModel.currencyDatabase.value!!) {
                     listcurrencyTest.add(i)
                     if (i.fullName == it.fullName) {
+                        listcurrencyTest.remove(i)
                         i.isFavorite = 0
                         listcurrencyTest.add(i)
                     }
                 }
-                Log.d("TEST13", "list DELETE ${listcurrencyTest}")
-                adapter.setData(listcurrencyTest)
-
-                val savetest = mutableListOf<Currency>()
-                for (i in viewModel.saveCurrencyDatabase.value!!) {
-                    savetest.add(i)
-                    if (i.fullName == it.fullName) {
-                        savetest.remove(i)
-                    }
-                    adapterChosenCurrency.submitList(savetest)
-                }
-            }
+                adapter.submitList(listcurrencyTest)
+                viewModel.setCurrencyDao(listcurrencyTest, viewModel.getDate())
+                viewModel.getCurrencyDao()
+            }*/
         }
 
 
@@ -132,51 +149,51 @@ adapter.setData(viewModel.currencyDatabase.value!!)
      })*/
 
 
-        val mIth = ItemTouchHelper(
-            object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: ViewHolder, target: ViewHolder
-                ): Boolean {
-                    val position = viewHolder.bindingAdapterPosition //start position
-                    val toPosition = target.bindingAdapterPosition // end position
-                    Collections.swap(
-                        adapterChosenCurrency.chosenCurrencyList,
-                        position,
-                        toPosition
-                    )
-                    adapterChosenCurrency.notifyItemMoved(position, toPosition)
-                    return true
-                }
+        /* val mIth = ItemTouchHelper(
+             object : ItemTouchHelper.SimpleCallback(
+                 ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                 ItemTouchHelper.LEFT
+             ) {
+                 override fun onMove(
+                     recyclerView: RecyclerView,
+                     viewHolder: ViewHolder, target: ViewHolder
+                 ): Boolean {
+                     val position = viewHolder.bindingAdapterPosition //start position
+                     val toPosition = target.bindingAdapterPosition // end position
+                     Collections.swap(
+                        // adapterChosenCurrency.chosenCurrencyList,
+                         position,
+                         toPosition
+                     )
+                     adapterChosenCurrency.notifyItemMoved(position, toPosition)
+                     return true
+                 }
+ */
+        /*override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+            val position = viewHolder.bindingAdapterPosition
+            val currency =
+               // adapterChosenCurrency.chosenCurrencyList.removeAt(position) //Это уже работать не будет
+            adapterChosenCurrency.notifyItemRemoved(position)
+            Log.d("TEST", "currency!!! ${currency}")
+            val saveCurrency = SaveCurrencyItem(
+                fullName = currency.fullName,
+                charCode = currency.charCode,
+                value = currency.value
+            )
+            Log.d("TEST", "saveCurrency ${saveCurrency}")
+            //viewModel.deleteSaveCurrency(saveCurrency) // вот только он не удаляет, во ViewModel я попадаю
+            // одной валюты из бд но опять же тут по позиции идет удаление а у меня по id
+            // должно быть
 
-                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-                    val position = viewHolder.bindingAdapterPosition
-                    val currency =
-                        adapterChosenCurrency.chosenCurrencyList.removeAt(position) //Это уже работать не будет
-                    adapterChosenCurrency.notifyItemRemoved(position)
-                    Log.d("TEST", "currency!!! ${currency}")
-                    val saveCurrency = SaveCurrencyItem(
-                        fullName = currency.fullName,
-                        charCode = currency.charCode,
-                        value = currency.value
-                    )
-                    Log.d("TEST", "saveCurrency ${saveCurrency}")
-                    //viewModel.deleteSaveCurrency(saveCurrency) // вот только он не удаляет, во ViewModel я попадаю
-                    // одной валюты из бд но опять же тут по позиции идет удаление а у меня по id
-                    // должно быть
-
-                }
-            })
+        }*/
+        // })
 
 
 /*  val itemTouchHelper = ItemTouchHelper(adapterChosenCurrency.getSimpleCallback())
 itemTouchHelper.attachToRecyclerView(binding.recyclerViewChosenCurrency)*/
 
 
-        mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
+        //  mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
     }
 }
 

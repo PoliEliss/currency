@@ -13,8 +13,3 @@ data class Currency(
     var isFavorite: Int = 0
 ) :Serializable
 
-
-data class CurrencyX(
-    @SerializedName("Valute")
-    val currency: List<Currency>
-):Serializable

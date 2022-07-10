@@ -14,7 +14,6 @@ import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.database.MyCurrencyDaoModel
 
 import com.rorono.a22recycler.models.Currency
-import com.rorono.a22recycler.models.CurrencyX
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.utils.Rounding
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +36,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
         get() = _messageError
 
     val date: MutableLiveData<String> = MutableLiveData(getDate())
- var currencyX:List<Currency> = listOf()
+    var currencyX: List<Currency> = listOf()
     var currencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
 
     var saveCurrencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
@@ -67,9 +66,19 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
         }
     }
 
+    /*fun changeCurrencyBD(item: Currency) {
+        viewModelScope.launch(Dispatchers.IO) {
+            currencyDatabase.value!!.forEach { currency ->
+                if (item.fullName == currency.fullName) {
+                    currency.isFavorite = 1
+                }
+            }
+            setCurrencyDao()
+        }
+    }*/
 
-    private fun setCurrencyDao(currency: List<Currency>, date: String) {//исправила оно работает
-        if (date == getDate() && currency.isNotEmpty()) {
+    fun setCurrencyDao(currency: List<Currency>, date: String) {//исправила оно работает
+        if (currency.isNotEmpty()) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     val currencyString: String
@@ -85,7 +94,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
         }
     }
 
-    private suspend fun deleteAllData() {//исправила
+    suspend fun deleteAllData() {//исправила
         dataBase.deleteAllCurrency()
     }
 
@@ -97,16 +106,12 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
                 Log.d("TEST", "myCurremcyDaoModel ${myCurrencyDaoModel}")
 
                 val itemType = object : TypeToken<List<Currency>>() {}.type
-                val  currencyList = gson.fromJson<List<Currency>>(myCurrencyDaoModel.currency, itemType)
+                val currencyList =
+                    gson.fromJson<List<Currency>>(myCurrencyDaoModel.currency, itemType)
 
-                //val currencyList =
-                  //  gson.fromJson(myCurrencyDaoModel.currency, itemList)//судя по дебагам оно работает не работает другое
-//  получается что currencyList чем-то наполняется но фигней какой-то и зачем он id записывает если я прошу взять данные из myCurrencyDaoModel.currency
+                Log.d("TEST", "currency.list ${currencyList}")
 
-                Log.d("TEST","currency.list ${currencyList}")
-
-                currencyDatabase.postValue(currencyList) // не понимаю
-                Log.d("TEST", " ++++++++++++++")
+                currencyDatabase.postValue(currencyList)
 
             } catch (e: Exception) {
             }
