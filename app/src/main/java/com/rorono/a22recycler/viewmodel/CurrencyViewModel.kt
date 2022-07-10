@@ -37,8 +37,9 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
 
     val date: MutableLiveData<String> = MutableLiveData(getDate())
     var currencyX: List<Currency> = listOf()
-    var currencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
-
+    var _currencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
+    val currencyDatabase: LiveData<List<Currency>>
+        get() = _currencyDatabase
     var saveCurrencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
 
     fun getDate(): String {
@@ -55,7 +56,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
                     when (response) {
                         is Result.Success -> {
                             _listCurrency.postValue(response.currency.values.toList())
-                            setCurrencyDao(response.currency.values.toList(), date)
+                            setCurrencyDao(response.currency.values.toList())
                         }
                         is Result.Error -> {
                             _messageError.postValue(response.error)
@@ -77,10 +78,11 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
         }
     }*/
 
-    fun setCurrencyDao(currency: List<Currency>, date: String) {//исправила оно работает
+    fun setCurrencyDao(currency: List<Currency>) {//исправила оно работает
         if (currency.isNotEmpty()) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
+                    Log.d("TEST111","set ${currency.filter { it1->it1.isFavorite==1 }}")
                     val currencyString: String
                     deleteAllData()
                     withContext(Dispatchers.Default) {
@@ -89,6 +91,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
                     }
                     val myCurrencyDaoModel = MyCurrencyDaoModel(currency = currencyString)
                     dataBase.insertCurrency(myCurrencyDaoModel)
+                    _currencyDatabase.postValue(currency)
                 }
             }
         }
@@ -103,22 +106,23 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
             val gson = Gson()
             try {
                 val myCurrencyDaoModel = withContext(Dispatchers.IO) { dataBase.getAllCurrency() }
-                Log.d("TEST", "myCurremcyDaoModel ${myCurrencyDaoModel}")
+             //   Log.d("TEST111", "myCurremcyDaoModel ${myCurrencyDaoModel}")
 
                 val itemType = object : TypeToken<List<Currency>>() {}.type
                 val currencyList =
                     gson.fromJson<List<Currency>>(myCurrencyDaoModel.currency, itemType)
 
-                Log.d("TEST", "currency.list ${currencyList}")
+                Log.d("TEST111", "currency.list ${currencyList.filter { it1->it1.isFavorite==1 }}")
 
-                currencyDatabase.postValue(currencyList)
+                _currencyDatabase.postValue(currencyList)
 
             } catch (e: Exception) {
             }
         }
     }
-
-
+    fun updateCurrencyDatabase(list:List<Currency>){
+        _currencyDatabase.value = list
+    }
     /*
 
      fun deleteSaveCurrency(currency: Currency) {

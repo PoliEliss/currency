@@ -15,52 +15,47 @@ import com.rorono.a22recycler.databinding.SaveCurrencyItemBinding
 import com.rorono.a22recycler.models.Currency
 
 
-class CurrenciesSaveAdapter :
+class CurrenciesSaveAdapter(val listener: CurrencyListener) :
     ListAdapter<Currency, CurrenciesSaveAdapter.CurrencySaveHolder>(DIFF_CALLBACK ) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Currency>() {
             override fun areItemsTheSame(oldItem: Currency, newItem: Currency) =
-                oldItem == newItem
+                oldItem.isFavorite == newItem.isFavorite
 
             override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
-                oldItem.isFavorite == newItem.isFavorite
+                oldItem.hashCode() == newItem.hashCode()
         }
     }
 
 
-    var onItemClick: ((Currency) -> Unit)? = null
 
-    inner class CurrencySaveHolder(binding: SaveCurrencyItemBinding) :
+    inner class CurrencySaveHolder(private val binding: SaveCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val tvNameRate = binding.textViewNameRate
-        private val ivFavorite = binding.ivFavorite
-
-
         fun bind(currency: Currency) {
 
             if (currency.isFavorite == 1) {
-                ivFavorite.setImageResource(R.drawable.ic_favorite)
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
             } else {
-                ivFavorite.setImageResource(R.drawable.ic_favorite_border)
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite_border)
             }
-            itemView.setOnClickListener {
-                onItemClick?.let { view ->
+            binding.ivFavorite.setOnClickListener { listener.onClickAddFavorite(currency)
+/*                onItemClick?.let { view ->
                     view(currency)
                     // ivFavorite.setImageResource(R.drawable.ic_favorite)
 
-                    /* if (currency.isFavorite == 1) {
+                    *//* if (currency.isFavorite == 1) {
                          Log.d("TEST2", "тыкбтык1")
                          currency.isFavorite == 0
                          ivFavorite.setImageResource(R.drawable.ic_favorite_border)
                      } else {
                          Log.d("TEST2", "тыкбтык0")
                          ivFavorite.setImageResource(R.drawable.ic_favorite)
-                     }*/
-                }
+                     }*//*
+                }*/
 
             }
-            tvNameRate.text = currency.charCode
+            binding.textViewNameRate.text = currency.charCode
         }
     }
 
@@ -74,4 +69,9 @@ class CurrenciesSaveAdapter :
         holder.bind(getItem(position))
     }
 
+}
+
+interface CurrencyListener {
+    fun onClickAddFavorite(currency: Currency)
+    fun onClickRemoveFavorite(currency: Currency)
 }

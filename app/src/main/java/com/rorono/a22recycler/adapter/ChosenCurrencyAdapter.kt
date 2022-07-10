@@ -22,35 +22,27 @@ import java.util.*
 class ChosenCurrencyAdapter :
     ListAdapter<Currency, ChosenCurrencyAdapter.ChosenCurrencyHolder>(DiffUtil()) {
 
-    var onItemClick: ((Currency) -> Unit)? = null
-
-
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
         override fun areItemsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return oldItem == newItem
+            return oldItem.isFavorite == newItem.isFavorite
         }
 
         override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
-            oldItem.isFavorite == newItem.isFavorite
+            oldItem.hashCode() == newItem.hashCode()
     }
 
-    inner class ChosenCurrencyHolder(binding: ChosenCurrencyItemBinding) :
+    inner class ChosenCurrencyHolder(private val binding: ChosenCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val tvNameRate = binding.textViewNameRate
-        private val tvExchangeRate = binding.textViewExchangeRate
-        private val ivDelete = binding.ivDelete
+
 
         fun bind(currency: Currency) {
-            itemView.setOnClickListener {
-                Log.d("TEST", "----------------")
-            }
-            ivDelete.setOnClickListener {
+            binding.ivDelete.setOnClickListener {
 
             }
 
-            tvNameRate.text = currency.charCode
+            binding.textViewNameRate.text = currency.charCode
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
-                tvExchangeRate.text = it
+                binding.textViewExchangeRate.text = it
             }
 
         }

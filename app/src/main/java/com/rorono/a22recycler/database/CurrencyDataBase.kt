@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [MyCurrencyDaoModel::class], version = 5)
+@Database(entities = [MyCurrencyDaoModel::class], version = 1)
 abstract class CurrencyDataBase : RoomDatabase() {
 
     abstract fun currencyDao(): CurrencyDao
@@ -23,7 +23,8 @@ abstract class CurrencyDataBase : RoomDatabase() {
                     context, CurrencyDataBase::class.java,
                     "database"
 
-                ).addMigrations(migration2_3).build()
+                )//.addMigrations(migration2_3)
+                    .build()
 
                 database as CurrencyDataBase
             } else database as CurrencyDataBase
