@@ -119,6 +119,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
                 Log.d("TEST3","vieModelDeleteCurrency ${model}")
                 dataBase.deleteSaveCurrency(model)
                 Log.d("TEST3","Посмотреть данные по удалению валюты ${dataBase.getAllSaveCurrency()}")
+
             }
         }
 
