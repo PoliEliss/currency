@@ -49,7 +49,7 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
                     when (response) {
                         is Result.Success -> {
                             _listCurrency.postValue(response.currency.values.toList())
-                            setCurrencyDao(response.currency.values.toList(), date)
+                            setCurrencyDao(response.currency.values.toList())
                         }
                         is Result.Error -> {
                             _messageError.postValue(response.error)
@@ -60,8 +60,8 @@ class CurrencyViewModel(private val repository: Repository, private val dataBase
         }
     }
 
-    private fun setCurrencyDao(currency: List<Currency>, date: String) {
-        if (date == getDate() && currency.isNotEmpty()) {
+    private fun setCurrencyDao(currency: List<Currency>) {
+        if ( currency.isNotEmpty()) {
             var model: CurrencyItem
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
