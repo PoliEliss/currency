@@ -8,9 +8,7 @@ import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.utils.Rounding
 
-class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
-
-    var onItemClick: ((Currency) -> Unit)? = null
+class CurrencyAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
     private var currencyList = mutableListOf<Currency>()
 
@@ -21,9 +19,7 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.CurrencyHolder>() {
 
         fun bind(currency: Currency) {
             itemView.setOnClickListener {
-                onItemClick?.let { view ->
-                    view(currency)
-                }
+                onItemClickListener.onItemClick(currency=currency)
             }
             textViewNameRate.text = currency.charCode
 
