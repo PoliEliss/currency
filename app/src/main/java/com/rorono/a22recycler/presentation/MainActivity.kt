@@ -13,6 +13,7 @@ import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.databinding.ActivityMainBinding
 import com.rorono.a22recycler.network.RetrofitInstance
 import com.rorono.a22recycler.repository.Repository
+import com.rorono.a22recycler.settings.Settings
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +22,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_22recycler)
+
+
+        when(Settings.loadTheme(this)){
+            1-> setTheme(R.style.Theme_22recycler)
+            2-> setTheme(R.style.Theme2)
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val repository = Repository(retrofit = RetrofitInstance) //убрать  в Dagger
