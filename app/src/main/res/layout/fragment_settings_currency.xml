@@ -3,16 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
+    tools:background="@color/white"
+
     tools:context=".presentation.SettingsCurrencyFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Настройки"
+        android:text="@string/settings"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Выберите тему приложения"
+        android:text="@string/select_theme"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic" />
@@ -35,21 +36,26 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/buttonChooseDayTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/blu"
-            android:text="Дневная тема"
-            android:textColor="@color/white" />
+            android:text="@string/day_theme"
+            android:textColor="@color/white"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
+            android:id="@+id/buttonChooseNightTheme"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="90dp"
+            android:layout_marginEnd="20dp"
             android:backgroundTint="@color/black"
-            android:text="Ночная тема"
+            android:text="@string/night_theme"
             android:textColor="@color/white" />
 
 
@@ -60,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Выберите язык"
+        android:text="@string/choose_language"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic" />
@@ -74,21 +80,22 @@
         android:orientation="horizontal">
 
         <Button
-
+            android:id="@+id/buttonChooseRU"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:backgroundTint="@color/blu"
-            android:text="RU"
-            android:textColor="@color/white" />
+            android:text="@string/ru"
+            android:textColor="@color/white"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
-
+            android:id="@+id/buttonChooseENG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:backgroundTint="@color/black"
-            android:text="ENG"
+            android:text="@string/eng"
             android:textColor="@color/white" />
 
     </LinearLayout>

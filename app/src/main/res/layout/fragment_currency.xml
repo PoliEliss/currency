@@ -23,7 +23,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme">
 
@@ -71,7 +70,7 @@
                 android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
                 android:layout_marginTop="@dimen/margin_top_text_view_data"
                 android:text="@string/date"
-                android:textColor="@color/blu"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_text_view_fragment_currency" />
 
             <EditText
@@ -80,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
                 android:layout_marginEnd="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
-                android:backgroundTint="@color/blu"
                 android:hint="@string/edit_date" />
 
             <TextView
