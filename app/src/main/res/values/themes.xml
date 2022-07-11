@@ -7,6 +7,7 @@
         <item name="colorOnPrimary">@color/gray</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blu</item>
+        <item name="android:textColorSecondary">@color/blu</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
@@ -14,13 +15,28 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <!-- Customize your theme here. -->
         <item name="colorControlActivated">@color/blu</item>
+        <item name="android:textColor">@color/blu</item>
+        <item name="android:tint">@color/blu</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-    <style name ="SplaschScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="SplaschScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="android:windowBackground">@drawable/splash_logo</item>
         <item name="android:statusBarColor">@color/blu</item>
+
+    </style>
+
+    <style name="Theme2" parent="Theme.22recycler">
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:tint">@color/black</item>
+        <item name="colorSecondary">@color/black</item>
+
 
     </style>
 

@@ -18,4 +18,11 @@
     <string name="attention_error_get_data">Внимание! \n Произошла ошибка при загрузке данных. \nЗагружены последние данные посещения на </string>
     <string name="search_currency">search_currency</string>
     <string name="close_search">close_search</string>
+    <string name="eng">ENG</string>
+    <string name="ru">RU</string>
+    <string name="choose_language">Выберите язык</string>
+    <string name="night_theme">Ночная тема</string>
+    <string name="day_theme">Дневная тема</string>
+    <string name="select_theme">Выберите тему приложения</string>
+    <string name="settings">Настройки</string>
 </resources>
