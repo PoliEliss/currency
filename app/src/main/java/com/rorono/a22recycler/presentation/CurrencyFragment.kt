@@ -18,6 +18,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
+import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
@@ -27,7 +28,16 @@ import java.util.*
 
 class CurrencyFragment :
     BaseViewBindingFragment<FragmentCurrencyBinding>(FragmentCurrencyBinding::inflate) {
-    private var adapter = CurrencyAdapter()
+    private var adapter = CurrencyAdapter(object : OnItemClickListener {
+        override fun onItemClick(currency: Currency) {
+            val action =
+                CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                    currency
+                )
+            findNavController().navigate(action)
+        }
+
+    })
     private val viewModel by activityViewModels<CurrencyViewModel>()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -88,13 +98,7 @@ class CurrencyFragment :
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
             adapter.setItems(response)
             adapter.notifyDataSetChanged()
-            adapter.onItemClick = {
-                val action =
-                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
-                        it
-                    )
-                findNavController().navigate(action)
-            }
+
             searchCurrency(response)
         }
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
@@ -103,13 +107,7 @@ class CurrencyFragment :
             binding.tvAttention.text = textAttention
             adapter.setItems(list)
             adapter.notifyDataSetChanged()
-            adapter.onItemClick = {
-                val action =
-                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
-                        it
-                    )
-                findNavController().navigate(action)
-            }
+
         }
         binding.ivSearch.setOnClickListener {
             createAnimationOpenSearch()
