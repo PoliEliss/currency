@@ -23,7 +23,7 @@ class CurrencyAdapter(private val onItemClickListener: OnItemClickListener) : Re
             }
             textViewNameRate.text = currency.charCode
 
-            (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "Р").also {
+            (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
                 textViewExchangeRate.text = it
             }
         }

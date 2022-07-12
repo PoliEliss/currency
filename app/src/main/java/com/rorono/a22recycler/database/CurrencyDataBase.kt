@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [CurrencyItem::class], version = 1)
+@Database(entities = [CurrencyItem::class, SaveCurrencyItem::class], version = 4)
 abstract class CurrencyDataBase : RoomDatabase() {
 
     abstract fun currencyDao(): CurrencyDao
@@ -20,9 +22,23 @@ abstract class CurrencyDataBase : RoomDatabase() {
                 database = Room.databaseBuilder(
                     context, CurrencyDataBase::class.java,
                     "database"
-                ).build()
+
+                ).addMigrations(migration2_3).build()
+
                 database as CurrencyDataBase
             } else database as CurrencyDataBase
         }
+
+        private val migration2_3 = object: Migration(2,3){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE save_currency ADD COLUMN favorite INTEGER DEFAULT 0 NOT NULL")
+            }
+
+        }
+      /*  private val migration3_4 = object :Migration(3,4){
+            override fun migrate(database: SupportSQLiteDatabase) {
+              database.execSQL("ALTER TABLE save_currency ***DROP*** COLUMN password")
+            }*/
+
+        }
     }
-}

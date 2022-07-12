@@ -34,7 +34,7 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
         binding.tvFullNameCurrency.text = currency.fullName
         binding.textInputLayoutCurrencyConvertor.hint = currency.charCode
         binding.etCurrencyConvertor.hint = getString(R.string._0)
-        (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " P").also {
+        (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
             binding.tvRate.text = it
         }
         binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {

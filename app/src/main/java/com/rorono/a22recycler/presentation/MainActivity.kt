@@ -21,6 +21,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     lateinit var viewModel: CurrencyViewModel
+    lateinit var dataBase: CurrencyDataBase
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val repository = Repository(retrofit = RetrofitInstance) //убрать  в Dagger
-        val dataBase = CurrencyDataBase.getInstance(context = this)
+         dataBase = CurrencyDataBase.getInstance(context = this)
         val dataBaseDao = dataBase.currencyDao()
         val viewModelFactory = MainViewModelFactory(repository, dataBase = dataBaseDao)
         viewModel = ViewModelProvider(this, viewModelFactory)[CurrencyViewModel::class.java]

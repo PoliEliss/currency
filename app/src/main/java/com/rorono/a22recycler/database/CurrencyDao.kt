@@ -1,10 +1,7 @@
 package com.rorono.a22recycler.database
 
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 
 @Dao
@@ -14,8 +11,21 @@ interface CurrencyDao {
     suspend fun getAllCurrency(): List<CurrencyItem>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCurrency(currencyItem:CurrencyItem)
+    suspend fun insertCurrency(currencyItem: CurrencyItem)
 
     @Query("DELETE FROM currency")
     suspend fun deleteAllCurrency()
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSaveCurrency(currencyItem: SaveCurrencyItem)
+
+    @Query("SELECT * FROM save_currency")
+    suspend fun getAllSaveCurrency(): List<SaveCurrencyItem>
+
+    @Query("DELETE FROM save_currency")
+    suspend fun deleteAllSaveCurrency()
+
+    @Delete
+    fun deleteSaveCurrency(saveCurrencyItem: SaveCurrencyItem)
 }

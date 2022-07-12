@@ -6,6 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.SavedCurrencyFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChosenCurrency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/bottomSheet"
@@ -17,6 +21,7 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSaveCurrency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     </LinearLayout>
