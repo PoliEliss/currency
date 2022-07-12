@@ -21,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ada"
-            android:textColor="@color/blu"
             android:textSize="@dimen/size_name_currency"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

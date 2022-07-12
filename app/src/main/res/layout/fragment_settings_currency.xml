@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:background="@color/white"
-
     tools:context=".presentation.SettingsCurrencyFragment">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSettingsCurrencyFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/arrow"
+        app:titleMarginStart="@dimen/toolbar_title_margin_start_fragmnet_transfer" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/settings"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/settings"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="@string/select_theme"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -37,25 +48,25 @@
 
         <Button
             android:id="@+id/buttonChooseDayTheme"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/blu"
-            android:text="@string/day_theme"
-            android:textColor="@color/white"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/light_theme"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonChooseNightTheme"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="90dp"
             android:layout_marginEnd="20dp"
             android:backgroundTint="@color/black"
-            android:text="@string/night_theme"
+            android:text="@string/dark_theme"
             android:textColor="@color/white" />
 
 
@@ -65,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="@string/choose_language"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -81,13 +92,13 @@
 
         <Button
             android:id="@+id/buttonChooseRU"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:backgroundTint="@color/blu"
             android:text="@string/ru"
-            android:textColor="@color/white"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonChooseENG"
@@ -99,15 +110,17 @@
             android:textColor="@color/white" />
 
     </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="Отображение избранного"
+        android:layout_marginTop="40dp"
+        android:text="@string/favorites_display"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,22 +129,22 @@
         android:orientation="horizontal">
 
         <Button
-
+            android:id="@+id/buttonChooseLine"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:backgroundTint="@color/blu"
-            android:text="Линия"
-            android:textColor="@color/white"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/line"
+            android:textColor="@color/white" />
 
         <Button
-
+            android:id="@+id/buttonChooseTile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:backgroundTint="@color/black"
-            android:text="Плитка"
+            android:text="@string/tile"
             android:textColor="@color/white" />
 
     </LinearLayout>
