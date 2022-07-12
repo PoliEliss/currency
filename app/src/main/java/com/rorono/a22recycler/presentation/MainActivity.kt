@@ -1,5 +1,6 @@
 package com.rorono.a22recycler.presentation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import com.rorono.a22recycler.databinding.ActivityMainBinding
 import com.rorono.a22recycler.network.RetrofitInstance
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.settings.Settings
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,11 +25,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        when(Settings.loadTheme(this)){
-            1-> setTheme(R.style.Theme_22recycler)
-            2-> setTheme(R.style.Theme2)
+        when (Settings.loadTheme(this)) {
+            1 -> setTheme(R.style.Theme_22recycler)
+            2 -> setTheme(R.style.Theme2)
         }
+
+          when(Settings.loadLanguage(this)){
+              1-> setLocale("ru")
+              2-> setLocale("en")
+          }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val repository = Repository(retrofit = RetrofitInstance) //убрать  в Dagger
@@ -41,5 +47,12 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.setupWithNavController(navController = navController)
+    }
+    fun setLocale(language:String) {
+        val locale = Locale(language)
+        val dm = resources.displayMetrics
+        val conf = resources.configuration
+        conf.setLocale(locale)
+        resources.updateConfiguration(conf, dm)
     }
 }

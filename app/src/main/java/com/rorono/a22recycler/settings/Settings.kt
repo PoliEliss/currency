@@ -33,6 +33,6 @@ object Settings {
 
     fun loadLanguage(context: Context): Int {
         val sharedPreferences = context.getSharedPreferences(LANGUAGE, Context.MODE_PRIVATE)
-        return sharedPreferences.getInt(KEY_LANGUAGE, 0)
+        return sharedPreferences.getInt(KEY_LANGUAGE, 1)
     }
 }
