@@ -42,6 +42,15 @@ class SettingsCurrencyFragment :
             Settings.saveLanguage(requireContext(), 2)
             requireActivity().recreate()
         }
+
+        binding.buttonChooseLine.setOnClickListener {
+            Settings.saveOrientation(requireContext(),1)
+            requireActivity().recreate()
+        }
+        binding.buttonChooseTile.setOnClickListener {
+            Settings.saveOrientation(requireContext(),2)
+            requireActivity().recreate()
+        }
     }
 
 }
