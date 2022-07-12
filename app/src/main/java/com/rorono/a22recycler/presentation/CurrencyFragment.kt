@@ -1,14 +1,11 @@
 package com.rorono.a22recycler.presentation
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -16,13 +13,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.rorono.a22recycler.*
+import com.rorono.a22recycler.BaseViewBindingFragment
+import com.rorono.a22recycler.NetManager
+import com.rorono.a22recycler.R
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
-import java.time.Duration
 import java.util.*
 
 
