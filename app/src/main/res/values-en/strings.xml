@@ -6,7 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="_0">0</string>
     <string name="rub">RUB</string>
-    <string name="toolbar_title_currency">Валюты</string>
+    <string name="toolbar_title_currency">Currencies</string>
     <string name="ada">ADA</string>
     <string name="_89p">89P</string>
     <string name="date">Date</string>
@@ -21,8 +21,11 @@
     <string name="eng">ENG</string>
     <string name="ru">RU</string>
     <string name="choose_language">Choose language</string>
-    <string name="night_theme">night theme</string>
-    <string name="day_theme">Дневная тема</string>
+    <string name="dark_theme">dark theme</string>
+    <string name="light_theme">light theme</string>
     <string name="select_theme">Select application theme </string>
-    <string name="settings">Настройки</string>
+    <string name="settings">Settings</string>
+    <string name="favorites_display">Favorites display</string>
+    <string name="tile">Tile</string>
+    <string name="line">Line</string>
 </resources>
