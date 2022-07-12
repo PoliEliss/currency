@@ -1,5 +1,6 @@
 package com.rorono.a22recycler.presentation
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -38,7 +39,7 @@ class CurrencyFragment :
     })
     private val viewModel by activityViewModels<CurrencyViewModel>()
 
-    @SuppressLint("NotifyDataSetChanged")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -93,18 +94,27 @@ class CurrencyFragment :
             getToastError(error)
         }
 
-        viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-            adapter.setItems(response)
-            adapter.notifyDataSetChanged()
+        viewModel.getSaveCurrencyDao()
 
+        viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
+            if ( !viewModel.saveCurrencyDatabase.value.isNullOrEmpty()){
+                for (i in response) {
+                    for (g in   viewModel.saveCurrencyDatabase.value!!) {
+                        if (g.fullName == i.fullName) {
+                            i.isFavorite = 1
+                        }
+                    }
+                    adapter.submitList(response)
+                }
+            }
+            adapter.submitList(response)
             searchCurrency(response)
         }
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
             val textAttention =
                 getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
             binding.tvAttention.text = textAttention
-            adapter.setItems(list)
-            adapter.notifyDataSetChanged()
+            adapter.submitList(list)
 
         }
         binding.ivSearch.setOnClickListener {
@@ -123,7 +133,7 @@ class CurrencyFragment :
                 return false
             }
 
-            @SuppressLint("NotifyDataSetChanged")
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 val n = mutableListOf<Currency>()
                 binding.search.clearFocus()
@@ -131,13 +141,13 @@ class CurrencyFragment :
                     for (i in response) {
                         if (i.charCode.contains(newText.uppercase())) {
                             n.add(i)
-                            adapter.setItems(n)
-                            adapter.notifyDataSetChanged()
+                            adapter.submitList(n)
+
                         }
                     }
                 } else {
-                    adapter.setItems(response)
-                    adapter.notifyDataSetChanged()
+                    adapter.submitList(response)
+
                 }
                 return false
             }
@@ -149,16 +159,12 @@ class CurrencyFragment :
         getData(NetManager(context = requireContext()).isOnline(), viewModel.getDate())
     }
 
+
     private fun createAnimationOpenSearch() {
-
-        /* val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -100f)
-          objectAnimator.duration = 400
-          objectAnimator.start()*/
-        val slide = Slide()
-        slide.duration
-        slide.slideEdge = Gravity.START
-        TransitionManager.beginDelayedTransition(binding.contentLayout, slide)
-
+        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -400f)
+        objectAnimator.duration = 2000
+        objectAnimator.start()
+        objectAnimator.repeatCount
         binding.tvTitleToolbar.visibility = View.GONE
         binding.ivSearch.visibility = View.GONE
         binding.ivCancelSearch.visibility = View.VISIBLE
@@ -173,6 +179,9 @@ class CurrencyFragment :
         binding.ivSearch.visibility = View.VISIBLE
         binding.ivCancelSearch.visibility = View.GONE
         binding.search.visibility = View.GONE
+        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", 510f)
+        objectAnimator.duration = 1000
+        objectAnimator.start()
     }
 
     private fun getData(networkConnection: Boolean, date: String) {
