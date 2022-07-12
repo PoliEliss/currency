@@ -19,14 +19,14 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 
-class ChosenCurrencyAdapter : ListAdapter<Currency, ChosenCurrencyAdapter.ChosenCurrencyHolder>(DiffUtil()) {
+class ChosenCurrencyAdapter(private val onItemClickChosenCurrency: OnItemClickChosenCurrency) :
+    ListAdapter<Currency, ChosenCurrencyAdapter.ChosenCurrencyHolder>(DiffUtil()) {
 
-    var onItemClick: ((Currency) -> Unit)? = null
-     val chosenCurrencyList = mutableListOf<Currency>()
 
-    class DiffUtil:androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
+
+    class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
         override fun areItemsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return    oldItem == newItem
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: Currency, newItem: Currency): Boolean {
@@ -49,25 +49,22 @@ class ChosenCurrencyAdapter : ListAdapter<Currency, ChosenCurrencyAdapter.Chosen
     }
 
 
-
     inner class ChosenCurrencyHolder(binding: ChosenCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val tvNameRate = binding.textViewNameRate
-        private val tvExchangeRate = binding.textViewExchangeRate
         private val ivDelete = binding.ivDelete
 
         fun bind(currency: Currency) {
+
             itemView.setOnClickListener {
-             Log.d("TEST","----------------")
+                onItemClickChosenCurrency.onItemClick(currency = currency)
             }
             ivDelete.setOnClickListener {
 
             }
 
             tvNameRate.text = currency.charCode
-            (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
-                tvExchangeRate.text = it
-            }
+
 
         }
     }
