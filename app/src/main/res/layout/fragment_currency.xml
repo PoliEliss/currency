@@ -41,27 +41,27 @@
                     android:id="@+id/ivSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_search_24"
                     android:layout_marginStart="200dp"
-                    android:contentDescription="@string/search_currency" />
+                    android:contentDescription="@string/search_currency"
+                    android:src="@drawable/ic_baseline_search_24" />
 
                 <ImageView
                     android:id="@+id/ivCancelSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:contentDescription="@string/close_search"
                     android:src="@drawable/ic_cancel"
-                    android:contentDescription="@string/close_search" />
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:focusableInTouchMode="false"
                     android:layout_marginStart="150dp"
+                    android:focusableInTouchMode="false"
                     android:visibility="gone"
                     app:iconifiedByDefault="false"
-                    app:queryHint="Enter currency name" />
+                    app:queryHint="@string/search_hint" />
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -75,13 +75,30 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_text_view_fragment_currency" />
 
-            <EditText
-                android:id="@+id/etDate"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
-                android:layout_marginEnd="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
-                android:hint="@string/edit_date" />
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etDate"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
+                    android:layout_marginEnd="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
+                    android:inputType="number"
+                    android:hint="@string/edit_date" />
+                <ImageView
+                    android:id="@+id/ivCalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_baseline_calendar_month_24"
+                    android:contentDescription="@string/calendar" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tvAttention"
@@ -94,13 +111,13 @@
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
-                tools:itemCount="4"
-                tools:listitem="@layout/currency_item"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="50dp" />
+                android:paddingBottom="50dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/currency_item" />
 
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
