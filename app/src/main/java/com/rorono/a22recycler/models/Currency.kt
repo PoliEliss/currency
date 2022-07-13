@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class Currency(
     @SerializedName("Name")
-    val fullName: String,
+    var fullName: String,
     @SerializedName("CharCode")
     val charCode: String,
     @SerializedName("Value")

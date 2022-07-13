@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
@@ -23,6 +24,8 @@ import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.settings.Settings
+import com.rorono.a22recycler.utils.FullNameCurrency
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import okhttp3.internal.format
 import java.util.*
@@ -32,6 +35,10 @@ class CurrencyFragment :
     BaseViewBindingFragment<FragmentCurrencyBinding>(FragmentCurrencyBinding::inflate) {
     private var adapter = CurrencyAdapter(object : OnItemClickListener {
         override fun onItemClick(currency: Currency) {
+            if (Settings.loadLanguage(requireContext())== 2){
+               val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
+                currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
+            }
             val action =
                 CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
                     currency

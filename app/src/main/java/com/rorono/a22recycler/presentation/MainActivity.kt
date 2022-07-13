@@ -1,13 +1,17 @@
 package com.rorono.a22recycler.presentation
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
+import android.os.LocaleList
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.database.CurrencyDataBase
@@ -15,6 +19,7 @@ import com.rorono.a22recycler.databinding.ActivityMainBinding
 import com.rorono.a22recycler.network.RetrofitInstance
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.settings.Settings
+import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import java.util.*
 
 
@@ -57,4 +62,18 @@ class MainActivity : AppCompatActivity() {
         conf.setLocale(locale)
         resources.updateConfiguration(conf, dm)
     }
+
+  /* @RequiresApi(Build.VERSION_CODES.N)
+    fun setLocale(language:String) {
+      val locale = Locale(language)
+     //  val dm = resources.displayMetrics
+     //  val conf = resources.configuration
+     //  conf.setLocale(locale)
+
+     //  resources.updateConfiguration(conf, dm)*/
+    /* val overrideConfiguration: Configuration = baseContext.resources.configuration
+        overrideConfiguration.setLocale(locale)
+        val context: Context = createConfigurationContext(overrideConfiguration)
+        val resources: Resources = context.getResources()
+   }*/
 }

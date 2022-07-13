@@ -10,7 +10,7 @@ import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.utils.Rounding
 
-class CurrencyAdapter(private val onItemClickListener: OnItemClickListener) :
+class CurrencyAdapter(private var onItemClickListener: OnItemClickListener) :
     ListAdapter<Currency, CurrencyAdapter.CurrencyHolder>(
         DiffUtil()
     ) {
