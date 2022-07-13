@@ -26,6 +26,8 @@
     <string name="select_theme">Select application theme </string>
     <string name="settings">Settings</string>
     <string name="favorites_display">Favorites display</string>
-    <string name="tile">Tile</string>
-    <string name="line">Line</string>
+    <string name="tile">Grid</string>
+    <string name="line">list</string>
+    <string name="search_hint">Enter currency name</string>
+    <string name="calendar">calendar</string>
 </resources>

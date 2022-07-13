@@ -26,6 +26,8 @@
     <string name="select_theme">Выберите тему приложения</string>
     <string name="settings">Настройки</string>
     <string name="favorites_display">Отображение избранного</string>
-    <string name="tile">Плитка</string>
-    <string name="line">Линия</string>
+    <string name="tile">Сетка</string>
+    <string name="line">Спиок</string>
+    <string name="search_hint">Введите валюту</string>
+    <string name="calendar">Календарь</string>
 </resources>
