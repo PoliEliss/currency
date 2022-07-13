@@ -79,5 +79,4 @@ class ChosenCurrencyAdapter(private val onItemClickChosenCurrency: OnItemClickCh
         holder.bind(getItem(position))
     }
 
-
 }
