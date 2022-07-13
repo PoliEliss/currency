@@ -8,6 +8,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.text.set
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,6 +24,7 @@ import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
+import okhttp3.internal.format
 import java.util.*
 
 
@@ -56,7 +59,7 @@ class CurrencyFragment :
         }
 
         val (year, month, day) = createCalendar()
-        date.setOnClickListener {
+       binding.ivCalendar.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 view.context,
                 { view, year, month, dayOfMonth ->
@@ -206,8 +209,9 @@ private fun createCalendar(): Triple<Int, Int, Int> {
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
     return Triple(year, month, day)
-}
 
+
+}
 
 
 

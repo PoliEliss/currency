@@ -1,12 +1,11 @@
 package com.rorono.a22recycler.adapter
 
 
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 
-import androidx.recyclerview.widget.ListAdapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.R
@@ -26,9 +25,7 @@ class CurrenciesSaveAdapter :
         private val tvNameRate = binding.textViewNameRate
         private val ivFavorite = binding.ivFavorite
 
-
         fun bind(currency: Currency) {
-            Log.d("TEST9", "IsFavorite")
             if (currency.isFavorite == 1) {
                 ivFavorite.setImageResource(R.drawable.ic_favorite)
             } else {
@@ -37,16 +34,6 @@ class CurrenciesSaveAdapter :
             itemView.setOnClickListener {
                 onItemClick?.let { view ->
                     view(currency)
-                    // ivFavorite.setImageResource(R.drawable.ic_favorite)
-
-                    /* if (currency.isFavorite == 1) {
-                         Log.d("TEST2", "тыкбтык1")
-                         currency.isFavorite == 0
-                         ivFavorite.setImageResource(R.drawable.ic_favorite_border)
-                     } else {
-                         Log.d("TEST2", "тыкбтык0")
-                         ivFavorite.setImageResource(R.drawable.ic_favorite)
-                     }*/
                 }
 
             }
@@ -73,7 +60,6 @@ class CurrenciesSaveAdapter :
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList
         diffResult.dispatchUpdatesTo(this)
-
 
     }
 }
