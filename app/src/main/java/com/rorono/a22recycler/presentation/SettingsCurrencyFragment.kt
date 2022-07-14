@@ -21,15 +21,10 @@ class SettingsCurrencyFragment :
         binding.buttonChooseDayTheme.setOnClickListener {
             Settings.saveTheme(requireContext(), 1)
             requireActivity().recreate()
-            val intent = Intent(activity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
         }
         binding.buttonChooseNightTheme.setOnClickListener {
             Settings.saveTheme(requireContext(), 2)
-            val intent = Intent(activity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
+            requireActivity().recreate()
         }
         binding.buttonChooseRU.setOnClickListener {
             Settings.saveLanguage(requireContext(), 1)
