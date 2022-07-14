@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.rorono.a22recycler.BaseViewBindingFragment
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentSettingsCurrencyBinding
@@ -18,14 +21,25 @@ class SettingsCurrencyFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonChooseDayTheme.setOnClickListener {
+        when (Settings.loadTheme(requireContext())) {
+            1 -> binding.radioButtonLightTheme.isChecked = true
+            2 -> binding.radioButtonDarkTheme.isChecked = true
+        }
+
+        binding.radioButtonLightTheme.setOnClickListener {
             Settings.saveTheme(requireContext(), 1)
             requireActivity().recreate()
         }
-        binding.buttonChooseNightTheme.setOnClickListener {
+        binding.radioButtonDarkTheme.setOnClickListener {
             Settings.saveTheme(requireContext(), 2)
             requireActivity().recreate()
         }
+        binding.radioGroupThemes.setOnCheckedChangeListener { group, checkedId ->
+
+        }
+
+
+
         binding.buttonChooseRU.setOnClickListener {
             Settings.saveLanguage(requireContext(), 1)
             requireActivity().recreate()
@@ -36,12 +50,15 @@ class SettingsCurrencyFragment :
         }
 
         binding.buttonChooseLine.setOnClickListener {
-            Settings.saveOrientation(requireContext(),1)
+            Settings.saveOrientation(requireContext(), 1)
             requireActivity().recreate()
         }
         binding.buttonChooseTile.setOnClickListener {
-            Settings.saveOrientation(requireContext(),2)
+            Settings.saveOrientation(requireContext(), 2)
             requireActivity().recreate()
         }
     }
+
+
 }
+

@@ -40,37 +40,27 @@
         android:textStyle="italic" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+     <RadioGroup
+         android:id="@+id/radioGroupThemes"
+         android:layout_marginTop="20dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buttonChooseDayTheme"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/blu"
-            android:text="@string/light_theme"
-            android:textColor="@color/white" />
+         <RadioButton
+             android:id="@+id/radioButtonLightTheme"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/light_theme"/>
+         <RadioButton
+             android:id="@+id/radioButtonDarkTheme"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="10dp"
+             android:text="@string/dark_theme"/>
+     </RadioGroup>
 
-        <Button
-            android:id="@+id/buttonChooseNightTheme"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/black"
-            android:text="@string/dark_theme"
-            android:textColor="@color/white" />
-
-
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,7 +71,6 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
