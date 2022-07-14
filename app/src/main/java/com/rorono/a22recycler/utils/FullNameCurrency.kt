@@ -7,12 +7,12 @@ object FullNameCurrency {
         "GBP" to "British pound sterling",
         "AMD" to "Armenian dram",
         "BYN" to "Belarusian ruble",
-        "BGN" to "Bulgarian  lew",
+        "BGN" to "Bulgarian lew",
         "BRL" to "Brazilian real",
         "HUF" to "Hungarian forints",
         "HKD" to "Hong Kong dollars",
         "DKK" to "Danish kroner",
-        "USD" to "U.S dollar",
+        "USD" to "US dollar",
         "EUR" to "Euro",
         "INR" to "India rupee",
         "KZT" to "Kazakhstan tenge",
@@ -35,6 +35,5 @@ object FullNameCurrency {
         "CHF" to "Swiss franc",
         "ZAR" to "South African rand",
         "KRW" to "Won Republic of Korea",
-        "JPY" to "Japanese yen",
-        )
+        "JPY" to "Japanese yen")
 }
