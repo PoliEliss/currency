@@ -18,7 +18,8 @@ import com.rorono.a22recycler.utils.Rounding
 import java.lang.Exception
 
 
-class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate){
+class CurrencyTransferFragment :
+    BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate) {
 
     private val args: CurrencyTransferFragmentArgs by navArgs()
     private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
@@ -38,9 +39,7 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
             binding.tvRate.text = it
         }
         binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {
-            val action =
-                CurrencyTransferFragmentDirections.actionCurrencyTransferFragmentToCurrencyFragment()
-            findNavController().navigate(action)
+            findNavController().navigateUp()
         }
 
         binding.etCurrencyConvertor.addTextChangedListener {
@@ -51,7 +50,7 @@ class CurrencyTransferFragment : BaseViewBindingFragment<FragmentCurrencyTransfe
                 val enteredValue = binding.etCurrencyConvertor.text.toString().toDouble()
                 try {
                     binding.etTransferRubles.setText(
-                       viewModel.transferToRubles(
+                        viewModel.transferToRubles(
                             roundedCurrency,
                             enteredValue = enteredValue
                         ).toString()
