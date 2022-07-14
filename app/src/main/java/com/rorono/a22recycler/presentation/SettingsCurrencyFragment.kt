@@ -38,22 +38,20 @@ class SettingsCurrencyFragment :
 
         }
 
-
-
-        binding.buttonChooseRU.setOnClickListener {
+        binding.radioButtonChooseRU.setOnClickListener {
             Settings.saveLanguage(requireContext(), 1)
             requireActivity().recreate()
         }
-        binding.buttonChooseENG.setOnClickListener {
+        binding.radioButtonChooseEN.setOnClickListener {
             Settings.saveLanguage(requireContext(), 2)
             requireActivity().recreate()
         }
 
-        binding.buttonChooseLine.setOnClickListener {
+        binding.radioButtonChooseLine.setOnClickListener {
             Settings.saveOrientation(requireContext(), 1)
             requireActivity().recreate()
         }
-        binding.buttonChooseTile.setOnClickListener {
+        binding.radioButtonChooseTile.setOnClickListener {
             Settings.saveOrientation(requireContext(), 2)
             requireActivity().recreate()
         }
