@@ -27,6 +27,7 @@ import java.util.*
 class SavedCurrencyFragment :
     BaseViewBindingFragment<FragmentSavedCurrencyBinding>(FragmentSavedCurrencyBinding::inflate) {
     private val adapter = CurrenciesSaveAdapter()
+    private var behavior: BottomSheetBehavior<*>? = null
     private val adapterChosenCurrency = ChosenCurrencyAdapter(object : OnItemClickChosenCurrency {
         override fun onItemClick(currency: Currency) {
             val action = SavedCurrencyFragmentDirections.actionSavedCurrencyFragmentToCurrencyTransferFragment(currency)
@@ -43,18 +44,33 @@ class SavedCurrencyFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        BottomSheetBehavior.from(binding.bottomSheet).apply {
+        /*BottomSheetBehavior.from(binding.bottomSheet).apply {
             peekHeight = 200
+        }*/
+        behavior = BottomSheetBehavior.from(binding.include.bottomSheet)
+        behavior!!.addBottomSheetCallback(object :BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                binding.fab.visibility = when(newState){
+                   BottomSheetBehavior.STATE_COLLAPSED->View.VISIBLE
+                    else -> View.GONE
+                }
+            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+
+        })
+        binding.fab.setOnClickListener {
+            behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
         }
         when (Settings.loadOrientation(requireContext())) {
             1 -> changAdapter(1)
             2 -> changAdapter(2)
         }
+        binding.include.recyclerViewSaveCurrency.adapter = adapter
 
-        binding.apply {
+        /*binding.apply {
             recyclerViewSaveCurrency.layoutManager = GridLayoutManager(view.context, 3)
             recyclerViewSaveCurrency.adapter = adapter
-        }
+        }*/
         viewModel.getCurrencyDao()
         viewModel.getSaveCurrencyDao()
 
