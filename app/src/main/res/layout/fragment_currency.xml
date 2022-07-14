@@ -33,7 +33,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/toolbar_title_margin_start"
                     android:text="@string/toolbar_title_currency"
-                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -72,7 +71,6 @@
                 android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
                 android:layout_marginTop="@dimen/margin_top_text_view_data"
                 android:text="@string/date"
-                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_text_view_fragment_currency" />
 
             <LinearLayout

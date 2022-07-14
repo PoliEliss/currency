@@ -50,6 +50,7 @@ class SavedCurrencyFragment :
             1 -> changAdapter(1)
             2 -> changAdapter(2)
         }
+
         binding.apply {
             recyclerViewSaveCurrency.layoutManager = GridLayoutManager(view.context, 3)
             recyclerViewSaveCurrency.adapter = adapter
