@@ -44,9 +44,7 @@ class SavedCurrencyFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        /*BottomSheetBehavior.from(binding.bottomSheet).apply {
-            peekHeight = 200
-        }*/
+
         behavior = BottomSheetBehavior.from(binding.include.bottomSheet)
         behavior!!.addBottomSheetCallback(object :BottomSheetBehavior.BottomSheetCallback(){
             override fun onStateChanged(bottomSheet: View, newState: Int) {
