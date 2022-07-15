@@ -30,15 +30,17 @@ class SavedCurrencyFragment :
     private var behavior: BottomSheetBehavior<*>? = null
     private val adapterChosenCurrency = ChosenCurrencyAdapter(object : OnItemClickChosenCurrency {
         override fun onItemClick(currency: Currency) {
-            val action = SavedCurrencyFragmentDirections.actionSavedCurrencyFragmentToCurrencyTransferFragment(currency)
+            val action =
+                SavedCurrencyFragmentDirections.actionSavedCurrencyFragmentToCurrencyTransferFragment(
+                    currency
+                )
             findNavController().navigate(action)
         }
-//Что сейчас тут круто получилось. Из-за того, что viewModel.currencyDatabase обновляется каждый раз как новый день
-        // то при добавление  в избранное у меня будут последние данные в бд записаны на текущей день и тем самым
-        //мне не нужно заморачивать с тем как передавать значение!!!
-        //Неее мне еще нужно будет обновлять saveCurrencyDatabase т.к он то сохранит, обновится viewModel.currencyDatabaseб
-        // а saveCurrencyDatabase неттт.....ну ладно
-
+        override fun onItemClickDeleteFavoriteCurrency(currency: Currency) {
+            viewModel.deleteSaveCurrency(currency)
+            viewModel.getCurrencyDao()
+            viewModel.getSaveCurrencyDao()
+        }
     })
     private val viewModel by activityViewModels<CurrencyViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,13 +48,14 @@ class SavedCurrencyFragment :
         super.onViewCreated(view, savedInstanceState)
 
         behavior = BottomSheetBehavior.from(binding.include.bottomSheet)
-        behavior!!.addBottomSheetCallback(object :BottomSheetBehavior.BottomSheetCallback(){
+        behavior!!.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                binding.fab.visibility = when(newState){
-                   BottomSheetBehavior.STATE_COLLAPSED->View.VISIBLE
+                binding.fab.visibility = when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> View.VISIBLE
                     else -> View.GONE
                 }
             }
+
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
 
         })
@@ -87,7 +90,6 @@ class SavedCurrencyFragment :
             adapter.setData(listCurrency)
         }
 
-
         adapter.onItemClick = {
             val listFavoriteCurrency = mutableListOf<Currency>()
             listFavoriteCurrency.add(it)
@@ -102,7 +104,6 @@ class SavedCurrencyFragment :
                         listCurrency.add(i)
                     }
                     adapter.setData(listCurrency)
-
                 }
                 viewModel.setSaveCurrencyDao(listFavoriteCurrency)
                 viewModel.getSaveCurrencyDao()

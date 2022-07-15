@@ -60,12 +60,9 @@ class ChosenCurrencyAdapter(private val onItemClickChosenCurrency: OnItemClickCh
                 onItemClickChosenCurrency.onItemClick(currency = currency)
             }
             ivDelete.setOnClickListener {
-
+                   onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency)
             }
-
             tvNameRate.text = currency.charCode
-
-
         }
     }
 
