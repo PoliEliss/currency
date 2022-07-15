@@ -25,7 +25,14 @@ class SettingsCurrencyFragment :
             1 -> binding.radioButtonLightTheme.isChecked = true
             2 -> binding.radioButtonDarkTheme.isChecked = true
         }
-
+        when(Settings.loadLanguage(requireContext())){
+            1 -> binding.radioButtonChooseRU.isChecked = true
+            2 -> binding.radioButtonChooseEN.isChecked = true
+        }
+       when(Settings.loadOrientation(requireContext())){
+           1 -> binding.radioButtonChooseLine.isChecked = true
+           2 -> binding.radioButtonChooseTile.isChecked = true
+       }
         binding.radioButtonLightTheme.setOnClickListener {
             Settings.saveTheme(requireContext(), 1)
             requireActivity().recreate()
@@ -33,9 +40,6 @@ class SettingsCurrencyFragment :
         binding.radioButtonDarkTheme.setOnClickListener {
             Settings.saveTheme(requireContext(), 2)
             requireActivity().recreate()
-        }
-        binding.radioGroupThemes.setOnCheckedChangeListener { group, checkedId ->
-
         }
 
         binding.radioButtonChooseRU.setOnClickListener {
@@ -56,7 +60,5 @@ class SettingsCurrencyFragment :
             requireActivity().recreate()
         }
     }
-
-
 }
 
