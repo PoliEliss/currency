@@ -6,10 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.rorono.a22recycler.BaseViewBindingFragment
@@ -68,10 +65,8 @@ class SavedCurrencyFragment :
         }
         binding.include.recyclerViewSaveCurrency.adapter = adapter
 
-        /*binding.apply {
-            recyclerViewSaveCurrency.layoutManager = GridLayoutManager(view.context, 3)
-            recyclerViewSaveCurrency.adapter = adapter
-        }*/
+
+
         viewModel.getCurrencyDao()
         viewModel.getSaveCurrencyDao()
 
@@ -84,7 +79,7 @@ class SavedCurrencyFragment :
                         }
                     }
                     adapter.setData(listCurrency)
-                    adapterChosenCurrency.submitList(listDataBase)
+                    adapterChosenCurrency.setData(listDataBase)
                 }
             }
             adapter.setData(listCurrency)
@@ -104,10 +99,11 @@ class SavedCurrencyFragment :
                         listCurrency.add(i)
                     }
                     adapter.setData(listCurrency)
+                    adapter.notifyDataSetChanged()
                 }
                 viewModel.setSaveCurrencyDao(listFavoriteCurrency)
                 viewModel.getSaveCurrencyDao()
-                adapterChosenCurrency.submitList(listFavoriteCurrency)
+                adapterChosenCurrency.setData(listFavoriteCurrency)
 
             } else {
                 Toast.makeText(requireContext(), "DELETE", Toast.LENGTH_LONG).show()
@@ -123,17 +119,18 @@ class SavedCurrencyFragment :
                 }
                 viewModel.deleteSaveCurrency(it)
                 listFavoriteCurrency.remove(it)
-                adapterChosenCurrency.submitList(listFavoriteCurrency)
+                adapterChosenCurrency.setData(listFavoriteCurrency)
                 viewModel.getSaveCurrencyDao()
             }
 
         }
+        mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
     }
 
-    /*val mIth = ItemTouchHelper(
+    val mIth = ItemTouchHelper(
         object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.UP
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -142,7 +139,7 @@ class SavedCurrencyFragment :
                 val position = viewHolder.bindingAdapterPosition //start position
                 val toPosition = target.bindingAdapterPosition // end position
                 Collections.swap(
-                    adapterChosenCurrency.chosenCurrencyList,
+                    adapterChosenCurrency.oldList,
                     position,
                     toPosition
                 )
@@ -151,7 +148,7 @@ class SavedCurrencyFragment :
             }
 
             override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-                val position = viewHolder.bindingAdapterPosition
+               /* val position = viewHolder.bindingAdapterPosition
                 val currency =
                     adapterChosenCurrency.chosenCurrencyList.removeAt(position) //Это уже работать не будет
                 adapterChosenCurrency.notifyItemRemoved(position)
@@ -164,17 +161,13 @@ class SavedCurrencyFragment :
                 Log.d("TEST", "saveCurrency ${saveCurrency}")
                 //viewModel.deleteSaveCurrency(saveCurrency) // вот только он не удаляет, во ViewModel я попадаю
                 // одной валюты из бд но опять же тут по позиции идет удаление а у меня по id
-                // должно быть
+                // должно быть*/
 
             }
-        })*/
+        })
 
 
-/*  val itemTouchHelper = ItemTouchHelper(adapterChosenCurrency.getSimpleCallback())
-itemTouchHelper.attachToRecyclerView(binding.recyclerViewChosenCurrency)*/
 
-
-    //    mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
 
     fun changAdapter(change: Int) {
         if (change == 1) {
