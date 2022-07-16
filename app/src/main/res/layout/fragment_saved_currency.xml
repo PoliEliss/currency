@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|top"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:splitMotionEvents="false"
         tools:listitem="@layout/save_currency_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
