@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,34 +21,9 @@ import java.util.*
 
 
 class ChosenCurrencyAdapter(private val onItemClickChosenCurrency: OnItemClickChosenCurrency) :
-    ListAdapter<Currency, ChosenCurrencyAdapter.ChosenCurrencyHolder>(DiffUtil()) {
+    RecyclerView.Adapter<ChosenCurrencyAdapter.ChosenCurrencyHolder>() {
 
-
-
-    class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
-        override fun areItemsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return when {
-                oldItem.fullName != newItem.fullName -> {
-                    return false
-                }
-                oldItem.isFavorite != newItem.isFavorite -> {
-                    return false
-                }
-                oldItem.charCode != newItem.charCode -> {
-                    return false
-                }
-                oldItem.value != newItem.value -> {
-                    return false
-                }
-                else -> true
-            }
-        }
-    }
-
+     var oldList = emptyList<Currency>()
 
     inner class ChosenCurrencyHolder(binding: ChosenCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -60,7 +36,7 @@ class ChosenCurrencyAdapter(private val onItemClickChosenCurrency: OnItemClickCh
                 onItemClickChosenCurrency.onItemClick(currency = currency)
             }
             ivDelete.setOnClickListener {
-                   onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency)
+                onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency)
             }
             tvNameRate.text = currency.charCode
         }
@@ -73,7 +49,18 @@ class ChosenCurrencyAdapter(private val onItemClickChosenCurrency: OnItemClickCh
     }
 
     override fun onBindViewHolder(holder: ChosenCurrencyHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(oldList[position])
     }
 
+    override fun getItemCount(): Int {
+        return oldList.size
+    }
+
+    fun setData(newList: List<Currency>) {
+        val diffUtil = MyDiffUtil(oldList, newList)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        oldList = newList
+        diffResult.dispatchUpdatesTo(this)
+
+    }
 }
