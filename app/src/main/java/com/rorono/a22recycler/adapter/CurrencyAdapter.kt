@@ -2,6 +2,7 @@ package com.rorono.a22recycler.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -43,14 +44,10 @@ class CurrencyAdapter(private var onItemClickListener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         private val textViewNameRate = binding.textViewNameRate
         private val textViewExchangeRate = binding.textViewExchangeRate
-        private val ivFavorite = binding.ivFavorite
+
 
         fun bind(currency: Currency) {
-            if (currency.isFavorite == 1) {
-                ivFavorite.setImageResource(R.drawable.ic_favorite)
-            } else {
-                ivFavorite.setImageResource(R.drawable.ic_favorite_border)
-            }
+
             itemView.setOnClickListener {
                 onItemClickListener.onItemClick(currency = currency)
             }
