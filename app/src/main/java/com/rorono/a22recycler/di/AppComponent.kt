@@ -16,7 +16,6 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
 
-
     fun inject(currencyFragment: CurrencyFragment)
     fun inject(currencyTransferFragment: CurrencyTransferFragment)
     fun inject(savedCurrencyFragment: SavedCurrencyFragment)
