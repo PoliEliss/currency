@@ -3,6 +3,7 @@ package com.rorono.a22recycler.presentation
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -12,31 +13,49 @@ import android.widget.Toast
 import androidx.core.text.set
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.rorono.a22recycler.BaseViewBindingFragment
-import com.rorono.a22recycler.NetManager
-import com.rorono.a22recycler.R
+import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickListener
+import com.rorono.a22recycler.database.CurrencyDao
+import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.network.ApiService
+import com.rorono.a22recycler.network.RetrofitInstance
+import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.settings.Settings
 import com.rorono.a22recycler.utils.FullNameCurrency
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import okhttp3.internal.format
 import java.util.*
+import javax.inject.Inject
 
 
 class CurrencyFragment :
     BaseViewBindingFragment<FragmentCurrencyBinding>(FragmentCurrencyBinding::inflate) {
+
+
+    @Inject
+    lateinit var factory: MainViewModelFactory
+
+
+    private lateinit var viewModel: CurrencyViewModel
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as MyApplication).appComponent.inject(this)
+        super.onAttach(context)
+    }
+
     private var adapter = CurrencyAdapter(object : OnItemClickListener {
         override fun onItemClick(currency: Currency) {
-            if (Settings.loadLanguage(requireContext())== 2){
-               val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
+            if (Settings.loadLanguage(requireContext()) == 2) {
+                val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
                 currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
             }
             val action =
@@ -47,12 +66,11 @@ class CurrencyFragment :
         }
 
     })
-    private val viewModel by activityViewModels<CurrencyViewModel>()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         val date: EditText = binding.etDate
         date.hint = viewModel.getDate()
 
@@ -66,7 +84,7 @@ class CurrencyFragment :
         }
 
         val (year, month, day) = createCalendar()
-       binding.ivCalendar.setOnClickListener {
+        binding.ivCalendar.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 view.context,
                 { view, year, month, dayOfMonth ->
@@ -107,9 +125,9 @@ class CurrencyFragment :
         viewModel.getSaveCurrencyDao()
 
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-            if ( !viewModel.saveCurrencyDatabase.value.isNullOrEmpty()){
+            if (!viewModel.saveCurrencyDatabase.value.isNullOrEmpty()) {
                 for (i in response) {
-                    for (g in   viewModel.saveCurrencyDatabase.value!!) {
+                    for (g in viewModel.saveCurrencyDatabase.value!!) {
                         if (g.fullName == i.fullName) {
                             i.isFavorite = 1
                         }
@@ -216,7 +234,6 @@ private fun createCalendar(): Triple<Int, Int, Int> {
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
     return Triple(year, month, day)
-
 
 }
 

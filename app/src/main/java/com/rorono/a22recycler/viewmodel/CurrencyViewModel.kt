@@ -18,8 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class CurrencyViewModel(private val repository: Repository, private val dataBase: CurrencyDao) :
+class CurrencyViewModel @Inject constructor(private val repository: Repository, private val dataBase: CurrencyDao) :
     ViewModel() {
     private val _listCurrency: MutableLiveData<List<Currency>> = MutableLiveData()
     val listCurrency: LiveData<List<Currency>>

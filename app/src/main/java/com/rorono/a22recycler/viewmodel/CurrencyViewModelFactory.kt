@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
+import javax.inject.Inject
 
-class MainViewModelFactory(private val repository: Repository, private val dataBase: CurrencyDao) :
+class MainViewModelFactory @Inject constructor(private val repository: Repository, private val dataBase: CurrencyDao) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return CurrencyViewModel(repository, dataBase) as T

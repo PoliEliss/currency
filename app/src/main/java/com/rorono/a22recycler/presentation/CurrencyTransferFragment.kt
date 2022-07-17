@@ -1,5 +1,6 @@
 package com.rorono.a22recycler.presentation
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,26 +9,43 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.BaseViewBindingFragment
+import com.rorono.a22recycler.MainViewModelFactory
+import com.rorono.a22recycler.MyApplication
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import com.rorono.a22recycler.R
+import com.rorono.a22recycler.database.CurrencyDao
+import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
+import com.rorono.a22recycler.network.RetrofitInstance
+import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.utils.Rounding
 import java.lang.Exception
+import javax.inject.Inject
 
 
 class CurrencyTransferFragment :
     BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate) {
 
+    //Uri()
+    @Inject
+    lateinit var factory: MainViewModelFactory
+
+    lateinit var viewModel: CurrencyViewModel
     private val args: CurrencyTransferFragmentArgs by navArgs()
-    private val viewModel by activityViewModels<CurrencyViewModel>() //исправить
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as MyApplication).appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         val currency = args.currency
         val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
 
