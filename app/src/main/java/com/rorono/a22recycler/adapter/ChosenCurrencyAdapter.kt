@@ -20,20 +20,28 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 
-class ChosenCurrencyAdapter(private val onItemClickChosenCurrency: OnItemClickChosenCurrency) :
+class ChosenCurrencyAdapter() :
     RecyclerView.Adapter<ChosenCurrencyAdapter.ChosenCurrencyHolder>() {
 
-     var oldList = emptyList<Currency>()
+
+   lateinit var onItemClickChosenCurrency: OnItemClickChosenCurrency
+
+    fun setOnListener(listener: OnItemClickChosenCurrency) {
+        onItemClickChosenCurrency = listener
+    }
+
+    var oldList = emptyList<Currency>()
 
     inner class ChosenCurrencyHolder(binding: ChosenCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val tvNameRate = binding.textViewNameRate
         private val ivDelete = binding.ivDelete
 
+
         fun bind(currency: Currency) {
 
             itemView.setOnClickListener {
-                onItemClickChosenCurrency.onItemClick(currency = currency)
+                onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
             ivDelete.setOnClickListener {
                 onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency)

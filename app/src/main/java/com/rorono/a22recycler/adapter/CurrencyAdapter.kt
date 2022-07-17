@@ -56,6 +56,7 @@ class CurrencyAdapter(private var onItemClickListener: OnItemClickListener) :
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
                 textViewExchangeRate.text = it
             }
+            //onTouchLongListener
         }
     }
 
