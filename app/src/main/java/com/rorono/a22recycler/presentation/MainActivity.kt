@@ -1,12 +1,7 @@
 package com.rorono.a22recycler.presentation
 
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.os.Build
+
 import android.os.Bundle
-import android.os.LocaleList
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -25,8 +20,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    lateinit var viewModel: CurrencyViewModel
-    lateinit var dataBase: CurrencyDataBase
+
+
     
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,11 +38,7 @@ class MainActivity : AppCompatActivity() {
           }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val repository = Repository(retrofit = RetrofitInstance) //убрать  в Dagger
-         dataBase = CurrencyDataBase.getInstance(context = this)
-        val dataBaseDao = dataBase.currencyDao()
-        val viewModelFactory = MainViewModelFactory(repository, dataBase = dataBaseDao)
-        viewModel = ViewModelProvider(this, viewModelFactory)[CurrencyViewModel::class.java]
+
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
