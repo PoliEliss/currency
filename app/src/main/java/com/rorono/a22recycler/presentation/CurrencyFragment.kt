@@ -43,7 +43,7 @@ class CurrencyFragment :
         super.onViewCreated(view, savedInstanceState)
 
         adapter.setOnListener(object : OnItemClickListener {
-            override fun onItemClick(currency: Currency) {
+            override fun onItemClick(currency: Currency,position:Int) {
                 if (Settings.loadLanguage(requireContext()) == 2) {
                     val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
                     currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
@@ -54,6 +54,8 @@ class CurrencyFragment :
                     )
                 findNavController().navigate(action)
             }
+
+
         })
 
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
