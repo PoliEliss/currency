@@ -143,6 +143,7 @@ class SavedCurrencyFragment :
                         }
                         adapter.submitList(listCurrency)
                         adapter.notifyItemChanged(position)
+                        adapterChosenCurrency.setData(listFavoriteCurrency)
                     }
                     viewModel.setSaveCurrencyDao(listFavoriteCurrency)
                     viewModel.getSaveCurrencyDao()
@@ -178,6 +179,7 @@ class SavedCurrencyFragment :
                 ): Boolean {
                     val position = viewHolder.bindingAdapterPosition //start position
                     val toPosition = target.bindingAdapterPosition // end position
+
                     Collections.swap(
                         adapterChosenCurrency.oldList,
                         position,

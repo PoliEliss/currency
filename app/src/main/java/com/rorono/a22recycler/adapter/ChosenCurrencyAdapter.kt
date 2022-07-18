@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.databinding.ChosenCurrencyItemBinding
+import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.utils.Rounding
 
 
 class ChosenCurrencyAdapter() :
@@ -21,10 +23,10 @@ class ChosenCurrencyAdapter() :
 
     var oldList = emptyList<Currency>()
 
-    inner class ChosenCurrencyHolder(binding: ChosenCurrencyItemBinding) :
+    inner class ChosenCurrencyHolder(binding: CurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val tvNameRate = binding.textViewNameRate
-        private val ivDelete = binding.ivDelete
+        private val tvExchangeRate = binding.textViewExchangeRate
 
 
         fun bind(currency: Currency) {
@@ -33,19 +35,22 @@ class ChosenCurrencyAdapter() :
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
 
-            itemView.setOnLongClickListener(object :View.OnLongClickListener{
+           /* itemView.setOnLongClickListener(object :View.OnLongClickListener{
                 override fun onLongClick(v: View?): Boolean {
                     onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency, position = layoutPosition)
                     return true
                 }
-            })
+            })*/
             tvNameRate.text = currency.charCode
+            (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
+                tvExchangeRate.text = it
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChosenCurrencyHolder {
         val binding =
-            ChosenCurrencyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+           CurrencyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ChosenCurrencyHolder(binding)
     }
 
