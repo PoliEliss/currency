@@ -79,6 +79,7 @@ class SavedCurrencyFragment :
                 }
                 viewModel.deleteSaveCurrency(currency)
                 listSaveCurrency.remove(currency)
+
                 adapterChosenCurrency.setData(listSaveCurrency)
                 adapterChosenCurrency.notifyItemRemoved(position)
                 viewModel.getSaveCurrencyDao()
@@ -159,6 +160,7 @@ class SavedCurrencyFragment :
                     viewModel.deleteSaveCurrency(currency)
                     listFavoriteCurrency.remove(currency)
                     adapterChosenCurrency.setData(listFavoriteCurrency)
+                    adapterChosenCurrency.notifyItemChanged(position)
                     viewModel.getSaveCurrencyDao()
                 }
             }
@@ -192,6 +194,8 @@ class SavedCurrencyFragment :
     }
 
     fun changAdapter(change: Int) {
+        (binding.recyclerViewChosenCurrency.itemAnimator as SimpleItemAnimator).supportsChangeAnimations=false
+
         if (change == 1) {
             binding.apply {
                 recyclerViewChosenCurrency.layoutManager = LinearLayoutManager(requireContext())
