@@ -1,6 +1,7 @@
 package com.rorono.a22recycler.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -31,9 +32,13 @@ class ChosenCurrencyAdapter() :
             itemView.setOnClickListener {
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
-            ivDelete.setOnClickListener {
-                onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency, position = layoutPosition)
-            }
+
+            itemView.setOnLongClickListener(object :View.OnLongClickListener{
+                override fun onLongClick(v: View?): Boolean {
+                    onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency, position = layoutPosition)
+                    return true
+                }
+            })
             tvNameRate.text = currency.charCode
         }
     }

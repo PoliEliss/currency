@@ -76,6 +76,7 @@ class SavedCurrencyFragment :
                     }
                     adapter.submitList(listCurrency)
                     adapter.notifyItemChanged(position)
+                    adapter.notifyDataSetChanged()
                 }
                 viewModel.deleteSaveCurrency(currency)
                 listSaveCurrency.remove(currency)
