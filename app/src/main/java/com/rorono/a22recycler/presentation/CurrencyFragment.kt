@@ -1,18 +1,13 @@
 package com.rorono.a22recycler.presentation
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.text.set
-import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,29 +17,19 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickListener
-import com.rorono.a22recycler.database.CurrencyDao
-import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.Currency
-import com.rorono.a22recycler.network.ApiService
-import com.rorono.a22recycler.network.RetrofitInstance
-import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.settings.Settings
 import com.rorono.a22recycler.utils.FullNameCurrency
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
-import okhttp3.internal.format
 import java.util.*
 import javax.inject.Inject
-
 
 class CurrencyFragment :
     BaseViewBindingFragment<FragmentCurrencyBinding>(FragmentCurrencyBinding::inflate) {
 
-
     @Inject
     lateinit var factory: MainViewModelFactory
-
-
     private lateinit var viewModel: CurrencyViewModel
 
     override fun onAttach(context: Context) {
@@ -52,23 +37,24 @@ class CurrencyFragment :
         super.onAttach(context)
     }
 
-    private var adapter = CurrencyAdapter(object : OnItemClickListener {
-        override fun onItemClick(currency: Currency) {
-            if (Settings.loadLanguage(requireContext()) == 2) {
-                val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
-                currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
-            }
-            val action =
-                CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
-                    currency
-                )
-            findNavController().navigate(action)
-        }
-
-    })
+    private var adapter = CurrencyAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter.setOnListener(object : OnItemClickListener {
+            override fun onItemClick(currency: Currency) {
+                if (Settings.loadLanguage(requireContext()) == 2) {
+                    val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
+                    currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
+                }
+                val action =
+                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
+                        currency
+                    )
+                findNavController().navigate(action)
+            }
+        })
 
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         val date: EditText = binding.etDate
@@ -161,7 +147,6 @@ class CurrencyFragment :
                 return false
             }
 
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 val n = mutableListOf<Currency>()
                 binding.search.clearFocus()
@@ -186,7 +171,6 @@ class CurrencyFragment :
         super.onResume()
         getData(NetManager(context = requireContext()).isOnline(), viewModel.getDate())
     }
-
 
     private fun createAnimationOpenSearch() {
         val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -400f)

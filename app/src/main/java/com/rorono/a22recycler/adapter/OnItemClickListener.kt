@@ -4,5 +4,5 @@ import com.rorono.a22recycler.models.Currency
 
 interface OnItemClickListener {
 
-    fun onItemClick(currency:Currency)
+    fun onItemClick(currency:Currency,position:Int)
 }

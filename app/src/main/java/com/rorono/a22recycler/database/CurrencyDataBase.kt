@@ -29,16 +29,11 @@ abstract class CurrencyDataBase : RoomDatabase() {
             } else database as CurrencyDataBase
         }
 
-        private val migration2_3 = object: Migration(2,3){
+        private val migration2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE save_currency ADD COLUMN favorite INTEGER DEFAULT 0 NOT NULL")
             }
 
         }
-      /*  private val migration3_4 = object :Migration(3,4){
-            override fun migrate(database: SupportSQLiteDatabase) {
-              database.execSQL("ALTER TABLE save_currency ***DROP*** COLUMN password")
-            }*/
-
-        }
     }
+}

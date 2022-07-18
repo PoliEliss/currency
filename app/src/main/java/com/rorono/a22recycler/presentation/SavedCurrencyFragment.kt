@@ -17,6 +17,7 @@ import com.rorono.a22recycler.MyApplication
 import com.rorono.a22recycler.adapter.ChosenCurrencyAdapter
 import com.rorono.a22recycler.adapter.CurrenciesSaveAdapter
 import com.rorono.a22recycler.adapter.OnItemClickChosenCurrency
+import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.database.SaveCurrencyItem
@@ -37,11 +38,9 @@ class SavedCurrencyFragment :
     @Inject
     lateinit var factory: MainViewModelFactory
     lateinit var viewModel: CurrencyViewModel
-
     private val adapter = CurrenciesSaveAdapter()
     private var behavior: BottomSheetBehavior<*>? = null
     private val adapterChosenCurrency = ChosenCurrencyAdapter()
-
 
 
     override fun onAttach(context: Context) {
@@ -52,7 +51,7 @@ class SavedCurrencyFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapterChosenCurrency.setOnListener(object :OnItemClickChosenCurrency{
+        adapterChosenCurrency.setOnListener(object : OnItemClickChosenCurrency {
             override fun onItemClick(currency: Currency, position: Int) {
                 val action =
                     SavedCurrencyFragmentDirections.actionSavedCurrencyFragmentToCurrencyTransferFragment(
@@ -60,12 +59,12 @@ class SavedCurrencyFragment :
                     )
                 findNavController().navigate(action)
             }
+
             override fun onItemClickDeleteFavoriteCurrency(currency: Currency) {
                 viewModel.deleteSaveCurrency(currency)
                 viewModel.getCurrencyDao()
                 viewModel.getSaveCurrencyDao()
             }
-
         })
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         behavior = BottomSheetBehavior.from(binding.include.bottomSheet)
@@ -89,8 +88,6 @@ class SavedCurrencyFragment :
         }
         binding.include.recyclerViewSaveCurrency.adapter = adapter
 
-
-
         viewModel.getCurrencyDao()
         viewModel.getSaveCurrencyDao()
 
@@ -109,87 +106,70 @@ class SavedCurrencyFragment :
             adapter.setData(listCurrency)
         }
 
-        adapter.onItemClick = {
-            val listFavoriteCurrency = mutableListOf<Currency>()
-            listFavoriteCurrency.add(it)
-            if (it.isFavorite == 0) {
-                Toast.makeText(requireContext(), "ADD", Toast.LENGTH_LONG).show()
-                val listCurrency = mutableListOf<Currency>()
-                for (i in viewModel.currencyDatabase.value!!) {
-                    listCurrency.add(i)
-                    if (i.fullName == it.fullName) {
-                        listCurrency.remove(i)
-                        i.isFavorite = 1
+        adapter.setFavoriteListener(object : OnItemClickListener {
+            override fun onItemClick(currency: Currency,position:Int) {
+                val listFavoriteCurrency = mutableListOf<Currency>()
+                listFavoriteCurrency.add(currency)
+                if (currency.isFavorite == 0) {
+                    Toast.makeText(requireContext(), "ADD", Toast.LENGTH_LONG).show()
+                    val listCurrency = mutableListOf<Currency>()
+                    for (i in viewModel.currencyDatabase.value!!) {
                         listCurrency.add(i)
+                        if (i.fullName == currency.fullName) {
+                            listCurrency.remove(i)
+                            i.isFavorite = 1
+                            listCurrency.add(i)
+                        }
+                        viewModel.setSaveCurrencyDao(listFavoriteCurrency)
+                        adapter.setData(listCurrency)
                     }
-                    adapter.setData(listCurrency)
-                    //adapter.notifyItemInserted()
-                }
-                viewModel.setSaveCurrencyDao(listFavoriteCurrency)
-                viewModel.getSaveCurrencyDao()
-                adapterChosenCurrency.setData(listFavoriteCurrency)
-
-            } else {
-                Toast.makeText(requireContext(), "DELETE", Toast.LENGTH_LONG).show()
-                val listCurrency = mutableListOf<Currency>()
-                for (i in viewModel.currencyDatabase.value!!) {
-                    listCurrency.add(i)
-                    if (i.fullName == it.fullName) {
-                        listCurrency.remove(i)
-                        i.isFavorite = 0
+                } else {
+                    Toast.makeText(requireContext(), "DELETE", Toast.LENGTH_LONG).show()
+                    val listCurrency = mutableListOf<Currency>()
+                    for (i in viewModel.currencyDatabase.value!!) {
                         listCurrency.add(i)
+                        if (i.fullName == currency.fullName) {
+                            listCurrency.remove(i)
+                            i.isFavorite = 0
+                            listCurrency.add(i)
+                        }
+                        adapter.setData(listCurrency)
                     }
-                    adapter.setData(listCurrency)
+                    viewModel.deleteSaveCurrency(currency)
+                    listFavoriteCurrency.remove(currency)
+                    adapterChosenCurrency.setData(listFavoriteCurrency)
+                    viewModel.getSaveCurrencyDao()
+
                 }
-                viewModel.deleteSaveCurrency(it)
-                listFavoriteCurrency.remove(it)
-                adapterChosenCurrency.setData(listFavoriteCurrency)
-                viewModel.getSaveCurrencyDao()
-            }
-
-        }
-        mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
-    }
-
-    val mIth = ItemTouchHelper(
-        object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.UP
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: ViewHolder, target: ViewHolder
-            ): Boolean {
-                val position = viewHolder.bindingAdapterPosition //start position
-                val toPosition = target.bindingAdapterPosition // end position
-                Collections.swap(
-                    adapterChosenCurrency.oldList,
-                    position,
-                    toPosition
-                )
-                adapterChosenCurrency.notifyItemMoved(position, toPosition)
-                return true
-            }
-
-            override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-                /* val position = viewHolder.bindingAdapterPosition
-                 val currency =
-                     adapterChosenCurrency.chosenCurrencyList.removeAt(position) //Это уже работать не будет
-                 adapterChosenCurrency.notifyItemRemoved(position)
-                 Log.d("TEST", "currency!!! ${currency}")
-                 val saveCurrency = SaveCurrencyItem(
-                     fullName = currency.fullName,
-                     charCode = currency.charCode,
-                     value = currency.value
-                 )
-                 Log.d("TEST", "saveCurrency ${saveCurrency}")
-                 //viewModel.deleteSaveCurrency(saveCurrency) // вот только он не удаляет, во ViewModel я попадаю
-                 // одной валюты из бд но опять же тут по позиции идет удаление а у меня по id
-                 // должно быть*/
-
             }
         })
 
+        val mIth = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                ItemTouchHelper.UP
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: ViewHolder, target: ViewHolder
+                ): Boolean {
+                    val position = viewHolder.bindingAdapterPosition //start position
+                    val toPosition = target.bindingAdapterPosition // end position
+                    Collections.swap(
+                        adapterChosenCurrency.oldList,
+                        position,
+                        toPosition
+                    )
+                    adapterChosenCurrency.notifyItemMoved(position, toPosition)
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                }
+            })
+
+        mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
+    }
 
     fun changAdapter(change: Int) {
         if (change == 1) {
@@ -206,6 +186,9 @@ class SavedCurrencyFragment :
         }
     }
 }
+
+
+
 
 
 

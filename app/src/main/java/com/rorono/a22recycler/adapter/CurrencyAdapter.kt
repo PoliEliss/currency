@@ -1,62 +1,47 @@
 package com.rorono.a22recycler.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.utils.Rounding
 
-class CurrencyAdapter(private var onItemClickListener: OnItemClickListener) :
+class CurrencyAdapter() :
     ListAdapter<Currency, CurrencyAdapter.CurrencyHolder>(
         DiffUtil()
     ) {
+
+    lateinit var onItemClickListener: OnItemClickListener
+
+    fun setOnListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
+
     class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Currency>() {
         override fun areItemsTheSame(oldItem: Currency, newItem: Currency): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency): Boolean {
-            return when {
-                oldItem.fullName != newItem.fullName -> {
-                    return false
-                }
-                oldItem.isFavorite != newItem.isFavorite -> {
-                    return false
-                }
-                oldItem.charCode != newItem.charCode -> {
-                    return false
-                }
-                oldItem.value != newItem.value -> {
-                    return false
-                }
-                else -> true
-            }
-        }
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency): Boolean =
+            oldItem.hashCode() == newItem.hashCode()
     }
-
 
     inner class CurrencyHolder(binding: CurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val textViewNameRate = binding.textViewNameRate
         private val textViewExchangeRate = binding.textViewExchangeRate
 
-
         fun bind(currency: Currency) {
-
             itemView.setOnClickListener {
-                onItemClickListener.onItemClick(currency = currency)
+                onItemClickListener.onItemClick(currency = currency, position = layoutPosition)
             }
             textViewNameRate.text = currency.charCode
 
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
                 textViewExchangeRate.text = it
             }
-            //onTouchLongListener
         }
     }
 
@@ -69,5 +54,4 @@ class CurrencyAdapter(private var onItemClickListener: OnItemClickListener) :
     override fun onBindViewHolder(holder: CurrencyHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }
