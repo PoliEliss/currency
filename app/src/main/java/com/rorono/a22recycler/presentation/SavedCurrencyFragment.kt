@@ -60,9 +60,27 @@ class SavedCurrencyFragment :
                 findNavController().navigate(action)
             }
 
-            override fun onItemClickDeleteFavoriteCurrency(currency: Currency) {
+            override fun onItemClickDeleteFavoriteCurrency(currency: Currency,position:Int) {
+
+                val listSaveCurrency = mutableListOf<Currency>()
+                for (i in viewModel.saveCurrencyDatabase.value!!){
+                    listSaveCurrency.add(i)
+                }
+                val listCurrency = mutableListOf<Currency>()
+                for (i in viewModel.currencyDatabase.value!!) {
+                    listCurrency.add(i)
+                    if (i.fullName == currency.fullName) {
+                        listCurrency.remove(i)
+                        i.isFavorite = 0
+                        listCurrency.add(i)
+                    }
+                    adapter.submitList(listCurrency)
+                    adapter.notifyItemChanged(position)
+                }
                 viewModel.deleteSaveCurrency(currency)
-                viewModel.getCurrencyDao()
+                listSaveCurrency.remove(currency)
+                adapterChosenCurrency.setData(listSaveCurrency)
+                adapterChosenCurrency.notifyItemRemoved(position)
                 viewModel.getSaveCurrencyDao()
             }
         })
@@ -99,11 +117,12 @@ class SavedCurrencyFragment :
                             i.isFavorite = 1
                         }
                     }
-                    adapter.setData(listCurrency)
+                    adapter.submitList(listCurrency)
                     adapterChosenCurrency.setData(listDataBase)
+
                 }
             }
-            adapter.setData(listCurrency)
+            adapter.submitList(listCurrency)
         }
 
         adapter.setFavoriteListener(object : OnItemClickListener {
@@ -120,11 +139,12 @@ class SavedCurrencyFragment :
                             i.isFavorite = 1
                             listCurrency.add(i)
                         }
-                        viewModel.setSaveCurrencyDao(listFavoriteCurrency)
-                        adapter.setData(listCurrency)
+                        adapter.submitList(listCurrency)
+                        adapter.notifyItemChanged(position)
                     }
+                    viewModel.setSaveCurrencyDao(listFavoriteCurrency)
+                    viewModel.getSaveCurrencyDao()
                 } else {
-                    Toast.makeText(requireContext(), "DELETE", Toast.LENGTH_LONG).show()
                     val listCurrency = mutableListOf<Currency>()
                     for (i in viewModel.currencyDatabase.value!!) {
                         listCurrency.add(i)
@@ -133,13 +153,13 @@ class SavedCurrencyFragment :
                             i.isFavorite = 0
                             listCurrency.add(i)
                         }
-                        adapter.setData(listCurrency)
+                        adapter.submitList(listCurrency)
+                        adapter.notifyItemChanged(position)
                     }
                     viewModel.deleteSaveCurrency(currency)
                     listFavoriteCurrency.remove(currency)
                     adapterChosenCurrency.setData(listFavoriteCurrency)
                     viewModel.getSaveCurrencyDao()
-
                 }
             }
         })

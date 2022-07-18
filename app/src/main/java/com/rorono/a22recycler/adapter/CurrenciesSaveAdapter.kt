@@ -4,6 +4,7 @@ package com.rorono.a22recycler.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 
 
 import androidx.recyclerview.widget.RecyclerView
@@ -14,14 +15,24 @@ import com.rorono.a22recycler.models.Currency
 
 
 class CurrenciesSaveAdapter :
-    RecyclerView.Adapter<CurrenciesSaveAdapter.CurrencySaveHolder>() {
+    ListAdapter<Currency,CurrenciesSaveAdapter.CurrencySaveHolder>(DIFF_CALLBACK) {
+
     lateinit var onItemClickSaveCurrency: OnItemClickListener
-    private var oldList = emptyList<Currency>()
+
 
     fun setFavoriteListener(listener: OnItemClickListener){
         onItemClickSaveCurrency = listener
     }
 
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Currency>() {
+            override fun areItemsTheSame(oldItem: Currency, newItem: Currency) =
+                oldItem.isFavorite == newItem.isFavorite
+
+            override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
+                oldItem.hashCode() == newItem.hashCode()
+        }
+    }
     inner class CurrencySaveHolder(binding: SaveCurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val tvNameRate = binding.textViewNameRate
@@ -47,17 +58,7 @@ class CurrenciesSaveAdapter :
     }
 
     override fun onBindViewHolder(holder: CurrencySaveHolder, position: Int) {
-        holder.bind(oldList[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return oldList.size
-    }
-
-    fun setData(newList: List<Currency>) {
-        val diffUtil = MyDiffUtil(oldList, newList)
-        val diffResult = DiffUtil.calculateDiff(diffUtil)
-        oldList = newList
-        diffResult.dispatchUpdatesTo(this)
-    }
 }

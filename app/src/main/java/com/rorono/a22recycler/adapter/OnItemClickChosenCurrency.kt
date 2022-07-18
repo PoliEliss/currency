@@ -6,5 +6,5 @@ interface OnItemClickChosenCurrency {
 
     fun onItemClick(currency: Currency,position:Int)
 
-    fun onItemClickDeleteFavoriteCurrency(currency: Currency)
+    fun onItemClickDeleteFavoriteCurrency(currency: Currency,position: Int)
 }

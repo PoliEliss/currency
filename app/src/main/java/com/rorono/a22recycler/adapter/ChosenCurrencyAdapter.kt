@@ -32,7 +32,7 @@ class ChosenCurrencyAdapter() :
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
             ivDelete.setOnClickListener {
-                onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency)
+                onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency, position = layoutPosition)
             }
             tvNameRate.text = currency.charCode
         }
