@@ -13,14 +13,18 @@
         <!-- Status bar color. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+
         <!-- Customize your theme here. -->
+
         <item name="colorControlActivated">@color/blu</item>
         <item name="android:textColor">@color/blu</item>
+        <item name="android:tint">@color/blu</item>
         <item name="android:windowBackground">@color/white</item>
+
 
     </style>
 
-    <style name="SplaschScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="SplaschScreen" parent="Theme.22recycler">
 
         <item name="android:windowBackground">@drawable/splash_logo</item>
         <item name="android:statusBarColor">@color/blu</item>
@@ -36,6 +40,7 @@
         <item name="android:textColorSecondary">@color/black</item>
         <item name="android:textStyle">italic</item>
         <item name="android:tint">@color/black</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <item name="colorSecondary">@color/black</item>
 

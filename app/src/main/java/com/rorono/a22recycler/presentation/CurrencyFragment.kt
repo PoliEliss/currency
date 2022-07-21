@@ -42,12 +42,13 @@ class CurrencyFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         adapter.setOnListener(object : OnItemClickListener {
             override fun onItemClick(currency: Currency,position:Int) {
-                if (Settings.loadLanguage(requireContext()) == 2) {
+             /*  if (Settings.loadLanguage(requireContext()) == 2) {
                     val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
                     currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
-                }
+                }*/
                 val action =
                     CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
                         currency
@@ -175,8 +176,7 @@ class CurrencyFragment :
     }
 
     private fun createAnimationOpenSearch() {
-        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -400f)
-        objectAnimator.duration = 2000
+        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "alpha", 0f,1f).setDuration(2000)
         objectAnimator.start()
         objectAnimator.repeatCount
         binding.tvTitleToolbar.visibility = View.GONE

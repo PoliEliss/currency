@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,12 +15,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.rorono.a22recycler.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
+import com.rorono.a22recycler.R
 import com.rorono.a22recycler.adapter.ChosenCurrencyAdapter
 import com.rorono.a22recycler.adapter.CurrenciesSaveAdapter
 import com.rorono.a22recycler.adapter.OnItemClickChosenCurrency
 import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.database.CurrencyDataBase
+import com.rorono.a22recycler.database.CurrencyItem
 import com.rorono.a22recycler.database.SaveCurrencyItem
 import com.rorono.a22recycler.databinding.FragmentSavedCurrencyBinding
 import com.rorono.a22recycler.models.Currency
@@ -202,12 +205,14 @@ class SavedCurrencyFragment :
         if (change == 1) {
             binding.apply {
                 recyclerViewChosenCurrency.layoutManager = LinearLayoutManager(requireContext())
+
                 recyclerViewChosenCurrency.adapter = adapterChosenCurrency
             }
         } else {
             binding.apply {
                 recyclerViewChosenCurrency.layoutManager =
                     GridLayoutManager(requireView().context, 3)
+
                 recyclerViewChosenCurrency.adapter = adapterChosenCurrency
             }
         }
