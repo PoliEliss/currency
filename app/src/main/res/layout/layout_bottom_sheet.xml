@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:id="@+id/bottom_sheet"
     android:background="@android:color/white"
     android:padding="10dp"
+    android:orientation="vertical"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
@@ -16,23 +17,118 @@
         android:id="@+id/control_background"
         android:layout_width="40dp"
         android:layout_height="8dp"
-        android:layout_gravity="center"
         android:background="@drawable/control_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+       android:layout_gravity="center" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSaveCurrency"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarCurrencyTransferFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/ada"
+        app:titleMarginStart="@dimen/toolbar_title_margin_start_fragmnet_transfer" >
+
+        <ImageView
+            android:id="@+id/ivChoseCurrency"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="200dp"
+            android:src="@drawable/ic_favorite_border"/>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tvFullNameCurrency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+        android:layout_marginTop="@dimen/text_view_margin_top_name_currency"
+        android:textColor="@color/black_currency"
+        android:textSize="@dimen/text_size_text_view_name_currency"
+        tools:text="Австралийский доллар" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+        android:layout_marginTop="@dimen/text_view_margin_top_fragment_currency_transfer"
+        android:text="@string/rate"
+        android:textColor="@color/hint_currency"
+        android:textSize="@dimen/size_text_view_rate" />
+
+    <TextView
+        android:id="@+id/tvRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+        android:layout_marginTop="@dimen/text_view_fragment_currency_transfer"
+        android:layout_marginBottom="@dimen/margin_bottonechangerate"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/_59_22p"
+        android:textColor="@color/black_currency"
+        android:textSize="@dimen/text_size_exchange_rate_transfer_fragmnet"
+        android:textStyle="bold" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="3"
-        android:splitMotionEvents="false"
-        tools:listitem="@layout/currency_item"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/control_background"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:background="@drawable/layout_bg"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutCurrencyConvertor"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+            android:layout_marginTop="@dimen/margin_bottonechangerate"
+            android:layout_marginEnd="@dimen/text_input_layout_margin_end"
+            app:boxStrokeColor="@color/blu"
+            app:expandedHintEnabled="false"
+            app:hintTextColor="@color/blu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:hint="AUD">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCurrencyConvertor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/_0"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutTransferRubles"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
+            android:layout_marginTop="@dimen/text_input_layout_margin_top"
+            android:layout_marginEnd="@dimen/text_input_layout_margin_end"
+            android:hint="@string/rub"
+            app:boxStrokeColor="@color/blu"
+            app:expandedHintEnabled="false"
+            app:hintTextColor="@color/blu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTransferRubles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/_0"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
