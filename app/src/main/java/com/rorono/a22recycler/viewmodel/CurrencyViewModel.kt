@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 class CurrencyViewModel @Inject constructor(private val repository: Repository, private val dataBase: CurrencyDao) :
     ViewModel() {
-    val _listCurrency: MutableLiveData<List<Currency>> = MutableLiveData()
+    private val _listCurrency: MutableLiveData<List<Currency>> = MutableLiveData()
     val listCurrency: LiveData<List<Currency>>
         get() = _listCurrency
 
@@ -61,8 +61,7 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
         }
     }
 
-     fun setCurrencyDao(currency: List<Currency>,date: String) {
-        Log.d("TEST","setCurrencyDao ${currency}")
+     private fun setCurrencyDao(currency: List<Currency>, date: String) {
         if ( currency.isNotEmpty() && date==getDate()) {
             var model: CurrencyItem
             viewModelScope.launch {
@@ -87,7 +86,6 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
     }
 
     fun deleteAllSaveCurrency() {
-        Log.d("TEST","Delete ALL CURRENCY")
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 dataBase.deleteAllSaveCurrency()
@@ -97,7 +95,6 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
 
     fun deleteSaveCurrency(currency: Currency){
         viewModelScope.launch {
-            Log.d("TEST3","${currency}")
             var model: SaveCurrencyItem
             withContext(Dispatchers.IO){
                 model = SaveCurrencyItem(
@@ -106,20 +103,15 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
                     value = currency.value,
                     favorite = 0
                 )
-                Log.d("TEST3","vieModelDeleteCurrency ${model}")
                 dataBase.deleteSaveCurrency(model)
-                Log.d("TEST3","Посмотреть данные по удалению валюты ${dataBase.getAllSaveCurrency()}")
             }
         }
         getSaveCurrencyDao()
     }
     fun setSaveCurrencyDao(currency: List<Currency>) {
-        Log.d("TEST3","listCurrency11 ${currency}")
-
         viewModelScope.launch {
             var model: SaveCurrencyItem
             withContext(Dispatchers.IO) {
-
                 for (q in currency) {
                     model =
                         SaveCurrencyItem(
@@ -129,11 +121,9 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
                             favorite = 1
                         )
                     dataBase.insertSaveCurrency(model)
-                    Log.d("TEST3", "SaveCurrencyModel ${model}")
                 }
             }
         }
-
     }
 
     fun getSaveCurrencyDao() {
@@ -143,17 +133,13 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
             var currency: Currency
             val saveCurrencyItem: List<SaveCurrencyItem> =
                 withContext(Dispatchers.IO) { dataBase.getAllSaveCurrency() }
-            Log.d("TEST15", "getSaveCurrencyDao ${saveCurrencyItem}")
             if (saveCurrencyItem.isEmpty()){
-                Log.d("TEST15","ПУСТО!!!")
                 saveCurrencyDatabase.value = emptyList()
             }
             for (i in saveCurrencyItem) {
-                Log.d("TEST15","ВАЖНЫЙ ТЕСТ ${i}")
                 currency =
                     Currency(fullName = i.fullName, charCode = i.charCode, value = i.value, isFavorite = 1)
                 currencySaveListDatabase.add(currency)
-                Log.d("TEST15","  currencySaveListDatabase ${currencySaveListDatabase}")
                 saveCurrencyDatabase.value = currencySaveListDatabase
             }
         }

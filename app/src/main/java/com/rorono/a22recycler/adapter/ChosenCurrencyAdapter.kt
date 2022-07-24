@@ -14,13 +14,11 @@ import com.rorono.a22recycler.utils.Rounding
 class ChosenCurrencyAdapter() :
     RecyclerView.Adapter<ChosenCurrencyAdapter.ChosenCurrencyHolder>() {
 
-
    lateinit var onItemClickChosenCurrency: OnItemClickChosenCurrency
 
     fun setOnListener(listener: OnItemClickChosenCurrency) {
         onItemClickChosenCurrency = listener
     }
-
     var oldList = emptyList<Currency>()
 
     inner class ChosenCurrencyHolder(binding: CurrencyItemBinding) :
@@ -28,13 +26,10 @@ class ChosenCurrencyAdapter() :
         private val tvNameRate = binding.textViewNameRate
         private val tvExchangeRate = binding.textViewExchangeRate
 
-
         fun bind(currency: Currency) {
-
             itemView.setOnClickListener {
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
-
             itemView.setOnLongClickListener {
                 onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(
                     currency = currency,
@@ -68,6 +63,5 @@ class ChosenCurrencyAdapter() :
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList
         diffResult.dispatchUpdatesTo(this)
-
     }
 }

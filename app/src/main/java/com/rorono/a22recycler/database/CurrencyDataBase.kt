@@ -33,7 +33,6 @@ abstract class CurrencyDataBase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE save_currency ADD COLUMN favorite INTEGER DEFAULT 0 NOT NULL")
             }
-
         }
     }
 }

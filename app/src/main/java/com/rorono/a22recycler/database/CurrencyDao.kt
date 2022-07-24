@@ -16,7 +16,6 @@ interface CurrencyDao {
     @Query("DELETE FROM currency")
     suspend fun deleteAllCurrency()
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSaveCurrency(currencyItem: SaveCurrencyItem)
 

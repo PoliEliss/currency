@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "save_currency")
 data class SaveCurrencyItem(
-
     @PrimaryKey
     val fullName: String,
     @ColumnInfo(name = "char_code")

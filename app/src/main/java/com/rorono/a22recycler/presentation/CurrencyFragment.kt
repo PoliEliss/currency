@@ -44,17 +44,14 @@ class CurrencyFragment :
         super.onAttach(context)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         val date: EditText = binding.etDate
         date.hint = viewModel.getDate()
         viewModel.getCurrencyDao()
         viewModel.getSaveCurrencyDao()
-
 
         behavior = BottomSheetBehavior.from(binding.include.bottomSheet)
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -65,8 +62,6 @@ class CurrencyFragment :
             viewModel.getCurrency(it)
             date.hint = it
         }
-
-
 
         val (year, month, day) = createCalendar()
         binding.ivCalendar.setOnClickListener {
@@ -102,12 +97,9 @@ class CurrencyFragment :
             recyclerView.adapter = adapter
         }
 
-
         viewModel.messageError.observe(viewLifecycleOwner) { error ->
             getToastError(error)
         }
-
-        viewModel.getSaveCurrencyDao()
 
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
             if (!viewModel.saveCurrencyDatabase.value.isNullOrEmpty()) {
@@ -134,18 +126,14 @@ class CurrencyFragment :
                     listFavorite.addAll(list)
                 }
 
-                val res = if (listFavorite.filter { it -> it.fullName == currency.fullName }
+                val res = if (listFavorite.filter { it.fullName == currency.fullName }
                         .isNotEmpty()) R.drawable.ic_favorite else R.drawable.ic_favorite_border
                 binding.include.ivChoseCurrency.setImageResource(res)
 
                 binding.include.ivChoseCurrency.setOnClickListener {
-                    Toast.makeText(requireContext(), "${currency.isFavorite}", Toast.LENGTH_SHORT)
-                        .show()
-
                     val searchCurrency =
                         listFavorite.filter { cur -> cur.fullName == currency.fullName }
                             .isNotEmpty()
-
                     if (!searchCurrency) {
                         listFavorite.add(currency)
                         viewModel.setSaveCurrencyDao(listFavorite)
@@ -158,13 +146,6 @@ class CurrencyFragment :
                 }
             }
         })
-
-
-
-
-
-
-
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
             val textAttention =
                 getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
@@ -336,7 +317,6 @@ private fun createCalendar(): Triple<Int, Int, Int> {
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
     return Triple(year, month, day)
-
 }
 
 

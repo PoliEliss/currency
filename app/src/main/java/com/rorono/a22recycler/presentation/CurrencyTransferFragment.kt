@@ -30,7 +30,6 @@ import javax.inject.Inject
 class CurrencyTransferFragment :
     BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate) {
 
-    //Uri()
     @Inject
     lateinit var factory: MainViewModelFactory
 
@@ -105,7 +104,6 @@ class CurrencyTransferFragment :
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
             } else if (binding.etTransferRubles.text.isNullOrBlank()) {
                 binding.etCurrencyConvertor.text?.clear()
             }
