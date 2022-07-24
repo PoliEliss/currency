@@ -117,15 +117,16 @@ class CurrencyFragment :
         }
         adapter.setOnListener(object : OnItemClickListener {
             override fun onItemClick(currency: Currency, position: Int) {
+
                 initializationBottomSheetBehavior(currency = currency)
                 val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
                 getCurrencyConvertorInRubles(roundedCurrency)
                 getTransferRubles(roundedCurrency)
                 val listFavorite = mutableListOf<Currency>()
+
                 viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list ->
                     listFavorite.addAll(list)
                 }
-
                 val res = if (listFavorite.filter { it.fullName == currency.fullName }
                         .isNotEmpty()) R.drawable.ic_favorite else R.drawable.ic_favorite_border
                 binding.include.ivChoseCurrency.setImageResource(res)
@@ -144,8 +145,10 @@ class CurrencyFragment :
                         binding.include.ivChoseCurrency.setImageResource(R.drawable.ic_favorite_border)
                     }
                 }
+
             }
         })
+
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
             val textAttention =
                 getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
