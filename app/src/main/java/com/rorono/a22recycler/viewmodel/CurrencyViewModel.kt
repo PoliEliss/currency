@@ -20,7 +20,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class CurrencyViewModel @Inject constructor(private val repository: Repository, private val dataBase: CurrencyDao) :
+class CurrencyViewModel @Inject constructor(
+    private val repository: Repository,
+    private val dataBase: CurrencyDao
+) :
     ViewModel() {
     private val _listCurrency: MutableLiveData<List<Currency>> = MutableLiveData()
     val listCurrency: LiveData<List<Currency>>
@@ -50,7 +53,7 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
                     when (response) {
                         is Result.Success -> {
                             _listCurrency.postValue(response.currency.values.toList())
-                            setCurrencyDao(response.currency.values.toList(),getDate())
+                            setCurrencyDao(response.currency.values.toList(), getDate())
                         }
                         is Result.Error -> {
                             _messageError.postValue(response.error)
@@ -61,8 +64,8 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
         }
     }
 
-     private fun setCurrencyDao(currency: List<Currency>, date: String) {
-        if ( currency.isNotEmpty() && date==getDate()) {
+    private fun setCurrencyDao(currency: List<Currency>, date: String) {
+        if (currency.isNotEmpty() && date == getDate()) {
             var model: CurrencyItem
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
@@ -93,10 +96,10 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
         }
     }
 
-    fun deleteSaveCurrency(currency: Currency){
+    fun deleteSaveCurrency(currency: Currency) {
         viewModelScope.launch {
             var model: SaveCurrencyItem
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 model = SaveCurrencyItem(
                     fullName = currency.fullName,
                     charCode = currency.charCode,
@@ -108,21 +111,30 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
         }
         getSaveCurrencyDao()
     }
+
+    private fun mapSaveCurrencyItem(currency: List<Currency>): List<SaveCurrencyItem> {
+        val modelList = mutableListOf<SaveCurrencyItem>()
+        for (i in currency) {
+            var model = SaveCurrencyItem(
+                fullName = i.fullName,
+                charCode = i.charCode,
+                value = i.value,
+                favorite = 1
+            )
+            modelList.add(model)
+        }
+        return modelList
+    }
+
     fun setSaveCurrencyDao(currency: List<Currency>) {
+        val listSaveCurrencyItem = mapSaveCurrencyItem(currency)
         viewModelScope.launch {
-            var model: SaveCurrencyItem
             withContext(Dispatchers.IO) {
-                for (q in currency) {
-                    model =
-                        SaveCurrencyItem(
-                            fullName = q.fullName,
-                            charCode = q.charCode,
-                            value = q.value,
-                            favorite = 1
-                        )
-                    dataBase.insertSaveCurrency(model)
+                for (q in listSaveCurrencyItem) {
+                    dataBase.insertSaveCurrency(q)
                 }
             }
+            getSaveCurrencyDao()
         }
     }
 
@@ -133,12 +145,17 @@ class CurrencyViewModel @Inject constructor(private val repository: Repository, 
             var currency: Currency
             val saveCurrencyItem: List<SaveCurrencyItem> =
                 withContext(Dispatchers.IO) { dataBase.getAllSaveCurrency() }
-            if (saveCurrencyItem.isEmpty()){
+            if (saveCurrencyItem.isEmpty()) {
                 saveCurrencyDatabase.value = emptyList()
             }
             for (i in saveCurrencyItem) {
                 currency =
-                    Currency(fullName = i.fullName, charCode = i.charCode, value = i.value, isFavorite = 1)
+                    Currency(
+                        fullName = i.fullName,
+                        charCode = i.charCode,
+                        value = i.value,
+                        isFavorite = 1
+                    )
                 currencySaveListDatabase.add(currency)
                 saveCurrencyDatabase.value = currencySaveListDatabase
             }
