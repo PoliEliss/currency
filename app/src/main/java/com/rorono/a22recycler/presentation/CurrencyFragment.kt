@@ -4,15 +4,18 @@ import android.animation.ObjectAnimator
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
@@ -21,7 +24,9 @@ import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.settings.Settings
 import com.rorono.a22recycler.utils.FullNameCurrency
+import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
+import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 
@@ -31,37 +36,27 @@ class CurrencyFragment :
     @Inject
     lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: CurrencyViewModel
+    private var adapter = CurrencyAdapter()
+    private var behavior: BottomSheetBehavior<*>? = null
 
     override fun onAttach(context: Context) {
         (context.applicationContext as MyApplication).appComponent.inject(this)
         super.onAttach(context)
     }
 
-    private var adapter = CurrencyAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.setOnListener(object : OnItemClickListener {
-            override fun onItemClick(currency: Currency,position:Int) {
-                if (Settings.loadLanguage(requireContext()) == 2) {
-                    val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
-                    currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
-                }
-                val action =
-                    CurrencyFragmentDirections.actionCurrencyFragmentToCurrencyTransferFragment(
-                        currency
-                    )
-                findNavController().navigate(action)
-            }
-
-
-        })
 
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         val date: EditText = binding.etDate
         date.hint = viewModel.getDate()
+        viewModel.getCurrencyDao()
+        viewModel.getSaveCurrencyDao()
 
+
+        behavior = BottomSheetBehavior.from(binding.include.bottomSheet)
         binding.swipeRefreshLayout.setOnRefreshListener {
             getData(NetManager(requireContext()).isOnline(), date = date.hint.toString())
             binding.swipeRefreshLayout.isRefreshing = false
@@ -70,6 +65,8 @@ class CurrencyFragment :
             viewModel.getCurrency(it)
             date.hint = it
         }
+
+
 
         val (year, month, day) = createCalendar()
         binding.ivCalendar.setOnClickListener {
@@ -126,6 +123,48 @@ class CurrencyFragment :
             adapter.submitList(response)
             searchCurrency(response)
         }
+        adapter.setOnListener(object : OnItemClickListener {
+            override fun onItemClick(currency: Currency, position: Int) {
+                initializationBottomSheetBehavior(currency = currency)
+                val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
+                getCurrencyConvertorInRubles(roundedCurrency)
+                getTransferRubles(roundedCurrency)
+                val listFavorite = mutableListOf<Currency>()
+                viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list ->
+                    listFavorite.addAll(list)
+                }
+
+                val res = if (listFavorite.filter { it -> it.fullName == currency.fullName }
+                        .isNotEmpty()) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                binding.include.ivChoseCurrency.setImageResource(res)
+
+                binding.include.ivChoseCurrency.setOnClickListener {
+                    Toast.makeText(requireContext(), "${currency.isFavorite}", Toast.LENGTH_SHORT)
+                        .show()
+
+                    val searchCurrency =
+                        listFavorite.filter { cur -> cur.fullName == currency.fullName }
+                            .isNotEmpty()
+
+                    if (!searchCurrency) {
+                        listFavorite.add(currency)
+                        viewModel.setSaveCurrencyDao(listFavorite)
+                        binding.include.ivChoseCurrency.setImageResource(R.drawable.ic_favorite)
+                    } else {
+                        listFavorite.remove(currency)
+                        viewModel.deleteSaveCurrency(currency)
+                        binding.include.ivChoseCurrency.setImageResource(R.drawable.ic_favorite_border)
+                    }
+                }
+            }
+        })
+
+
+
+
+
+
+
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
             val textAttention =
                 getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
@@ -138,6 +177,83 @@ class CurrencyFragment :
         }
         binding.ivCancelSearch.setOnClickListener {
             cancelSearch()
+        }
+    }
+
+    private fun getTransferRubles(roundedCurrency: Double) {
+        binding.include.etTransferRubles.addTextChangedListener {
+            if (binding.include.etTransferRubles.text.toString() != "" && binding.include.etTransferRubles.hasFocus()) {
+                if (binding.include.etTransferRubles.text.toString() == ".") {
+                    binding.include.etTransferRubles.setText("0.")
+                    binding.include.etTransferRubles.setSelection(binding.include.etTransferRubles.length())
+                }
+                val enteredValue = binding.include.etTransferRubles.text.toString().toDouble()
+                try {
+                    binding.include.etCurrencyConvertor.setText(
+                        viewModel.converterToCurrency(
+                            roundedCurrency,
+                            enteredValue
+                        ).toString()
+                    )
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        requireActivity(),
+                        getString(R.string.entered_value_greater_zero),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            } else if (binding.include.etTransferRubles.text.isNullOrBlank()) {
+                binding.include.etCurrencyConvertor.text?.clear()
+            }
+        }
+    }
+
+    private fun getCurrencyConvertorInRubles(roundedCurrency: Double) {
+        binding.include.etCurrencyConvertor.addTextChangedListener {
+            if (binding.include.etCurrencyConvertor.text.toString() != "" && binding.include.etCurrencyConvertor.hasFocus()) {
+                if (binding.include.etCurrencyConvertor.text.toString() == ".") {
+                    binding.include.etCurrencyConvertor.setText("0")
+                }
+                val enteredValue =
+                    binding.include.etCurrencyConvertor.text.toString().toDouble()
+                try {
+                    binding.include.etTransferRubles.setText(
+                        viewModel.transferToRubles(
+                            roundedCurrency,
+                            enteredValue = enteredValue
+                        ).toString()
+                    )
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        requireActivity(),
+                        getString(R.string.entered_value_greater_zero),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } else if (binding.include.etCurrencyConvertor.text.isNullOrBlank()) {
+                binding.include.etTransferRubles.text?.clear()
+            }
+        }
+    }
+
+    private fun initializationBottomSheetBehavior(currency: Currency) {
+        behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+        if (Settings.loadLanguage(requireContext()) == 2) {
+            if (FullNameCurrency.fullNameCurrency.isNotEmpty()) {
+                val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
+                currency.fullName = currencyHasMapFullName.getValue(currency.charCode)
+                binding.include.tvFullNameCurrency.text = currency.fullName
+            }
+        } else {
+            binding.include.tvFullNameCurrency.text = currency.fullName
+        }
+        binding.include.tvFullNameCurrency.text = currency.fullName
+        binding.include.textInputLayoutCurrencyConvertor.hint = currency.charCode
+        binding.include.toolbarCurrencyTransferFragment.title = currency.charCode
+        binding.include.etCurrencyConvertor.hint = getString(R.string._0)
+        (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
+            binding.include.tvRate.text = it
         }
     }
 
