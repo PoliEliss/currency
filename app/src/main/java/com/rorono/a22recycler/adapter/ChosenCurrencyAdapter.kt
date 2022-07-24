@@ -35,12 +35,13 @@ class ChosenCurrencyAdapter() :
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
 
-           /* itemView.setOnLongClickListener(object :View.OnLongClickListener{
-                override fun onLongClick(v: View?): Boolean {
-                    onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(currency = currency, position = layoutPosition)
-                    return true
-                }
-            })*/
+            itemView.setOnLongClickListener {
+                onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(
+                    currency = currency,
+                    position = layoutPosition
+                )
+                true
+            }
             tvNameRate.text = currency.charCode
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
                 tvExchangeRate.text = it
