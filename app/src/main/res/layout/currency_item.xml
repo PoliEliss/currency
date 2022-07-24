@@ -13,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_card">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewNameRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/ada"
             android:textSize="@dimen/size_name_currency"
             android:textStyle="bold"
@@ -37,6 +37,7 @@
             android:text="@string/_89p"
             android:textColor="@color/gray"
             android:textSize="@dimen/size_item_currency_echangeRate"
+            android:layout_marginBottom="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewNameRate"
