@@ -9,6 +9,6 @@ data class Currency(
     @SerializedName("CharCode")
     val charCode: String,
     @SerializedName("Value")
-    val value: Double,
+    var value: Double,
     var isFavorite: Int = 0
 ) : Serializable
