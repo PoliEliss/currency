@@ -41,4 +41,9 @@
         android:name="com.rorono.a22recycler.presentation.SettingsCurrencyFragment"
         android:label="fragment_settings_currency"
         tools:layout="@layout/fragment_settings_currency" />
+    <fragment
+        android:id="@+id/calculateCurrencyFragment"
+        android:name="com.rorono.a22recycler.presentation.CalculateCurrencyFragment"
+        android:label="fragment_calculate_currency"
+        tools:layout="@layout/fragment_calculate_currency" />
 </navigation>

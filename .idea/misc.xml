@@ -8,6 +8,7 @@
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/control_background.xml" value="0.3185" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/edit_text_background.xml" value="0.37083333333333335" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.37083333333333335" />
+        <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_baseline_calculate_24.xml" value="0.199" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.208" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_favorite.xml" value="0.3185" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_favorite_black.xml" value="0.3185" />
@@ -28,6 +29,8 @@
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/chosen_currency_item.xml" value="0.3546875" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/currency_item.xml" value="0.3546875" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/dialog.xml" value="0.3546875" />
+        <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/fragment_calculate_currency.xml" value="0.3546875" />
+        <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/fragment_calculator_all_currencys.xml" value="0.33" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/fragment_currency.xml" value="0.3546875" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/fragment_currency_transfer.xml" value="0.5" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/fragment_saved_currency.xml" value="0.25" />

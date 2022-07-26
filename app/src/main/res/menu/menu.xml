@@ -9,8 +9,11 @@
         android:title=""
         android:icon="@drawable/ic_favorite"/>
 
+    <item android:id="@+id/calculateCurrencyFragment"
+        android:title=""
+        android:icon="@drawable/ic_baseline_calculate_24"/>
+
     <item android:id="@+id/settingsCurrencyFragment"
         android:title=""
         android:icon="@drawable/ic_settings"/>
-
 </menu>
