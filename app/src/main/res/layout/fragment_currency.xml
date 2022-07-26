@@ -14,41 +14,46 @@
         app:layout_constraintTop_toTopOf="parent"
         android:theme="?attr/actionBarTheme">
 
-        <TextView
-            android:id="@+id/tvTitleToolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/toolbar_title_margin_start"
-            android:text="@string/toolbar_title_currency"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvTitleToolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/toolbar_title_margin_start"
+                android:text="@string/toolbar_title_currency"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/ivSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
-            android:contentDescription="@string/search_currency"
-            android:src="@drawable/ic_baseline_search_24" />
+            <ImageView
+                android:id="@+id/ivCancelSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/close_search"
+                android:src="@drawable/ic_cancel"
+                android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/ivCancelSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/close_search"
-            android:src="@drawable/ic_cancel"
-            android:visibility="gone" />
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:visibility="gone"
+                app:iconifiedByDefault="false"
+                android:background="@drawable/searchview_background"
+                app:queryHint="@string/search_hint" />
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:focusableInTouchMode="false"
-            android:visibility="gone"
-            app:iconifiedByDefault="false"
-            app:queryHint="@string/search_hint" />
-
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/search_currency"
+                android:src="@drawable/ic_baseline_search_24" />
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
