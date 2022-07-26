@@ -6,25 +6,18 @@
     android:layout_height="match_parent"
     tools:background="@color/white"
     tools:context=".presentation.CurrencyFragment">
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="match_parent">
             <TextView
                 android:id="@+id/tvTitleToolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/toolbar_title_margin_start"
                 android:text="@string/toolbar_title_currency"
-                android:layout_weight="1"
+                android:layout_gravity="center"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -38,7 +31,7 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
                 android:visibility="gone"
@@ -50,11 +43,12 @@
                 android:id="@+id/ivSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_marginEnd="20dp"
                 android:contentDescription="@string/search_currency"
                 android:src="@drawable/ic_baseline_search_24" />
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.MaterialToolbar>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -68,9 +62,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/linear_layout_margin_top"
             android:orientation="vertical">
-
-
-
             <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
