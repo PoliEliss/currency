@@ -11,28 +11,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_card">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewNameRate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/ada"
             android:textSize="@dimen/size_name_currency"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
             tools:ignore="MissingConstraints" />
-        <ImageView
-            android:id="@+id/ivDelete"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_delete_forever_24"
-            android:layout_marginTop="15dp" />
+        <TextView
+            android:id="@+id/textViewExchangeRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/_89p"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/size_item_currency_echangeRate"
+            android:layout_marginBottom="20dp"
+            tools:ignore="MissingConstraints" />
+
 
     </LinearLayout>
 

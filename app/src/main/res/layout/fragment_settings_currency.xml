@@ -149,7 +149,7 @@
                 android:button="@android:color/transparent"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/line"
+                android:text="@string/tile"
                 android:textColor="@drawable/text_color" />
 
             <RadioButton
@@ -162,7 +162,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:textColor="@drawable/text_color"
-                android:text="@string/tile" />
+                android:text="@string/line" />
 
         </RadioGroup>
 
