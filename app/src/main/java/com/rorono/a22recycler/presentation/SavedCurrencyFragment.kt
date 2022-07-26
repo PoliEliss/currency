@@ -34,6 +34,7 @@ class SavedCurrencyFragment :
         super.onAttach(context)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -63,10 +64,21 @@ class SavedCurrencyFragment :
             2 -> changAdapter(2)
         }
         viewModel.getSaveCurrencyDao()
-        viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) {
-            adapterChosenCurrency.setData(it)
-        }
+        viewModel.getCurrencyDao()
 
+        viewModel.currencyDatabase.observe(viewLifecycleOwner) {listCurrency->
+            if (listCurrency.isNotEmpty()) {
+              viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner){ listfavorite->
+                  for (i in listCurrency){
+                      for (g in listfavorite){
+                          if (i.fullName == g.fullName){
+                              g.value = i.value
+                          }
+                      }
+                  }
+              }
+            }
+        }
         val mIth = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN,
@@ -87,6 +99,7 @@ class SavedCurrencyFragment :
                     adapterChosenCurrency.notifyItemMoved(position, toPosition)
                     return true
                 }
+
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                 }
             })
@@ -96,16 +109,28 @@ class SavedCurrencyFragment :
     private fun changAdapter(change: Int) {
         (binding.recyclerViewChosenCurrency.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
             false
-
         if (change == 1) {
-            binding.apply {
-                recyclerViewChosenCurrency.layoutManager = LinearLayoutManager(requireContext())
-                recyclerViewChosenCurrency.adapter = adapterChosenCurrency
+            viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) {
+                for (i in it) {
+                    i.isFavorite = 1
+                }
+                adapterChosenCurrency.setData(it)
             }
-        } else {
             binding.apply {
                 recyclerViewChosenCurrency.layoutManager =
                     GridLayoutManager(requireView().context, 3)
+                recyclerViewChosenCurrency.adapter = adapterChosenCurrency
+            }
+
+        } else {
+            viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) {
+                for (i in it) {
+                    i.isFavorite = 0
+                }
+                adapterChosenCurrency.setData(it)
+            }
+            binding.apply {
+                recyclerViewChosenCurrency.layoutManager = LinearLayoutManager(requireContext())
                 recyclerViewChosenCurrency.adapter = adapterChosenCurrency
             }
         }
