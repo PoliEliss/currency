@@ -14,9 +14,6 @@ import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.utils.Rounding
 
 
-private const val LIST_TYPE = 0
-private const val GRID_TYPE = 1
-
 class ChosenCurrencyAdapter() :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -31,7 +28,7 @@ class ChosenCurrencyAdapter() :
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(currency: Currency) {
-           val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
+            val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
             tvNameRate.text = currency.charCode
             val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewExchangeRate)
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
@@ -56,7 +53,7 @@ class ChosenCurrencyAdapter() :
         RecyclerView.ViewHolder(itemView) {
 
         fun bind(currency: Currency) {
-           val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
+            val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
             tvNameRate.text = currency.charCode
             val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewExchangeRate)
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
@@ -113,5 +110,10 @@ class ChosenCurrencyAdapter() :
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    companion object {
+        private const val LIST_TYPE = 0
+        private const val GRID_TYPE = 1
     }
 }
