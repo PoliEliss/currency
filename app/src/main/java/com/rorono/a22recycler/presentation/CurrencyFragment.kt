@@ -4,11 +4,13 @@ import android.animation.ObjectAnimator
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -26,6 +28,7 @@ import com.rorono.a22recycler.settings.Settings
 import com.rorono.a22recycler.utils.FullNameCurrency
 import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
+import java.io.IOException
 import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
@@ -102,16 +105,6 @@ class CurrencyFragment :
         }
 
         viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-            if (!viewModel.saveCurrencyDatabase.value.isNullOrEmpty()) {
-                for (i in response) {
-                    for (g in viewModel.saveCurrencyDatabase.value!!) {
-                        if (g.fullName == i.fullName) {
-                            i.isFavorite = 1
-                        }
-                    }
-                    adapter.submitList(response)
-                }
-            }
             adapter.submitList(response)
             searchCurrency(response)
         }
@@ -149,19 +142,21 @@ class CurrencyFragment :
             }
         })
 
-        viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
-            val textAttention =
-                getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
-            binding.tvAttention.text = textAttention
-            adapter.submitList(list)
 
-        }
         binding.ivSearch.setOnClickListener {
             createAnimationOpenSearch()
         }
-        binding.ivCancelSearch.setOnClickListener {
+
+        binding.search.setOnClickListener {
             cancelSearch()
         }
+        binding.search.setOnCloseListener(object : SearchView.OnCloseListener {
+            override fun onClose(): Boolean {
+                binding.search.visibility = View.INVISIBLE
+                return true
+            }
+
+        })
     }
 
     private fun getTransferRubles(roundedCurrency: Double) {
@@ -234,7 +229,7 @@ class CurrencyFragment :
         }
         binding.include.tvFullNameCurrency.text = currency.fullName
         binding.include.textInputLayoutCurrencyConvertor.hint = currency.charCode
-        binding.include.toolbarCurrencyTransferFragment.title = currency.charCode
+        binding.include.charCodeTitle.text = currency.charCode
         binding.include.etCurrencyConvertor.hint = getString(R.string._0)
         (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
             binding.include.tvRate.text = it
@@ -271,17 +266,16 @@ class CurrencyFragment :
 
     override fun onResume() {
         super.onResume()
-        getData(NetManager(context = requireContext()).isOnline(), viewModel.getDate())
+        getData(NetManager(context = requireContext()).isOnline(), viewModel.date.value!!)
     }
 
     private fun createAnimationOpenSearch() {
-        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -400f)
-        objectAnimator.duration = 2000
+        val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -5f)
+        objectAnimator.duration = 1000
         objectAnimator.start()
         objectAnimator.repeatCount
         binding.tvTitleToolbar.visibility = View.GONE
         binding.ivSearch.visibility = View.GONE
-        binding.ivCancelSearch.visibility = View.VISIBLE
         binding.search.visibility = View.VISIBLE
     }
 
@@ -291,7 +285,6 @@ class CurrencyFragment :
         TransitionManager.beginDelayedTransition(binding.contentLayout, slide)
         binding.tvTitleToolbar.visibility = View.VISIBLE
         binding.ivSearch.visibility = View.VISIBLE
-        binding.ivCancelSearch.visibility = View.GONE
         binding.search.visibility = View.GONE
         val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", 510f)
         objectAnimator.duration = 1000
@@ -306,6 +299,13 @@ class CurrencyFragment :
         } else {
             viewModel.getCurrencyDao()
             binding.tvAttention.visibility = View.VISIBLE
+            viewModel.currencyDatabase.observe(viewLifecycleOwner) { list ->
+                val textAttention =
+                    getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
+                binding.tvAttention.text = textAttention
+                adapter.submitList(list)
+
+            }
         }
     }
 
