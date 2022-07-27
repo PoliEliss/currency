@@ -8,10 +8,5 @@ class CustomCardView(context: Context, attrs:AttributeSet):CardView(context,attr
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec)
-
     }
-
-
-    //todo надо указать что атрибут по x равен атрибуту по Y
-    //
 }

@@ -113,13 +113,11 @@ class CurrencyFragment :
         }
         adapter.setOnListener(object : OnItemClickListener {
             override fun onItemClick(currency: Currency, position: Int) {
-
                 initializationBottomSheetBehavior(currency = currency)
                 val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
                 getCurrencyConvertorInRubles(roundedCurrency)
                 getTransferRubles(roundedCurrency)
                 val listFavorite = mutableListOf<Currency>()
-
                 viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list ->
                     listFavorite.addAll(list)
                 }
@@ -145,11 +143,9 @@ class CurrencyFragment :
             }
         })
 
-
         binding.ivSearch.setOnClickListener {
             createAnimationOpenSearch()
         }
-
         binding.ivCancelSearch.setOnClickListener {
             cancelSearch()
         }
@@ -158,7 +154,6 @@ class CurrencyFragment :
                 binding.search.visibility = View.INVISIBLE
                 return true
             }
-
         })
     }
 
@@ -241,12 +236,11 @@ class CurrencyFragment :
 
     private fun searchCurrency(response: List<Currency>) {
         binding.search.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.search.clearFocus()
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 val n = mutableListOf<Currency>()
                 binding.search.clearFocus()
@@ -255,12 +249,10 @@ class CurrencyFragment :
                         if (i.charCode.contains(newText.uppercase())) {
                             n.add(i)
                             adapter.submitList(n)
-
                         }
                     }
                 } else {
                     adapter.submitList(response)
-
                 }
                 return false
             }

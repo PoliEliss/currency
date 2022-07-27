@@ -47,20 +47,15 @@ class CalculateCurrencyFragment :
                     position: Int,
                     id: Long
                 ) {
-                    if (adapterView?.getItemAtPosition(position) == getString(R.string.rub)) {
-                        binding.textInputLayoutCurrencyConvertedTo.hint =
-                            adapterView.getItemAtPosition(position).toString()
-                        rateCurrencyConvertedTo = 1.0
-                    } else {
-                        viewModel.currencyDatabase.observe(viewLifecycleOwner) {
-                            for (i in it) {
-                                if (i.charCode == adapterView?.getItemAtPosition(position)) {
-                                    binding.textInputLayoutCurrencyConvertedTo.hint = i.charCode
-                                    rateCurrencyConvertedTo = i.value
-                                }
+                    viewModel.currencyDatabase.observe(viewLifecycleOwner) {
+                        for (i in it) {
+                            if (i.charCode == adapterView?.getItemAtPosition(position)) {
+                                binding.textInputLayoutCurrencyConvertedTo.hint = i.charCode
+                                rateCurrencyConvertedTo = i.value
                             }
                         }
                     }
+
                     charCodeConvertedCurrency = adapterView?.getItemAtPosition(position).toString()
                     val calculateResult = viewModel.transferToCurrency(
                         rate = rateCurrency,
@@ -81,30 +76,22 @@ class CalculateCurrencyFragment :
                     position: Int,
                     id: Long
                 ) {
-                    if (adapterView?.getItemAtPosition(position) == getString(R.string.rub)) {
-                        binding.textInputLayoutCurrencyAmount.hint =
-                            adapterView.getItemAtPosition(position).toString()
-                        rateCurrency = 1.0
-                        val resultTvRate = "1 " + adapterView.getItemAtPosition(position)
-                        binding.tvRate.text = resultTvRate
-                    } else {
-                        viewModel.currencyDatabase.observe(viewLifecycleOwner) {
-                            for (i in it) {
-                                if (i.charCode == adapterView?.getItemAtPosition(position)) {
-                                    val tvRateText = "1 " + adapterView.getItemAtPosition(position)
-                                    binding.tvRate.text = tvRateText
-                                    binding.textInputLayoutCurrencyAmount.hint = i.charCode
-                                    rateCurrency = i.value
-                                }
+                    viewModel.currencyDatabase.observe(viewLifecycleOwner) {
+                        for (i in it) {
+                            if (i.charCode == adapterView?.getItemAtPosition(position)) {
+                                val tvRateText = "1 " + adapterView.getItemAtPosition(position)
+                                binding.tvRate.text = tvRateText
+                                binding.textInputLayoutCurrencyAmount.hint = i.charCode
+                                rateCurrency = i.value
                             }
                         }
-                        (viewModel.transferToCurrency(
-                            rate = rateCurrency,
-                            enteredValue = 1.0,
-                            convertedTo = rateCurrencyConvertedTo
-                        ).toString() + charCodeConvertedCurrency).also {
-                            binding.tvRateConvertedTo.text = it
-                        }
+                    }
+                    (viewModel.transferToCurrency(
+                        rate = rateCurrency,
+                        enteredValue = 1.0,
+                        convertedTo = rateCurrencyConvertedTo
+                    ).toString() + charCodeConvertedCurrency).also {
+                        binding.tvRateConvertedTo.text = it
                     }
                 }
             }
@@ -135,8 +122,6 @@ class CalculateCurrencyFragment :
                 binding.etCurrencyConvertedTo.text?.clear()
             }
         }
-
-
         binding.etCurrencyConvertedTo.addTextChangedListener {
             if (binding.etCurrencyConvertedTo.text.toString() != "" && binding.etCurrencyConvertedTo.hasFocus()) {
                 if (binding.etCurrencyConvertedTo.text.toString() == ".") {
