@@ -86,13 +86,13 @@ class CalculateCurrencyFragment :
                             }
                         }
                     }
-                    (viewModel.transferToCurrency(
+                    val calculateResult = viewModel.transferToCurrency(
                         rate = rateCurrency,
                         enteredValue = 1.0,
                         convertedTo = rateCurrencyConvertedTo
-                    ).toString() + charCodeConvertedCurrency).also {
-                        binding.tvRateConvertedTo.text = it
-                    }
+                    ).toString()
+                    val calculateResultWithCharCode = "$calculateResult $charCodeConvertedCurrency"
+                    binding.tvRateConvertedTo.text = calculateResultWithCharCode
                 }
             }
         binding.etCurrencyAmount.hint = "0"
