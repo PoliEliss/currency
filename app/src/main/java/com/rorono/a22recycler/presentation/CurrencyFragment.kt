@@ -241,6 +241,7 @@ class CurrencyFragment :
                 binding.search.clearFocus()
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 val n = mutableListOf<Currency>()
                 binding.search.clearFocus()
@@ -264,36 +265,41 @@ class CurrencyFragment :
         getData(NetManager(context = requireContext()).isOnline(), viewModel.date.value!!)
     }
 
-    private fun createAnimationOpenSearch() { //todo исправить!!!
+    private fun createAnimationOpenSearch() {
 
         binding.ivCancelSearch.visibility = View.VISIBLE
         binding.search.visibility = View.VISIBLE
-        /*       binding.tvTitleToolbar.visibility = View.GONE
-               binding.ivSearch.visibility = View.GONE*/
-        val objectAnimator1 = ObjectAnimator.ofFloat(binding.search, TRANSLATION_X, 500f,60f)
-        val objectAnimator2 = ObjectAnimator.ofFloat(binding.search, ALPHA, 0f,1f)
-        val objectAnimator3 = ObjectAnimator.ofFloat(binding.ivCancelSearch, TRANSLATION_X, 400f,20f)
-        val objectAnimator4 = ObjectAnimator.ofFloat(binding.ivCancelSearch, ALPHA, 0f,1f)
-        val objectAnimator5 = ObjectAnimator.ofFloat(binding.tvTitleToolbar, TRANSLATION_X, binding.tvTitleToolbar.x,-200f)
-        val objectAnimator6 = ObjectAnimator.ofFloat(binding.tvTitleToolbar, ALPHA, 1f,0f)
-        val objectAnimator7 = ObjectAnimator.ofFloat(binding.ivSearch, TRANSLATION_X, binding.ivSearch.x,-100f)
-        val objectAnimator8 = ObjectAnimator.ofFloat(binding.ivSearch, ALPHA, 1f,0f)
+        val objectAnimator1 = ObjectAnimator.ofFloat(binding.search, TRANSLATION_X, 500f, 60f)
+        val objectAnimator2 = ObjectAnimator.ofFloat(binding.search, ALPHA, 0f, 1f)
+        val objectAnimator3 =
+            ObjectAnimator.ofFloat(binding.ivCancelSearch, TRANSLATION_X, 400f, 20f)
+        val objectAnimator4 = ObjectAnimator.ofFloat(binding.ivCancelSearch, ALPHA, 0f, 1f)
+        val objectAnimator5 = ObjectAnimator.ofFloat(
+            binding.tvTitleToolbar,
+            TRANSLATION_X,
+            binding.tvTitleToolbar.x,
+            10f
+        )
+        val objectAnimator6 = ObjectAnimator.ofFloat(binding.tvTitleToolbar, ALPHA, 1f, 0f)
+        val objectAnimator7 =
+            ObjectAnimator.ofFloat(binding.ivSearch, TRANSLATION_X, binding.ivSearch.x, -100f)
+        val objectAnimator8 = ObjectAnimator.ofFloat(binding.ivSearch, ALPHA, 1f, 0f)
 
         val animatorSet = AnimatorSet()
-        animatorSet.playTogether(objectAnimator1, objectAnimator2,objectAnimator3,objectAnimator4,objectAnimator5, objectAnimator6,objectAnimator7,objectAnimator8)
-        animatorSet.duration  =3000
-
+        animatorSet.playTogether(
+            objectAnimator1,
+            objectAnimator2,
+            objectAnimator3,
+            objectAnimator4,
+            objectAnimator5,
+            objectAnimator6,
+            objectAnimator7,
+            objectAnimator8
+        )
+        animatorSet.duration = 1000
         animatorSet.start()
         binding.tvTitleToolbar.visibility = View.GONE
         binding.ivSearch.visibility = View.GONE
-        /*       val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", -400f,)
-               objectAnimator.duration = 2000
-               objectAnimator.start()
-               objectAnimator.repeatCount*/
-/*        binding.tvTitleToolbar.visibility = View.GONE
-        binding.ivSearch.visibility = View.GONE
-        binding.ivCancelSearch.visibility = View.VISIBLE
-        binding.search.visibility = View.VISIBLE*/
     }
 
     private fun cancelSearch() {
@@ -305,8 +311,23 @@ class CurrencyFragment :
         binding.ivSearch.visibility = View.VISIBLE
         binding.search.visibility = View.GONE
         val objectAnimator = ObjectAnimator.ofFloat(binding.search, "translationX", 510f)
-        objectAnimator.duration = 1000
-        objectAnimator.start()
+        val objectAnimator5 = ObjectAnimator.ofFloat(
+            binding.tvTitleToolbar, TRANSLATION_X, binding.tvTitleToolbar.x, 4f
+        )
+        val objectAnimator6 = ObjectAnimator.ofFloat(binding.tvTitleToolbar, ALPHA, 0f, 1f)
+        val objectAnimator7 =
+            ObjectAnimator.ofFloat(binding.ivSearch, TRANSLATION_X, binding.ivSearch.x, 20f)
+        val objectAnimator8 = ObjectAnimator.ofFloat(binding.ivSearch, ALPHA, 0f, 1f)
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(
+            objectAnimator,
+            objectAnimator5,
+            objectAnimator6,
+            objectAnimator7,
+            objectAnimator8
+        )
+        animatorSet.duration = 1000
+        animatorSet.start()
     }
 
     private fun getData(networkConnection: Boolean, date: String) {
