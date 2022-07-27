@@ -1,7 +1,6 @@
 package com.rorono.a22recycler.viewmodel
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -194,12 +193,11 @@ class CurrencyViewModel @Inject constructor(
         return Rounding.getTwoNumbersAfterDecimalPoint(valuate)
     }
 
-    fun transferToCurrency(rate: Double,enteredValue: Double,rate2:Double):Double{
+    fun transferToCurrency(rate: Double, enteredValue: Double, convertedTo:Double):Double{
         if (rate < 0 || enteredValue < 0) {
             throw IllegalArgumentException()
         }
-        val result = (rate*enteredValue)/rate2
-        Log.d("TEST","result fun ${result}")
+        val result = (rate*enteredValue)/convertedTo
         return Rounding.getTwoNumbersAfterDecimalPoint(result)
     }
 }
