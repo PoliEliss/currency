@@ -30,4 +30,5 @@
     <string name="line">list</string>
     <string name="search_hint">Enter currency name</string>
     <string name="calendar">calendar</string>
+    <string name="calculator">calculator</string>
 </resources>
