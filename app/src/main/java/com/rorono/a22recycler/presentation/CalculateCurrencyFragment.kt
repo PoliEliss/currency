@@ -2,13 +2,12 @@ package com.rorono.a22recycler.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.findNavController
 import com.rorono.a22recycler.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
@@ -16,16 +15,17 @@ import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentCalculateCurrencyBinding
 import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
-import java.lang.Exception
 import javax.inject.Inject
 
 
-class CalculateCurrencyFragment : BaseViewBindingFragment<FragmentCalculateCurrencyBinding>(FragmentCalculateCurrencyBinding::inflate) {
+class CalculateCurrencyFragment :
+    BaseViewBindingFragment<FragmentCalculateCurrencyBinding>(FragmentCalculateCurrencyBinding::inflate) {
     @Inject
     lateinit var factory: MainViewModelFactory
     lateinit var viewModel: CurrencyViewModel
-    private var rateCurrency1:Double = 0.0
-    private var rateCurrency2:Double = 0.0
+    private var rateCurrency: Double = 1.0
+    private var rateCurrencyConvertedTo: Double = 1.0
+    private var charCodeConvertedCurrency = ""
 
     override fun onAttach(context: Context) {
         (context.applicationContext as MyApplication).appComponent.inject(this)
@@ -37,57 +37,93 @@ class CalculateCurrencyFragment : BaseViewBindingFragment<FragmentCalculateCurre
 
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         viewModel.getCurrencyDao()
-        binding.spinnerCurrencyTransfer.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
 
-            }
-            override fun onItemSelected(adapterView:  AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.currencyDatabase.observe(viewLifecycleOwner){
-                   for (i in it){
-                       if (i.charCode == adapterView?.getItemAtPosition(position) ){
-                           binding.tvRateTransferTo.text = i.value.toString()
-                           binding.textInputLayoutTransferCurrency.hint = i.charCode
-                                      rateCurrency2 = i.value
-                       }
-                   }
+        binding.spinnerTransferredCurrency.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (adapterView?.getItemAtPosition(position) == getString(R.string.rub)) {
+                        binding.textInputLayoutCurrencyConvertedTo.hint =
+                            adapterView.getItemAtPosition(position).toString()
+                        rateCurrencyConvertedTo = 1.0
+                    } else {
+                        viewModel.currencyDatabase.observe(viewLifecycleOwner) {
+                            for (i in it) {
+                                if (i.charCode == adapterView?.getItemAtPosition(position)) {
+                                    binding.textInputLayoutCurrencyConvertedTo.hint = i.charCode
+                                    rateCurrencyConvertedTo = i.value
+                                }
+                            }
+                        }
+                    }
+                    charCodeConvertedCurrency = adapterView?.getItemAtPosition(position).toString()
+                    val calculateResult = viewModel.transferToCurrency(
+                        rate = rateCurrency,
+                        enteredValue = 1.0,
+                        convertedTo = rateCurrencyConvertedTo
+                    ).toString()
+                    val calculateResultWithCharCode = "$calculateResult $charCodeConvertedCurrency"
+                    binding.tvRateConvertedTo.text = calculateResultWithCharCode
                 }
             }
 
-        }
-
-        binding.spinnerSelectedCurrency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-            override fun onItemSelected(adapterView:  AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.currencyDatabase.observe(viewLifecycleOwner){
-                    for (i in it){
-                        if (i.charCode == adapterView?.getItemAtPosition(position) ){
-                            binding.tvRate.text = i.value.toString()
-                            binding.textInputLayoutCurrencyConvertor.hint = i.charCode
-                                  rateCurrency1 = i.value
-
+        binding.spinnerSelectedCurrency.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (adapterView?.getItemAtPosition(position) == getString(R.string.rub)) {
+                        binding.textInputLayoutCurrencyAmount.hint =
+                            adapterView.getItemAtPosition(position).toString()
+                        rateCurrency = 1.0
+                        val resultTvRate = "1 " + adapterView.getItemAtPosition(position)
+                        binding.tvRate.text = resultTvRate
+                    } else {
+                        viewModel.currencyDatabase.observe(viewLifecycleOwner) {
+                            for (i in it) {
+                                if (i.charCode == adapterView?.getItemAtPosition(position)) {
+                                    val tvRateText = "1 " + adapterView.getItemAtPosition(position)
+                                    binding.tvRate.text = tvRateText
+                                    binding.textInputLayoutCurrencyAmount.hint = i.charCode
+                                    rateCurrency = i.value
+                                }
+                            }
+                        }
+                        (viewModel.transferToCurrency(
+                            rate = rateCurrency,
+                            enteredValue = 1.0,
+                            convertedTo = rateCurrencyConvertedTo
+                        ).toString() + charCodeConvertedCurrency).also {
+                            binding.tvRateConvertedTo.text = it
                         }
                     }
                 }
             }
-
-        }
-        binding.etCurrencyConvertor.hint ="0"
-        binding.etCurrencyConvertor.addTextChangedListener {
-            if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
-                if (binding.etCurrencyConvertor.text.toString() == ".") {
-                    binding.etCurrencyConvertor.setText("0")
+        binding.etCurrencyAmount.hint = "0"
+        binding.etCurrencyAmount.addTextChangedListener {
+            if (binding.etCurrencyAmount.text.toString() != "" && binding.etCurrencyAmount.hasFocus()) {
+                if (binding.etCurrencyAmount.text.toString() == ".") {
+                    binding.etCurrencyAmount.setText("0")
                 }
-                val enteredValue = binding.etCurrencyConvertor.text.toString().toDouble()
+                val enteredValue = binding.etCurrencyAmount.text.toString().toDouble()
                 try {
-                    binding.etTransferRubles.setText(
+                    binding.etCurrencyConvertedTo.setText(
                         viewModel.transferToCurrency(
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency1),
+                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency),
                             enteredValue = enteredValue,
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency2),
+                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrencyConvertedTo),
                         ).toString()
                     )
+
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireActivity(),
@@ -95,27 +131,28 @@ class CalculateCurrencyFragment : BaseViewBindingFragment<FragmentCalculateCurre
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            } else if (binding.etCurrencyConvertor.text.isNullOrBlank()) {
-                binding.etTransferRubles.text?.clear()
+            } else if (binding.etCurrencyAmount.text.isNullOrBlank()) {
+                binding.etCurrencyConvertedTo.text?.clear()
             }
         }
 
 
-        binding.etTransferRubles.addTextChangedListener {
-            if (binding.etTransferRubles.text.toString() != "" && binding.etTransferRubles.hasFocus()) {
-                if (binding.etTransferRubles.text.toString() == ".") {
-                    binding.etTransferRubles.setText("0.")
-                    binding.etTransferRubles.setSelection(binding.etTransferRubles.length())
+        binding.etCurrencyConvertedTo.addTextChangedListener {
+            if (binding.etCurrencyConvertedTo.text.toString() != "" && binding.etCurrencyConvertedTo.hasFocus()) {
+                if (binding.etCurrencyConvertedTo.text.toString() == ".") {
+                    binding.etCurrencyConvertedTo.setText("0.")
+                    binding.etCurrencyConvertedTo.setSelection(binding.etCurrencyConvertedTo.length())
                 }
-                val enteredValue = binding.etTransferRubles.text.toString().toDouble()
+                val enteredValue = binding.etCurrencyConvertedTo.text.toString().toDouble()
                 try {
-                    binding.etCurrencyConvertor.setText(
+                    binding.etCurrencyAmount.setText(
                         viewModel.transferToCurrency(
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency2),
+                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrencyConvertedTo),
                             enteredValue = enteredValue,
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency1),
+                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency),
                         ).toString()
                     )
+
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireActivity(),
@@ -123,9 +160,12 @@ class CalculateCurrencyFragment : BaseViewBindingFragment<FragmentCalculateCurre
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            } else if (binding.etTransferRubles.text.isNullOrBlank()) {
-                binding.etCurrencyConvertor.text?.clear()
+            } else if (binding.etCurrencyConvertedTo.text.isNullOrBlank()) {
+                binding.etCurrencyAmount.text?.clear()
             }
+        }
+        binding.toolbarCurrencyCalculateFragment.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }
