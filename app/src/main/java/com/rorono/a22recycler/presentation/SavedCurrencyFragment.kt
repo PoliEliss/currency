@@ -66,17 +66,17 @@ class SavedCurrencyFragment :
         viewModel.getSaveCurrencyDao()
         viewModel.getCurrencyDao()
 
-        viewModel.currencyDatabase.observe(viewLifecycleOwner) {listCurrency->
+        viewModel.currencyDatabase.observe(viewLifecycleOwner) { listCurrency ->
             if (listCurrency.isNotEmpty()) {
-              viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner){ listfavorite->
-                  for (i in listCurrency){
-                      for (g in listfavorite){
-                          if (i.fullName == g.fullName){
-                              g.value = i.value
-                          }
-                      }
-                  }
-              }
+                viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { listFavorite ->
+                    for (i in listCurrency) {
+                        for (g in listFavorite) {
+                            if (i.charCode == g.charCode) {
+                                g.value = i.value
+                            }
+                        }
+                    }
+                }
             }
         }
         val mIth = ItemTouchHelper(
