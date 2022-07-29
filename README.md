@@ -1,8 +1,8 @@
 Currency App 
 
 Technology stack used: 
-1)MVVM
-2)Room
+1)MVVM<br />
+2)Room<br />
 3)Retrofit+ okHttp
 4)Dagger2
 5) DiffUtil
