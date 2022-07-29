@@ -95,7 +95,6 @@
                 android:textSize="@dimen/text_size_exchange_rate_transfer_fragmnet"
                 android:textStyle="bold" />
 
-
         </LinearLayout>
     </LinearLayout>
 
