@@ -37,14 +37,14 @@ class SettingsCurrencyFragment :
 
             }
         }
-        when(Settings.loadLanguage(requireContext())){
+        when (Settings.loadLanguage(requireContext())) {
             1 -> binding.radioButtonChooseRU.isChecked = true
             2 -> binding.radioButtonChooseEN.isChecked = true
         }
-       when(Settings.loadOrientation(requireContext())){
-           1 -> binding.radioButtonChooseLine.isChecked = true
-           2 -> binding.radioButtonChooseTile.isChecked = true
-       }
+        when (Settings.loadOrientation(requireContext())) {
+            1 -> binding.radioButtonChooseLine.isChecked = true
+            2 -> binding.radioButtonChooseTile.isChecked = true
+        }
         binding.radioButtonLightTheme.setOnClickListener {
             Settings.saveTheme(requireContext(), 1)
             requireActivity().recreate()
@@ -71,6 +71,12 @@ class SettingsCurrencyFragment :
             Settings.saveOrientation(requireContext(), 2)
             requireActivity().recreate()
         }
+
+        binding.toolbarSettingsCurrencyFragment.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
+
+
 }
 
