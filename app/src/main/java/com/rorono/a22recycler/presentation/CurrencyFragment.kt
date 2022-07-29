@@ -2,21 +2,22 @@ package com.rorono.a22recycler.presentation
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.os.ParcelFileDescriptor
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.View.ALPHA
 import android.view.View.TRANSLATION_X
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
@@ -31,10 +32,10 @@ import com.rorono.a22recycler.settings.Settings
 import com.rorono.a22recycler.utils.FullNameCurrency
 import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
-import java.io.IOException
-import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.fixedRateTimer
+
 
 class CurrencyFragment :
     BaseViewBindingFragment<FragmentCurrencyBinding>(FragmentCurrencyBinding::inflate) {
@@ -182,6 +183,7 @@ class CurrencyFragment :
 
             } else if (binding.include.etTransferRubles.text.isNullOrBlank()) {
                 binding.include.etCurrencyConvertor.text?.clear()
+
             }
         }
     }
@@ -210,9 +212,11 @@ class CurrencyFragment :
                 }
             } else if (binding.include.etCurrencyConvertor.text.isNullOrBlank()) {
                 binding.include.etTransferRubles.text?.clear()
+                hideKeyboard()
             }
         }
     }
+
 
     private fun initializationBottomSheetBehavior(currency: Currency) {
         behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
@@ -225,13 +229,16 @@ class CurrencyFragment :
         } else {
             binding.include.tvFullNameCurrency.text = currency.fullName
         }
-        binding.include.tvFullNameCurrency.text = currency.fullName
-        binding.include.textInputLayoutCurrencyConvertor.hint = currency.charCode
-        binding.include.charCodeTitle.text = currency.charCode
-        binding.include.etCurrencyConvertor.hint = getString(R.string._0)
-        (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
-            binding.include.tvRate.text = it
+        with(binding.include) {
+            tvFullNameCurrency.text = currency.fullName
+            textInputLayoutCurrencyConvertor.hint = currency.charCode
+            charCodeTitle.text = currency.charCode
+            etCurrencyConvertor.hint = getString(R.string._0)
+            (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
+                tvRate.text = it
+            }
         }
+
     }
 
     private fun searchCurrency(response: List<Currency>) {
@@ -263,6 +270,20 @@ class CurrencyFragment :
     override fun onResume() {
         super.onResume()
         getData(NetManager(context = requireContext()).isOnline(), viewModel.date.value!!)
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun createAnimationOpenSearch() {
