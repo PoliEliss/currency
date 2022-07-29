@@ -1,4 +1,4 @@
-Currency App <br />
+<b> Currency App</b> <br />
 
 Technology stack used: <br />
 1) MVVM<br />
