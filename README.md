@@ -1,13 +1,13 @@
 Currency App 
 
-Technology stack used: 
-1)MVVM
-2)Room
-3)Retrofit+ okHttp
-4)Dagger2
-5) DiffUtil
-6) SheredPreferense in the chain 1907DataStote SheredPreference is replaced with DataStote+Flow (in progress)
-7)Coroutines
+#Technology stack used: 
+#1)MVVM
+#2)Room
+#3)Retrofit+ okHttp
+#4)Dagger2
+#5) DiffUtil
+#6) SheredPreferense in the chain 1907DataStote SheredPreference is replaced with DataStote+Flow (in progress)
+#7)Coroutines
 
 The app allows you to get currency exchange rate in rubles
 
