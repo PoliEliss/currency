@@ -51,11 +51,10 @@ class CurrencyViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     when (response) {
                         is Result.Success -> {
-
                          val list = mutableListOf<Currency>()
                             list.addAll(response.currency.values.toList())
                             list.add(Currency("Российский рубль","RUB",1.0,0))
-                            _listCurrency.postValue(list)
+                            _listCurrency.postValue(response.currency.values.toList())
                             setCurrencyDao(list,getDate())
                         }
                         is Result.Error -> {
