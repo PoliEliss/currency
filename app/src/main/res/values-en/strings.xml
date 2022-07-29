@@ -14,7 +14,7 @@
     <string name="test_name">Австралийский доллар</string>
     <string name="rate">Rate</string>
     <string name="attention">Внимание! \n Не удается получить данные за указанную дату</string>
-    <string name="entered_value_greater_zero">Введите значение больше нуля</string>
+    <string name="entered_value_greater_zero">Entered a value great than zero</string>
     <string name="attention_error_get_data">Внимание! \n Произошла ошибка при загрузке данных. \nЗагружены последние данные посещения на </string>
     <string name="search_currency">search_currency</string>
     <string name="close_search">close_search</string>
@@ -30,5 +30,7 @@
     <string name="line">list</string>
     <string name="search_hint">Enter currency name</string>
     <string name="calendar">calendar</string>
-    <string name="calculator">calculator</string>
+    <string name="calculator">Calculator</string>
+    <string name="_1">1</string>
+    <string name="favorites">Favorites</string>
 </resources>
