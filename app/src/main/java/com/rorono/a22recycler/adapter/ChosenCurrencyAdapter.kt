@@ -7,9 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.R
-import com.rorono.a22recycler.databinding.ChosenCurrencyItemBinding
-import com.rorono.a22recycler.databinding.CurrencyItemBinding
-import com.rorono.a22recycler.databinding.ListChosenCurrencyItemBinding
+
 import com.rorono.a22recycler.models.Currency
 import com.rorono.a22recycler.utils.Rounding
 
@@ -79,7 +77,7 @@ class ChosenCurrencyAdapter() :
             return ListViewHolder(view)
         } else {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.chosen_currency_item, parent, false)
+                .inflate(R.layout.currency_item, parent, false)
             return ChosenCurrencyHolder(view)
         }
     }
