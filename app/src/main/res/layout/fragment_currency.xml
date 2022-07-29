@@ -74,6 +74,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal">
                 <EditText
                     android:id="@+id/etDate"
@@ -83,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
                     android:layout_marginEnd="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
+
                     android:inputType="number"
                     android:hint="@string/edit_date" />
                 <ImageView
