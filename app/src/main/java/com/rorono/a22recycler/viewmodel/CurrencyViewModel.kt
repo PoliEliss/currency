@@ -51,11 +51,11 @@ class CurrencyViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     when (response) {
                         is Result.Success -> {
-                         val list = mutableListOf<Currency>()
+                            val list = mutableListOf<Currency>()
                             list.addAll(response.currency.values.toList())
-                            list.add(Currency("Российский рубль","RUB",1.0,0))
+                            list.add(Currency("Российский рубль", "RUB", 1.0, 0))
                             _listCurrency.postValue(response.currency.values.toList())
-                            setCurrencyDao(list,getDate())
+                            setCurrencyDao(list, getDate())
                         }
                         is Result.Error -> {
                             _messageError.postValue(response.error)
@@ -90,7 +90,7 @@ class CurrencyViewModel @Inject constructor(
         dataBase.deleteAllCurrency()
     }
 
-    fun deleteAllSaveCurrency() {
+    fun deleteAllSaveCurrency() {//todo
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 dataBase.deleteAllSaveCurrency()
@@ -117,7 +117,7 @@ class CurrencyViewModel @Inject constructor(
     private fun mapSaveCurrencyItem(currency: List<Currency>): List<SaveCurrencyItem> {
         val modelList = mutableListOf<SaveCurrencyItem>()
         for (i in currency) {
-            var model = SaveCurrencyItem(
+            val model = SaveCurrencyItem(
                 fullName = i.fullName,
                 charCode = i.charCode,
                 value = i.value,
@@ -126,6 +126,20 @@ class CurrencyViewModel @Inject constructor(
             modelList.add(model)
         }
         return modelList
+    }
+
+    private fun mapCurrencyItem(currency: List<SaveCurrencyItem>): List<Currency> {
+        val listCurrency = mutableListOf<Currency>()
+        for (i in currency) {
+            val currencyItem = Currency(
+                fullName = i.fullName,
+                charCode = i.charCode,
+                value = i.value,
+                isFavorite = 1
+            )
+            listCurrency.add(currencyItem)
+        }
+        return listCurrency
     }
 
     fun setSaveCurrencyDao(currency: List<Currency>) {
@@ -144,21 +158,12 @@ class CurrencyViewModel @Inject constructor(
         val currencySaveListDatabase =
             mutableListOf<Currency>()
         viewModelScope.launch {
-            var currency: Currency
             val saveCurrencyItem: List<SaveCurrencyItem> =
                 withContext(Dispatchers.IO) { dataBase.getAllSaveCurrency() }
             if (saveCurrencyItem.isEmpty()) {
                 saveCurrencyDatabase.value = emptyList()
-            }
-            for (i in saveCurrencyItem) {
-                currency =
-                    Currency(
-                        fullName = i.fullName,
-                        charCode = i.charCode,
-                        value = i.value,
-                        isFavorite = 1
-                    )
-                currencySaveListDatabase.add(currency)
+            } else {
+                currencySaveListDatabase.addAll(mapCurrencyItem(saveCurrencyItem))
                 saveCurrencyDatabase.value = currencySaveListDatabase
             }
         }
@@ -196,11 +201,11 @@ class CurrencyViewModel @Inject constructor(
         return Rounding.getTwoNumbersAfterDecimalPoint(valuate)
     }
 
-    fun transferToCurrency(rate: Double, enteredValue: Double, convertedTo:Double):Double{
+    fun transferToCurrency(rate: Double, enteredValue: Double, convertedTo: Double): Double {
         if (rate < 0 || enteredValue < 0) {
             throw IllegalArgumentException()
         }
-        val result = (rate*enteredValue)/convertedTo
+        val result = (rate * enteredValue) / convertedTo
         return Rounding.getTwoNumbersAfterDecimalPoint(result)
     }
 }
