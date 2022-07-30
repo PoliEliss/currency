@@ -2,7 +2,6 @@ package com.rorono.a22recycler.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -106,22 +105,19 @@ class SavedCurrencyFragment :
         mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
     }
 
-    private fun changAdapter(change: Int) {
-        (binding.recyclerViewChosenCurrency.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
-            false
-        if (change == 1) {
+    private fun changAdapter(adapterOption: Int) {
+        if (adapterOption == 1) {
             viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) {
                 for (i in it) {
                     i.isFavorite = 1
                 }
                 adapterChosenCurrency.setData(it)
             }
-            binding.apply {
+            with(binding) {
                 recyclerViewChosenCurrency.layoutManager =
                     GridLayoutManager(requireView().context, 3)
                 recyclerViewChosenCurrency.adapter = adapterChosenCurrency
             }
-
         } else {
             viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) {
                 for (i in it) {
@@ -129,13 +125,14 @@ class SavedCurrencyFragment :
                 }
                 adapterChosenCurrency.setData(it)
             }
-            binding.apply {
+            with(binding) {
                 recyclerViewChosenCurrency.layoutManager = LinearLayoutManager(requireContext())
                 recyclerViewChosenCurrency.adapter = adapterChosenCurrency
             }
         }
     }
 }
+
 
 
 
