@@ -21,17 +21,18 @@ class MainActivity : AppCompatActivity() {
             1 -> setTheme(R.style.Theme_22recycler)
             2 -> setTheme(R.style.Theme2)
         }
-          when(Settings.loadLanguage(this)){
-              1-> setLocale("ru")
-              2-> setLocale("en")
-          }
+        when (Settings.loadLanguage(this)) {
+            1 -> setLocale("ru")
+            2 -> setLocale("en")
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         when (Settings.loadTheme(this)) {
             2 -> {
                 setTheme(R.style.Theme2)
-                 binding.bottomNavigation.itemIconTintList = getColorStateList(R.color.bottom_nav_dark_color)
+                binding.bottomNavigation.itemIconTintList =
+                    getColorStateList(R.color.bottom_nav_dark_color)
             }
         }
         val navHostFragment =
@@ -40,11 +41,12 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.setupWithNavController(navController = navController)
     }
-    fun setLocale(language:String) {
+
+    private fun setLocale(language: String) {
         val locale = Locale(language)
-        val dm = resources.displayMetrics
-        val conf = resources.configuration
-        conf.setLocale(locale)
-        resources.updateConfiguration(conf, dm)
+        val displayMetrics = resources.displayMetrics
+        val configuration = resources.configuration
+        configuration.setLocale(locale)
+        resources.updateConfiguration(configuration, displayMetrics)
     }
 }
