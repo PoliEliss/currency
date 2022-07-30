@@ -2,28 +2,19 @@ package com.rorono.a22recycler.presentation
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rorono.a22recycler.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
-import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import com.rorono.a22recycler.R
-import com.rorono.a22recycler.database.CurrencyDao
-import com.rorono.a22recycler.database.CurrencyDataBase
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
-import com.rorono.a22recycler.network.RetrofitInstance
-import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.utils.Rounding
-import java.lang.Exception
+import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import javax.inject.Inject
 
 
@@ -48,16 +39,20 @@ class CurrencyTransferFragment :
         val currency = args.currency
         val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
 
-        binding.toolbarCurrencyTransferFragment.title = currency.charCode
-        binding.tvFullNameCurrency.text = currency.fullName
-        binding.textInputLayoutCurrencyConvertor.hint = currency.charCode
-        binding.etCurrencyConvertor.hint = getString(R.string._0)
-        (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
-            binding.tvRate.text = it
+
+        with(binding) {
+            toolbarCurrencyTransferFragment.title = currency.charCode
+            tvFullNameCurrency.text = currency.fullName
+            textInputLayoutCurrencyConvertor.hint = currency.charCode
+            etCurrencyConvertor.hint = getString(R.string._0)
+            (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
+                tvRate.text = it
+            }
+            toolbarCurrencyTransferFragment.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
         }
-        binding.toolbarCurrencyTransferFragment.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
+
 
         binding.etCurrencyConvertor.addTextChangedListener {
             if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
