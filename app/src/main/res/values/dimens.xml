@@ -22,4 +22,5 @@
     <dimen name="text_size_exchange_rate_transfer_fragmnet">26sp</dimen>
     <dimen name="text_input_layout_margin_end">20dp</dimen>
     <dimen name="text_input_layout_margin_top">22dp</dimen>
+    <dimen name="height_bottom_navigation">40dp</dimen>
 </resources>
