@@ -23,6 +23,7 @@ class CalculateCurrencyFragment :
     @Inject
     lateinit var factory: MainViewModelFactory
     lateinit var viewModel: CurrencyViewModel
+
     private var rateCurrency: Double = 1.0
     private var rateCurrencyConvertedTo: Double = 1.0
     private var charCodeConvertedCurrency = ""
@@ -37,6 +38,35 @@ class CalculateCurrencyFragment :
 
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         viewModel.getCurrencyDao()
+
+        binding.spinnerSelectedCurrency.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.currencyDatabase.observe(viewLifecycleOwner) {
+                        for (i in it) {
+                            if (i.charCode == adapterView?.getItemAtPosition(position)) {
+                                val rateCharCodeText = "1 " + adapterView.getItemAtPosition(position)
+                                binding.tvRate.text = rateCharCodeText
+                                binding.textInputLayoutCurrencyAmount.hint = i.charCode
+                                rateCurrency = i.value
+                            }
+                        }
+                    }
+                    val resultTransferCurrency = viewModel.transferToCurrency(
+                        rate = rateCurrency,
+                        enteredValue = 1.0,
+                        convertedTo = rateCurrencyConvertedTo
+                    ).toString()
+                    val resultTransferCurrencyWithCharCode = "$resultTransferCurrency $charCodeConvertedCurrency"
+                    binding.tvRateConvertedTo.text = resultTransferCurrencyWithCharCode
+                }
+            }
 
         binding.spinnerTransferredCurrency.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -67,34 +97,6 @@ class CalculateCurrencyFragment :
                 }
             }
 
-        binding.spinnerSelectedCurrency.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-                override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    viewModel.currencyDatabase.observe(viewLifecycleOwner) {
-                        for (i in it) {
-                            if (i.charCode == adapterView?.getItemAtPosition(position)) {
-                                val tvRateText = "1 " + adapterView.getItemAtPosition(position)
-                                binding.tvRate.text = tvRateText
-                                binding.textInputLayoutCurrencyAmount.hint = i.charCode
-                                rateCurrency = i.value
-                            }
-                        }
-                    }
-                    val calculateResult = viewModel.transferToCurrency(
-                        rate = rateCurrency,
-                        enteredValue = 1.0,
-                        convertedTo = rateCurrencyConvertedTo
-                    ).toString()
-                    val calculateResultWithCharCode = "$calculateResult $charCodeConvertedCurrency"
-                    binding.tvRateConvertedTo.text = calculateResultWithCharCode
-                }
-            }
         binding.etCurrencyAmount.hint = "0"
         binding.etCurrencyAmount.addTextChangedListener {
             if (binding.etCurrencyAmount.text.toString() != "" && binding.etCurrencyAmount.hasFocus()) {
