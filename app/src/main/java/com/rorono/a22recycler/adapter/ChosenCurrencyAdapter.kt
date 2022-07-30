@@ -53,7 +53,7 @@ class ChosenCurrencyAdapter() :
         fun bind(currency: Currency) {
             val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
             tvNameRate.text = currency.charCode
-            val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewExchangeRate)
+            val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewCurrencyRate)
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
                 tvExchangeRate.setText(it)
             }
@@ -71,14 +71,14 @@ class ChosenCurrencyAdapter() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == LIST_TYPE) {
+        return if (viewType == LIST_TYPE) {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_chosen_currency_item, parent, false)
-            return ListViewHolder(view)
+            ListViewHolder(view)
         } else {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.currency_item, parent, false)
-            return ChosenCurrencyHolder(view)
+            ChosenCurrencyHolder(view)
         }
     }
 
