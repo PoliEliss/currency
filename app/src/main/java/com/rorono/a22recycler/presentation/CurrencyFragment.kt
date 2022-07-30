@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
@@ -34,7 +35,6 @@ import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import java.util.*
 import javax.inject.Inject
-import kotlin.concurrent.fixedRateTimer
 
 
 class CurrencyFragment :
@@ -74,19 +74,17 @@ class CurrencyFragment :
         binding.ivCalendar.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 view.context,
-                { view, year, month, dayOfMonth ->
-                    val month = (month + 1)
-
-                    var day: String = dayOfMonth.toString()
-                    var montSmallTen: String = month.toString()
-
-                    if (month < 10) {
-                        montSmallTen = "0$month"
+                { _, year, month, dayOfMonth ->
+                    val selectedMonth = (month + 1)
+                    var selectedDay: String = dayOfMonth.toString()
+                    var montSmallTen: String = selectedMonth.toString()
+                    if (selectedMonth < 10) {
+                        montSmallTen = "0$selectedMonth"
                     }
                     if (dayOfMonth < 10) {
-                        day = "0$dayOfMonth"
+                        selectedDay = "0$dayOfMonth"
                     }
-                    date.hint = "$year-$montSmallTen-$day"
+                    date.hint = "$year-$montSmallTen-$selectedDay"
                     viewModel.getCurrency(date = date.hint.toString())
                     viewModel.date.value = date.hint.toString()
                 },
@@ -99,7 +97,7 @@ class CurrencyFragment :
             datePickerDialog.show()
         }
 
-        binding.apply {
+        with(binding){
             recyclerView.layoutManager = GridLayoutManager(view.context, 3)
             recyclerView.adapter = adapter
         }
@@ -122,14 +120,13 @@ class CurrencyFragment :
                 viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { list ->
                     listFavorite.addAll(list)
                 }
-                val res = if (listFavorite.filter { it.fullName == currency.fullName }
-                        .isNotEmpty()) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                val res =
+                    if (listFavorite.any { it.fullName == currency.fullName }) R.drawable.ic_favorite else R.drawable.ic_favorite_border
                 binding.include.ivChoseCurrency.setImageResource(res)
 
                 binding.include.ivChoseCurrency.setOnClickListener {
                     val searchCurrency =
-                        listFavorite.filter { cur -> cur.fullName == currency.fullName }
-                            .isNotEmpty()
+                        listFavorite.any { cur -> cur.fullName == currency.fullName }
                     if (!searchCurrency) {
                         listFavorite.add(currency)
                         viewModel.setSaveCurrencyDao(listFavorite)
@@ -150,12 +147,10 @@ class CurrencyFragment :
         binding.ivCancelSearch.setOnClickListener {
             cancelSearch()
         }
-        binding.search.setOnCloseListener(object : SearchView.OnCloseListener {
-            override fun onClose(): Boolean {
-                binding.search.visibility = View.INVISIBLE
-                return true
-            }
-        })
+        binding.search.setOnCloseListener {
+            binding.search.visibility = View.INVISIBLE
+            true
+        }
     }
 
     private fun getTransferRubles(roundedCurrency: Double) {
@@ -219,7 +214,8 @@ class CurrencyFragment :
 
 
     private fun initializationBottomSheetBehavior(currency: Currency) {
-        behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+        behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        hideKeyboard()
         if (Settings.loadLanguage(requireContext()) == 2) {
             if (FullNameCurrency.fullNameCurrency.isNotEmpty()) {
                 val currencyHasMapFullName = FullNameCurrency.fullNameCurrency
@@ -234,6 +230,7 @@ class CurrencyFragment :
             textInputLayoutCurrencyConvertor.hint = currency.charCode
             charCodeTitle.text = currency.charCode
             etCurrencyConvertor.hint = getString(R.string._0)
+            etCurrencyConvertor.text?.clear()
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + " ₽").also {
                 tvRate.text = it
             }
@@ -276,11 +273,7 @@ class CurrencyFragment :
         view?.let { activity?.hideKeyboard(it) }
     }
 
-    fun Activity.hideKeyboard() {
-        hideKeyboard(currentFocus ?: View(this))
-    }
-
-    fun Context.hideKeyboard(view: View) {
+    private fun Context.hideKeyboard(view: View) {
         val inputMethodManager =
             getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
