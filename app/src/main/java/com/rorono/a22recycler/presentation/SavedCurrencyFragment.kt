@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.rorono.a22recycler.BaseViewBindingFragment
+import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
 import com.rorono.a22recycler.adapter.ChosenCurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickChosenCurrency
 import com.rorono.a22recycler.databinding.FragmentSavedCurrencyBinding
-import com.rorono.a22recycler.models.Currency
-import com.rorono.a22recycler.settings.Settings
+import com.rorono.a22recycler.models.remotemodels.Currency
+import com.rorono.a22recycler.utils.Settings
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import java.util.*
 import javax.inject.Inject
@@ -32,7 +32,6 @@ class SavedCurrencyFragment :
         (context.applicationContext as MyApplication).appComponent.inject(this)
         super.onAttach(context)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,13 +95,25 @@ class SavedCurrencyFragment :
                         toPosition
                     )
                     adapterChosenCurrency.notifyItemMoved(position, toPosition)
+                    updateData()
                     return true
                 }
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                 }
+
+
             })
+
         mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
+    }
+
+    private fun updateData() {
+        val updateListFavoriteCurrency = mutableListOf<Currency>()
+        updateListFavoriteCurrency.addAll(adapterChosenCurrency.oldList)
+        viewModel.saveCurrencyDatabase.value = updateListFavoriteCurrency
+        adapterChosenCurrency.setData(updateListFavoriteCurrency)
+        viewModel.setSaveCurrencyDao(updateListFavoriteCurrency)
     }
 
     private fun changAdapter(adapterOption: Int) {
@@ -113,6 +124,7 @@ class SavedCurrencyFragment :
                 }
                 adapterChosenCurrency.setData(it)
             }
+
             with(binding) {
                 recyclerViewChosenCurrency.layoutManager =
                     GridLayoutManager(requireView().context, 3)
