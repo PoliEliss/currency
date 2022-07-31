@@ -52,7 +52,6 @@ class SavedCurrencyFragment :
                 listFavorite.remove(currency)
                 adapterChosenCurrency.setData(listFavorite)
                 adapterChosenCurrency.notifyItemRemoved(position)
-                viewModel.getSaveCurrencyDao()
             }
         })
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
