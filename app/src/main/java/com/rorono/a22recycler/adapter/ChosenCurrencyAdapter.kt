@@ -3,12 +3,13 @@ package com.rorono.a22recycler.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.R
 
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.utils.Rounding
 
 
@@ -21,12 +22,12 @@ class ChosenCurrencyAdapter() :
         onItemClickChosenCurrency = listener
     }
 
-    var oldList = emptyList<Currency>()
-
+    var oldList = mutableListOf<Currency>()
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(currency: Currency) {
             val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
+            val ivClose = itemView.findViewById<ImageView>(R.id.ivClose)
             tvNameRate.text = currency.charCode
             val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewExchangeRate)
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
@@ -37,12 +38,11 @@ class ChosenCurrencyAdapter() :
             itemView.setOnClickListener {
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
-            itemView.setOnLongClickListener {
+            ivClose.setOnClickListener {
                 onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(
                     currency = currency,
                     position = layoutPosition
                 )
-                true
             }
         }
     }
@@ -53,6 +53,8 @@ class ChosenCurrencyAdapter() :
         fun bind(currency: Currency) {
             val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
             tvNameRate.text = currency.charCode
+            val ivClose = itemView.findViewById<ImageView>(R.id.ivClose1)
+            ivClose.visibility = View.VISIBLE
             val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewCurrencyRate)
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
                 tvExchangeRate.setText(it)
@@ -60,12 +62,11 @@ class ChosenCurrencyAdapter() :
             itemView.setOnClickListener {
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
-            itemView.setOnLongClickListener {
+           ivClose.setOnClickListener {
                 onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(
                     currency = currency,
                     position = layoutPosition
                 )
-                true
             }
         }
     }
@@ -106,7 +107,9 @@ class ChosenCurrencyAdapter() :
     fun setData(newList: List<Currency>) {
         val diffUtil = MyDiffUtil(oldList, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
-        oldList = newList
+        val mutableNewList = mutableListOf<Currency>()
+        mutableNewList.addAll(newList)
+        oldList = mutableNewList
         diffResult.dispatchUpdatesTo(this)
     }
 
