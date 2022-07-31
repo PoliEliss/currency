@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.databinding.CurrencyItemBinding
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.utils.Rounding
 
 class CurrencyAdapter() :

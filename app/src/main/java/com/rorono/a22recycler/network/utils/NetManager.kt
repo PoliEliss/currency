@@ -1,4 +1,4 @@
-package com.rorono.a22recycler
+package com.rorono.a22recycler.network.utils
 
 import android.app.Application
 import android.content.Context

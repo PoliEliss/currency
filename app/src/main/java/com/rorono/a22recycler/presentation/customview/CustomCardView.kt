@@ -1,4 +1,4 @@
-package com.rorono.a22recycler.utils
+package com.rorono.a22recycler.presentation.customview
 
 import android.content.Context
 import android.util.AttributeSet

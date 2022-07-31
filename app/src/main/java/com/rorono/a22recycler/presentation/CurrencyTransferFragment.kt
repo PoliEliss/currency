@@ -8,10 +8,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.rorono.a22recycler.BaseViewBindingFragment
+import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
 import com.rorono.a22recycler.R
+import  com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
 import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel

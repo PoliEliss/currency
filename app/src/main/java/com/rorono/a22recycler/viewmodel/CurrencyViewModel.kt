@@ -5,11 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rorono.a22recycler.Result
+import com.rorono.a22recycler.network.utils.Result
 import com.rorono.a22recycler.database.CurrencyDao
-import com.rorono.a22recycler.database.CurrencyItem
-import com.rorono.a22recycler.database.SaveCurrencyItem
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.localmodels.CurrencyItem
+import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
+import com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.utils.Rounding
 import kotlinx.coroutines.Dispatchers

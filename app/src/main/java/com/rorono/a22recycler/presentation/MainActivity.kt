@@ -8,7 +8,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.ActivityMainBinding
-import com.rorono.a22recycler.settings.Settings
+import com.rorono.a22recycler.utils.Settings
 import java.util.*
 
 

@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.rorono.a22recycler.models.localmodels.CurrencyItem
+import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
 
 @Database(entities = [CurrencyItem::class, SaveCurrencyItem::class], version = 4)
 abstract class CurrencyDataBase : RoomDatabase() {

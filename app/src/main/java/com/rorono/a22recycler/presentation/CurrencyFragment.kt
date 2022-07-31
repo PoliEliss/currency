@@ -6,7 +6,6 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.View.ALPHA
@@ -22,14 +21,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.rorono.a22recycler.*
 import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
-import com.rorono.a22recycler.models.Currency
-import com.rorono.a22recycler.settings.Settings
+import com.rorono.a22recycler.models.remotemodels.Currency
+import com.rorono.a22recycler.network.utils.NetManager
+import com.rorono.a22recycler.utils.BaseViewBindingFragment
+import com.rorono.a22recycler.utils.Settings
 import com.rorono.a22recycler.utils.FullNameCurrency
 import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel

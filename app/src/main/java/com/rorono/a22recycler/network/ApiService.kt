@@ -1,7 +1,7 @@
 package com.rorono.a22recycler.network
 
 import com.google.gson.annotations.SerializedName
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.remotemodels.Currency
 import retrofit2.http.GET
 import retrofit2.http.Path
 

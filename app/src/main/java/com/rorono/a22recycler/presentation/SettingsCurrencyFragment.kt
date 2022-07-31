@@ -3,10 +3,10 @@ package com.rorono.a22recycler.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.rorono.a22recycler.BaseViewBindingFragment
+import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.FragmentSettingsCurrencyBinding
-import com.rorono.a22recycler.settings.Settings
+import com.rorono.a22recycler.utils.Settings
 
 
 class SettingsCurrencyFragment :

@@ -1,4 +1,4 @@
-package com.rorono.a22recycler.database
+package com.rorono.a22recycler.models.localmodels
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

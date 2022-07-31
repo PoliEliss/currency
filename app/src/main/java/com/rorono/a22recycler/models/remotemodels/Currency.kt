@@ -1,4 +1,4 @@
-package com.rorono.a22recycler.models
+package com.rorono.a22recycler.models.remotemodels
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
