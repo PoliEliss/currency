@@ -24,9 +24,9 @@ class CalculateCurrencyFragment :
     lateinit var factory: MainViewModelFactory
     lateinit var viewModel: CurrencyViewModel
 
-    private var rateCurrency: Double = 1.0
-    private var rateCurrencyConvertedTo: Double = 1.0
-    private var charCodeConvertedCurrency = ""
+    private var currencyValueToConvert: Double = 1.0
+    private var currencyValueConverted: Double = 1.0
+    private var charCodeCurrencyConverted = ""
 
     override fun onAttach(context: Context) {
         (context.applicationContext as MyApplication).appComponent.inject(this)
@@ -51,19 +51,21 @@ class CalculateCurrencyFragment :
                     viewModel.currencyDatabase.observe(viewLifecycleOwner) {
                         for (i in it) {
                             if (i.charCode == adapterView?.getItemAtPosition(position)) {
-                                val rateCharCodeText = "1 " + adapterView.getItemAtPosition(position)
+                                val rateCharCodeText =
+                                    "1 " + adapterView.getItemAtPosition(position)
                                 binding.tvRate.text = rateCharCodeText
                                 binding.textInputLayoutCurrencyAmount.hint = i.charCode
-                                rateCurrency = i.value
+                                currencyValueToConvert = i.value
                             }
                         }
                     }
                     val resultTransferCurrency = viewModel.transferToCurrency(
-                        rate = rateCurrency,
+                        rate = currencyValueToConvert,
                         enteredValue = 1.0,
-                        convertedTo = rateCurrencyConvertedTo
+                        convertedTo = currencyValueConverted
                     ).toString()
-                    val resultTransferCurrencyWithCharCode = "$resultTransferCurrency $charCodeConvertedCurrency"
+                    val resultTransferCurrencyWithCharCode =
+                        "$resultTransferCurrency $charCodeCurrencyConverted"
                     binding.tvRateConvertedTo.text = resultTransferCurrencyWithCharCode
                 }
             }
@@ -81,18 +83,18 @@ class CalculateCurrencyFragment :
                         for (i in it) {
                             if (i.charCode == adapterView?.getItemAtPosition(position)) {
                                 binding.textInputLayoutCurrencyConvertedTo.hint = i.charCode
-                                rateCurrencyConvertedTo = i.value
+                                currencyValueConverted = i.value
                             }
                         }
                     }
 
-                    charCodeConvertedCurrency = adapterView?.getItemAtPosition(position).toString()
+                    charCodeCurrencyConverted = adapterView?.getItemAtPosition(position).toString()
                     val calculateResult = viewModel.transferToCurrency(
-                        rate = rateCurrency,
+                        rate = currencyValueToConvert,
                         enteredValue = 1.0,
-                        convertedTo = rateCurrencyConvertedTo
+                        convertedTo = currencyValueConverted
                     ).toString()
-                    val calculateResultWithCharCode = "$calculateResult $charCodeConvertedCurrency"
+                    val calculateResultWithCharCode = "$calculateResult $charCodeCurrencyConverted"
                     binding.tvRateConvertedTo.text = calculateResultWithCharCode
                 }
             }
@@ -107,9 +109,9 @@ class CalculateCurrencyFragment :
                 try {
                     binding.etCurrencyConvertedTo.setText(
                         viewModel.transferToCurrency(
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency),
+                            Rounding.getTwoNumbersAfterDecimalPoint(currencyValueToConvert),
                             enteredValue = enteredValue,
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrencyConvertedTo),
+                            Rounding.getTwoNumbersAfterDecimalPoint(currencyValueConverted),
                         ).toString()
                     )
 
@@ -134,9 +136,9 @@ class CalculateCurrencyFragment :
                 try {
                     binding.etCurrencyAmount.setText(
                         viewModel.transferToCurrency(
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrencyConvertedTo),
+                            Rounding.getTwoNumbersAfterDecimalPoint(currencyValueConverted),
                             enteredValue = enteredValue,
-                            Rounding.getTwoNumbersAfterDecimalPoint(rateCurrency),
+                            Rounding.getTwoNumbersAfterDecimalPoint(currencyValueToConvert),
                         ).toString()
                     )
 
