@@ -1,7 +1,7 @@
 package com.rorono.a22recycler.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.remotemodels.Currency
 
 class MyDiffUtil(
     private val oldList: List<Currency>,

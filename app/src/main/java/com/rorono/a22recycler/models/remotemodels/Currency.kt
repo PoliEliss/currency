@@ -1,4 +1,4 @@
-package com.rorono.a22recycler.models
+package com.rorono.a22recycler.models.remotemodels
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -9,6 +9,6 @@ data class Currency(
     @SerializedName("CharCode")
     val charCode: String,
     @SerializedName("Value")
-    val value: Double,
+    var value: Double,
     var isFavorite: Int = 0
 ) : Serializable

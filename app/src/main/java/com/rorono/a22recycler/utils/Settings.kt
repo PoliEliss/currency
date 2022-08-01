@@ -1,7 +1,6 @@
-package com.rorono.a22recycler.settings
+package com.rorono.a22recycler.utils
 
 import android.content.Context
-import android.content.SharedPreferences
 
 object Settings {
 

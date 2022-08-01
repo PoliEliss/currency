@@ -4,8 +4,9 @@
     <dimen name="radius_card_corner">12dp</dimen>
     <dimen name="margin_card">5dp</dimen>
     <dimen name="padding_card">25dp</dimen>
-    <dimen name="size_name_currency">30sp</dimen>
+    <dimen name="size_name_currency">20sp</dimen>
     <dimen name="size_item_currency_echangeRate">20sp</dimen>
+    <dimen name="size_item_currency_rate_item_linear">30sp</dimen>
     <dimen name="linear_layout_margin_top">32dp</dimen>
     <dimen name="edit_text_ext_view_margin_start_end_currency_fragment">32dp</dimen>
     <dimen name="text_size_text_view_fragment_currency">18sp</dimen>
@@ -21,4 +22,5 @@
     <dimen name="text_size_exchange_rate_transfer_fragmnet">26sp</dimen>
     <dimen name="text_input_layout_margin_end">20dp</dimen>
     <dimen name="text_input_layout_margin_top">22dp</dimen>
+    <dimen name="height_bottom_navigation">40dp</dimen>
 </resources>

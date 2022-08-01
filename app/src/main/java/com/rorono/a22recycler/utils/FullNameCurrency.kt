@@ -35,5 +35,7 @@ object FullNameCurrency {
         "CHF" to "Swiss franc",
         "ZAR" to "South African rand",
         "KRW" to "Won Republic of Korea",
-        "JPY" to "Japanese yen")
+        "JPY" to "Japanese yen",
+        "RUB" to "Russian ruble",
+    )
 }

@@ -1,47 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rorono.a22recycler.presentation.customview.CustomCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_card"
     android:backgroundTint="@color/gainsboro"
-
     app:cardCornerRadius="@dimen/radius_card_corner">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/ivClose1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_card">
+        android:layout_gravity="start"
+        android:visibility="gone"
+        android:src="@drawable/ic_close_24" />
+    <TextView
+        android:id="@+id/textViewNameRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:text="@string/ada"
+        android:textSize="@dimen/size_name_currency"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewNameRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ada"
-            android:textSize="@dimen/size_name_currency"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+    <TextView
+        android:id="@+id/textViewCurrencyRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="@string/_89p"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/size_item_currency_echangeRate" />
 
-        <TextView
-            android:id="@+id/textViewExchangeRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@string/_89p"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/size_item_currency_echangeRate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewNameRate"
-            tools:ignore="MissingConstraints" />
 
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</com.rorono.a22recycler.presentation.customview.CustomCardView>

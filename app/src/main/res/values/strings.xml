@@ -30,4 +30,7 @@
     <string name="line">Спиок</string>
     <string name="search_hint">Введите валюту</string>
     <string name="calendar">Календарь</string>
+    <string name="calculator">Калькулятор</string>
+    <string name="_1">1</string>
+    <string name="favorites">Избранное</string>
 </resources>

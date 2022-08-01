@@ -1,16 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    tools:background="@color/white"
     tools:context=".presentation.CurrencyFragment">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
 
+            <TextView
+                android:id="@+id/tvTitleToolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toolbar_title_currency"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivCancelSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/close_search"
+                android:src="@drawable/ic_cancel"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:visibility="gone"
+                app:iconifiedByDefault="false"
+                android:background="@drawable/searchview_background"
+                app:queryHint="@string/search_hint" />
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/search_currency"
+                android:src="@drawable/ic_baseline_search_24" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:visibility="visible">
 
         <LinearLayout
@@ -19,50 +62,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/linear_layout_margin_top"
             android:orientation="vertical">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme">
-
-                <TextView
-                    android:id="@+id/tvTitleToolbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/toolbar_title_margin_start"
-                    android:text="@string/toolbar_title_currency"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/ivSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="200dp"
-                    android:contentDescription="@string/search_currency"
-                    android:src="@drawable/ic_baseline_search_24" />
-
-                <ImageView
-                    android:id="@+id/ivCancelSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/close_search"
-                    android:src="@drawable/ic_cancel"
-                    android:visibility="gone" />
-
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusableInTouchMode="false"
-                    android:visibility="gone"
-                    app:iconifiedByDefault="false"
-                    app:queryHint="@string/search_hint" />
-
-            </androidx.appcompat.widget.Toolbar>
-
             <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
@@ -75,6 +74,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal">
                 <EditText
                     android:id="@+id/etDate"
@@ -84,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
                     android:layout_marginEnd="@dimen/edit_text_ext_view_margin_start_end_currency_fragment"
+
                     android:inputType="number"
                     android:hint="@string/edit_date" />
                 <ImageView
@@ -117,5 +119,9 @@
                 tools:listitem="@layout/currency_item" />
 
         </LinearLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/include"
+        layout="@layout/layout_bottom_sheet" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

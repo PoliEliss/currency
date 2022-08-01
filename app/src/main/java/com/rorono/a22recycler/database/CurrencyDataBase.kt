@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.rorono.a22recycler.models.localmodels.CurrencyItem
+import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
 
 @Database(entities = [CurrencyItem::class, SaveCurrencyItem::class], version = 4)
 abstract class CurrencyDataBase : RoomDatabase() {
@@ -33,7 +35,6 @@ abstract class CurrencyDataBase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE save_currency ADD COLUMN favorite INTEGER DEFAULT 0 NOT NULL")
             }
-
         }
     }
 }

@@ -1,6 +1,6 @@
-package com.rorono.a22recycler
+package com.rorono.a22recycler.network.utils
 
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.remotemodels.Currency
 
 sealed class Result {
     data class Success(val currency: Map<String, Currency>) : Result()

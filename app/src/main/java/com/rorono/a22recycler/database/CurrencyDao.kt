@@ -2,6 +2,8 @@ package com.rorono.a22recycler.database
 
 
 import androidx.room.*
+import com.rorono.a22recycler.models.localmodels.CurrencyItem
+import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
 
 
 @Dao
@@ -15,7 +17,6 @@ interface CurrencyDao {
 
     @Query("DELETE FROM currency")
     suspend fun deleteAllCurrency()
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSaveCurrency(currencyItem: SaveCurrencyItem)

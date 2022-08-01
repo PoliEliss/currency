@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rorono.a22recycler.databinding.CurrencyItemBinding
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.utils.Rounding
 
 class CurrencyAdapter() :
@@ -31,7 +31,7 @@ class CurrencyAdapter() :
     inner class CurrencyHolder(binding: CurrencyItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val textViewNameRate = binding.textViewNameRate
-        private val textViewExchangeRate = binding.textViewExchangeRate
+        private val textViewExchangeRate = binding.textViewCurrencyRate
 
         fun bind(currency: Currency) {
             itemView.setOnClickListener {

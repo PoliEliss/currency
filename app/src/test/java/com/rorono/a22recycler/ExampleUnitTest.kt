@@ -1,9 +1,11 @@
 package com.rorono.a22recycler
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import androidx.test.core.app.ApplicationProvider
 import com.rorono.a22recycler.database.CurrencyDataBase
-import com.rorono.a22recycler.network.RetrofitInstance
+import com.rorono.a22recycler.network.utils.Result
 import com.rorono.a22recycler.presentation.CurrencyTransferFragment
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.utils.Rounding
@@ -31,18 +33,21 @@ import org.mockito.kotlin.mock
 class ExampleUnitTest {
 
     @Mock
-    val mockRepository = mock<Repository>()
+    lateinit var mockRepository: Repository
+    // val  mockRepository = mock<Repository>()
     @Mock
-    private val dataBase:CurrencyDataBase? = mock<CurrencyDataBase>()
+    private var dataBase: CurrencyDataBase? =null
     private var viewModel: CurrencyViewModel? = null
     private var currencyTransferFragment: CurrencyTransferFragment? = null
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     @Before
     fun init() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        dataBase = CurrencyDataBase.getInstance(context)
         MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(mainThreadSurrogate)
-        viewModel = CurrencyViewModel(mockRepository, dataBase = dataBase!!.currencyDao())
+        viewModel = CurrencyViewModel(mockRepository, dataBase = dataBase!!.currencyDao())//repositoryDataBase
         currencyTransferFragment = CurrencyTransferFragment()
     }
 
@@ -172,8 +177,7 @@ class ExampleUnitTest {
 
 }
 
-class FakeRepository : Repository(retrofit = RetrofitInstance) {
+/*class FakeRepository : Repository(retrofit = RetrofitInstance) {
     override suspend fun getCurrency(data: String): Result {
         return Result.Error("Не удалось получить данные")
-    }
-}
+    }*/

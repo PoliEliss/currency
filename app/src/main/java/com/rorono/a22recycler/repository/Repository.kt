@@ -1,16 +1,13 @@
 package com.rorono.a22recycler.repository
 
-import android.util.Log
-import com.rorono.a22recycler.Result
+import com.rorono.a22recycler.network.utils.Result
 import com.rorono.a22recycler.network.ApiService
-import com.rorono.a22recycler.network.RetrofitInstance
-import com.rorono.a22recycler.settings.DataStoreRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val apiService: ApiService) {
+open class Repository @Inject constructor(private val apiService: ApiService) {
     suspend fun getCurrency(data: String): Result = withContext(Dispatchers.IO)  {
             try {
                 val response = apiService.getCurrency(data = data)

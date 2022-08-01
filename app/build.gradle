@@ -18,7 +18,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testOptions {
-            unitTests.returnDefaultValues = true
+            unitTests.includeAndroidResources = true
         }
     }
 
@@ -68,6 +68,9 @@ dependencies {
     // Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation 'com.jraska.livedata:testing:1.2.0'
+    //Robolectric
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.robolectric:robolectric:4.8.1"
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
