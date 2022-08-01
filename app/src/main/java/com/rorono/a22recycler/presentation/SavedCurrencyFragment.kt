@@ -2,7 +2,9 @@ package com.rorono.a22recycler.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
+import com.rorono.a22recycler.R
 import com.rorono.a22recycler.adapter.ChosenCurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickChosenCurrency
 import com.rorono.a22recycler.databinding.FragmentSavedCurrencyBinding
@@ -35,6 +38,10 @@ class SavedCurrencyFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val animationFavorite =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.aplpha_animation)
+        binding.ivIconFavorite.startAnimation(animationFavorite)
 
         adapterChosenCurrency.setOnListener(object : OnItemClickChosenCurrency {
             override fun onItemClick(currency: Currency, position: Int) {
@@ -63,6 +70,9 @@ class SavedCurrencyFragment :
         viewModel.getSaveCurrencyDao()
         viewModel.getCurrencyDao()
 
+        viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) {
+            adapterChosenCurrency.setData(it)
+        }
         viewModel.currencyDatabase.observe(viewLifecycleOwner) { listCurrency ->
             if (listCurrency.isNotEmpty()) {
                 viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) { listFavorite ->
