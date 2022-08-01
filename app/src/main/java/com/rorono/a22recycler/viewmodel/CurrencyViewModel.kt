@@ -1,6 +1,7 @@
 package com.rorono.a22recycler.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -110,8 +111,8 @@ class CurrencyViewModel @Inject constructor(
                 )
                 dataBase.deleteSaveCurrency(model)
             }
+            getSaveCurrencyDao()
         }
-        getSaveCurrencyDao()
     }
 
     private fun mapSaveCurrencyItem(currency: List<Currency>): List<SaveCurrencyItem> {
@@ -121,7 +122,7 @@ class CurrencyViewModel @Inject constructor(
                 fullName = i.fullName,
                 charCode = i.charCode,
                 value = i.value,
-                favorite = 1
+                favorite = 0
             )
             modelList.add(model)
         }
@@ -135,7 +136,7 @@ class CurrencyViewModel @Inject constructor(
                 fullName = i.fullName,
                 charCode = i.charCode,
                 value = i.value,
-                isFavorite = 1
+                isFavorite = 0
             )
             listCurrency.add(currencyItem)
         }
@@ -165,6 +166,7 @@ class CurrencyViewModel @Inject constructor(
             } else {
                 currencySaveListDatabase.addAll(mapCurrencyItem(saveCurrencyItem))
                 saveCurrencyDatabase.value = currencySaveListDatabase
+                Log.d("TEST","getSaveCurrencyDao ${saveCurrencyDatabase.value}")
             }
         }
     }
