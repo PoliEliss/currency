@@ -2,6 +2,7 @@ package com.rorono.a22recycler.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.R
@@ -14,6 +15,11 @@ class SettingsCurrencyFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        val animationIconSettings = AnimationUtils.loadAnimation(requireContext(),R.anim.rotate_animation)
+        binding.ivIconSettings.startAnimation(animationIconSettings)
+
 
         when (Settings.loadTheme(requireContext())) {
             1 -> binding.radioButtonLightTheme.isChecked = true
