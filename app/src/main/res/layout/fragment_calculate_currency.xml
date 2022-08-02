@@ -16,8 +16,18 @@
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:navigationIcon="@drawable/arrow"
-        app:title="@string/calculator" />
+        app:navigationIcon="@drawable/arrow" >
+
+        <TextView
+            android:id="@+id/tvTitleToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toolbar_title_currency"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,6 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/layout_bg"
+        tools:backgroundTint="@color/white"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout

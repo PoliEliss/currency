@@ -47,6 +47,18 @@
 
 
     </style>
+    <style name="Theme3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/gray</item>
+        <item name="colorControlActivated">@color/black</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="colorSecondary">@color/black</item>
+
+
+
+    </style>
 
 
 </resources>

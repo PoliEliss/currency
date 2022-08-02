@@ -1,7 +1,6 @@
 package com.rorono.a22recycler.presentation
 
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -14,11 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.databinding.ActivityMainBinding
-import com.rorono.a22recycler.settings.DataStoreRepository
-import com.rorono.a22recycler.settings.Settings
 import com.rorono.a22recycler.settings.ViewModelDataStore
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -29,53 +24,94 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: ViewModelDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_22recycler)
-        viewModel = ViewModelProvider(this)[ViewModelDataStore::class.java]
 
-        super.onCreate(savedInstanceState)
-        viewModel.test.observe(this, object : Observer<String> {
-            /* override fun onChanged(t: OrderCreationState?) {
-                if (t?.isPropsLoading?.not() == true) {
-                    viewModelOrderCreation.createOrder()
-                    viewModelOrderCreation.state.removeObserver(this)
-                }
-            }*/
+        viewModel = ViewModelProvider(this)[ViewModelDataStore::class.java]
+        val theme = intent.extras?.getString("Theme")
+        val language = intent.extras?.getString("Language")
+        Log.d("TEST", "theme1 ${theme}")
+        Log.d("TEST", "Language1 ${language}")
+
+
+        when (theme) {
+            "1" -> setTheme(R.style.Theme_22recycler)
+            "2" -> setTheme(R.style.Theme2)
+        }
+        when (language) {
+            "1" -> setLocale("ru")
+            "2" -> setLocale("en")
+        }
+        viewModel.language.observe(this, object : Observer<String> {
             override fun onChanged(t: String?) {
                 if (t == "1") {
-                    setTheme(R.style.Theme_22recycler)
-                    Toast.makeText(this@MainActivity,"1",Toast.LENGTH_LONG).show()
-
+                    setLocale("ru")
+                    Log.d("TEST", "!!ru ${t}")
+                    Toast.makeText(this@MainActivity, "ru", Toast.LENGTH_SHORT).show()
                 }
                 if (t == "2") {
-                    setTheme(R.style.Theme2)
-                    Toast.makeText(this@MainActivity,"2",Toast.LENGTH_LONG).show()
+                    setLocale("en")
+                    Log.d("TEST", "!!en ${t}")
+                    Toast.makeText(this@MainActivity, "en", Toast.LENGTH_SHORT).show()
+                }
+            }
 
+        })
+
+        viewModel.test.observe(this, object : Observer<String> {
+
+            override fun onChanged(t: String?) {
+                if (t == "1") {
+                    Toast.makeText(this@MainActivity, "10000", Toast.LENGTH_SHORT).show()
+                    binding.bottomNavigation.itemIconTintList =
+                        getColorStateList(R.color.bottom_nav_color)
+                    setTheme(R.style.Theme_22recycler)
+                }
+                if (t == "2") {
+                    Toast.makeText(this@MainActivity, "20000", Toast.LENGTH_SHORT).show()
+                    binding.bottomNavigation.itemIconTintList =
+                        getColorStateList(R.color.bottom_nav_dark_color)
+                    setTheme(R.style.Theme2)
                 }
             }
         })
-
-     val them =   viewModel.test.observe(this) {
-
-        }
+        super.onCreate(savedInstanceState)
 
 
-/*
-        viewModel.readThemeFromDataStore.observe(this) {
-            Log.d("TEST61", "theme ${it}")
-            when (it) {
-                "1" -> setTheme(R.style.Theme_22recycler)
-                "2" -> setTheme(R.style.Theme2)
-            }
-        }*/
+        /*    viewModel.test.observe(this, object : Observer<String> {
+
+                override fun onChanged(t: String?) {
+                     if (t == "1") {
+                         setTheme(R.style.Theme_22recycler)
+                         Toast.makeText(this@MainActivity,"1",Toast.LENGTH_LONG).show()
+
+                     }
+                     if (t == "2") {
+                         setTheme(R.style.Theme2)
+                         Toast.makeText(this@MainActivity,"2",Toast.LENGTH_LONG).show()
+
+                     }
+                 }
+             })*/
+
+        /* val them =   viewModel.test.observe(this) {
+
+            }*/
 
 
+        /* viewModel.readThemeFromDataStore.observe(this) {
+             Log.d("TEST61", "theme ${it}")
+             when (it) {
+                 "1" -> setTheme(R.style.Theme_22recycler)
+                 "2" -> setTheme(R.style.Theme2)
+             }
+         }*/
 
-        viewModel.readLanguageFromDataStore.observe(this) {
-            when (it) {
-                "1" -> setLocale("ru")
-                "2" -> setLocale("en")
-            }
-        }
+
+//        viewModel.readLanguageFromDataStore.observe(this) {
+//            when (it) {
+//                "1" -> setLocale("ru")
+//                "2" -> setLocale("en")
+//            }
+//        }
         /*  lifecycleScope.launch {
               when (viewModel.read("theme")) {
                   "1" -> setTheme(R.style.Theme_22recycler)

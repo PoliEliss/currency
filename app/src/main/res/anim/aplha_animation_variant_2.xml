@@ -4,10 +4,16 @@
 
     <alpha
         android:duration="5000"
-        android:fromAlpha="1.0"
+        android:fromAlpha="4.0"
         android:startOffset="0"
         android:toAlpha="0.0"
         android:repeatCount="infinite">
     </alpha>
-
+    <alpha
+        android:duration="5000"
+        android:fromAlpha="0.0"
+        android:startOffset="0"
+        android:toAlpha="1.0"
+        android:repeatCount="infinite">
+    </alpha>
 </set>

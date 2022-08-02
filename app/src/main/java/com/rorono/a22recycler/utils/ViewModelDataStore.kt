@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.rorono.a22recycler.models.Currency
+import com.rorono.a22recycler.models.remotemodels.Currency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.lifecycle.asLiveData
@@ -17,6 +17,8 @@ class ViewModelDataStore(application: Application) : AndroidViewModel(applicatio
     val repository = DataStoreRepository(application)
 
     val test = MutableLiveData<String>()
+
+    val language = MutableLiveData<String>()
 
     val readThemeFromDataStore = repository.readFromThemeDataStore.asLiveData()
 
@@ -29,6 +31,7 @@ class ViewModelDataStore(application: Application) : AndroidViewModel(applicatio
 
 init {
     getCollect()
+    getLanguageCollect()
 }
 
     fun getCollect() {
@@ -41,6 +44,14 @@ init {
        }
     }
 
+    fun getLanguageCollect(){
+        viewModelScope.launch {
+            val result = repository.readFromLanguageDataStore.collect{
+                language.postValue(it)
+                Log.d("TEST"," language ${it}")
+            }
+        }
+    }
 
    /* suspend fun read(key: String):String {
       val result =   repository.read(key)
