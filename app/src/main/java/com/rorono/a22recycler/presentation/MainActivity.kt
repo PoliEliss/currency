@@ -28,8 +28,10 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ViewModelDataStore::class.java]
         val theme = intent.extras?.getString("Theme")
         val language = intent.extras?.getString("Language")
+        val test = intent.extras?.getString("TEST")
         Log.d("TEST", "theme1 ${theme}")
         Log.d("TEST", "Language1 ${language}")
+
 
 
         when (theme) {
