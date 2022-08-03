@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.View.ALPHA
@@ -27,6 +28,7 @@ import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.remotemodels.Currency
+import com.rorono.a22recycler.network.utils.CurrencyState
 import com.rorono.a22recycler.network.utils.NetManager
 import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.utils.Settings
@@ -97,19 +99,36 @@ class CurrencyFragment :
             datePickerDialog.show()
         }
 
-        with(binding){
+        with(binding) {
             recyclerView.layoutManager = GridLayoutManager(view.context, 3)
             recyclerView.adapter = adapter
         }
 
-        viewModel.messageError.observe(viewLifecycleOwner) { error ->
-            getToastError(error)
+        viewModel.currencyState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is CurrencyState.Loading ->{
+                    binding.progressBarCurrency.visibility = View.VISIBLE
+                    binding.tvAttention.visibility = View.GONE
+                    binding.recyclerView.visibility = View.INVISIBLE
+                }
+                is CurrencyState.Error -> {
+                    binding.progressBarCurrency.visibility = View.GONE
+                    binding.recyclerView.visibility = View.INVISIBLE
+                    binding.tvAttention.visibility = View.VISIBLE
+                    binding.tvAttention.setText(R.string.attention_state_error)
+                }
+
+                is CurrencyState.Success -> {
+                    binding.progressBarCurrency.visibility = View.GONE
+                    binding.tvAttention.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+                    val currency = state.data
+                    adapter.submitList(currency)
+                    searchCurrency(currency)
+                }
+            }
         }
 
-        viewModel.listCurrency.observe(viewLifecycleOwner) { response ->
-            adapter.submitList(response)
-            searchCurrency(response)
-        }
         adapter.setOnListener(object : OnItemClickListener {
             override fun onItemClick(currency: Currency, position: Int) {
                 initializationBottomSheetBehavior(currency = currency)
@@ -362,9 +381,9 @@ class CurrencyFragment :
         }
     }
 
-    private fun getToastError(error: String) {
+    /*private fun getToastError(error: String) {
         Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
-    }
+    }*/
 }
 
 private fun createCalendar(): Triple<Int, Int, Int> {

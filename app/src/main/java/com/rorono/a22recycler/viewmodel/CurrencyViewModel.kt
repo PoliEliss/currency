@@ -1,16 +1,15 @@
 package com.rorono.a22recycler.viewmodel
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rorono.a22recycler.network.utils.Result
-import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.models.localmodels.CurrencyItem
 import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
 import com.rorono.a22recycler.models.remotemodels.Currency
+import com.rorono.a22recycler.network.utils.CurrencyState
+import com.rorono.a22recycler.network.utils.Result
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.repository.RepositoryDataBase
 import com.rorono.a22recycler.utils.Rounding
@@ -40,6 +39,9 @@ class CurrencyViewModel @Inject constructor(
 
     var saveCurrencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
 
+    private val _currencyState = MutableLiveData<CurrencyState>()
+    val currencyState = _currencyState
+
     fun getDate(): String {
         val currentDate = Date()
         val dataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -49,6 +51,7 @@ class CurrencyViewModel @Inject constructor(
     fun getCurrency(date: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                _currencyState.postValue(CurrencyState.Loading)
                 val response = repository.getCurrency(date)
                 withContext(Dispatchers.Main) {
                     when (response) {
@@ -56,11 +59,13 @@ class CurrencyViewModel @Inject constructor(
                             val list = mutableListOf<Currency>()
                             list.addAll(response.currency.values.toList())
                             list.add(Currency("Российский рубль", "RUB", 1.0, 0))
-                            _listCurrency.postValue(response.currency.values.toList())
+                           //  _listCurrency.postValue(response.currency.values.toList())
+                            _currencyState.postValue(CurrencyState.Success(response.currency.values.toList()))
                             setCurrencyDao(list, getDate())
                         }
                         is Result.Error -> {
-                            _messageError.postValue(response.error)
+                            _currencyState.postValue(CurrencyState.Error("Ошибка"))
+                            //_messageError.postValue(response.error)
                         }
                     }
                 }
@@ -94,9 +99,7 @@ class CurrencyViewModel @Inject constructor(
 
     fun deleteAllSaveCurrency() {//todo
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                repositoryDataBase.deleteAllSaveCurrency()
-            }
+            repositoryDataBase.deleteAllSaveCurrency()
         }
     }
 
@@ -161,7 +164,7 @@ class CurrencyViewModel @Inject constructor(
             mutableListOf<Currency>()
         viewModelScope.launch {
             val saveCurrencyItem: List<SaveCurrencyItem> =
-                withContext(Dispatchers.IO) { repositoryDataBase.getAllSaveCurrency() }
+                repositoryDataBase.getAllSaveCurrency()
             if (saveCurrencyItem.isEmpty()) {
                 saveCurrencyDatabase.value = emptyList()
             } else {
@@ -177,7 +180,7 @@ class CurrencyViewModel @Inject constructor(
         viewModelScope.launch {
             var currency: Currency
             val currencyItem: List<CurrencyItem> =
-                withContext(Dispatchers.IO) { repositoryDataBase.getAllCurrency() }
+                repositoryDataBase.getAllCurrency()
             for (i in currencyItem) {
                 currency =
                     Currency(fullName = i.fullName, charCode = i.charCode, value = i.value)

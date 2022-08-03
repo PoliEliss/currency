@@ -16,6 +16,7 @@
     <string name="attention">Внимание! \n Не удается получить данные за указанную дату</string>
     <string name="entered_value_greater_zero">Введите значение больше нуля</string>
     <string name="attention_error_get_data">Внимание! \n Произошла ошибка при загрузке данных. \nЗагружены последние данные посещения на </string>
+    <string name="attention_state_error">Не удалось получить данные за этот день, пожалуйста выберите другую дату!!!!  </string>
     <string name="search_currency">search_currency</string>
     <string name="close_search">close_search</string>
     <string name="eng">ENG</string>

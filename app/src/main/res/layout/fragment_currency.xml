@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="@color/white"
+
     tools:context=".presentation.CurrencyFragment">
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -116,12 +117,19 @@
                 android:paddingBottom="50dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:itemCount="4"
-                tools:listitem="@layout/currency_item" />
-
+                tools:listitem="@layout/currency_item"
+                android:visibility="visible"/>
         </LinearLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <include
         android:id="@+id/include"
         layout="@layout/layout_bottom_sheet" />
+    <ProgressBar
+        android:id="@+id/progressBarCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
