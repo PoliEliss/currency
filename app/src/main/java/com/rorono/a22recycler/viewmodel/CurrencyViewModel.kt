@@ -167,7 +167,6 @@ class CurrencyViewModel @Inject constructor(
             } else {
                 currencySaveListDatabase.addAll(mapCurrencyItem(saveCurrencyItem))
                 saveCurrencyDatabase.value = currencySaveListDatabase
-                Log.d("TEST", "getSaveCurrencyDao ${saveCurrencyDatabase.value}")
             }
         }
     }
