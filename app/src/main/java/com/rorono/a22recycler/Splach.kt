@@ -12,14 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.rorono.a22recycler.databinding.ActivitySplashBinding
 import com.rorono.a22recycler.presentation.MainActivity
 import com.rorono.a22recycler.settings.ViewModelDataStore
+import com.rorono.a22recycler.utils.SplashViewModels
 import java.util.*
 
 class Splach : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
-    private lateinit var viewModel: ViewModelDataStore
+    private lateinit var viewModel: SplashViewModels
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[ViewModelDataStore::class.java]
+        viewModel = ViewModelProvider(this)[SplashViewModels::class.java]
 
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -51,28 +52,21 @@ class Splach : AppCompatActivity() {
         val monat2 = AnimationUtils.loadAnimation(this, R.anim.search_anim)
         binding.ivCurrencyLira2.startAnimation(monat2)
 
-
         var intentTheme = "1"
         var intentLanguage = "2"
+
         Handler().postDelayed({
-            viewModel.test.observe(this@Splach, object : Observer<String> {
+            viewModel.selectTheme.observe(this@Splach, object : Observer<String> {
                 override fun onChanged(t: String?) {
                     if (t == "1") {
                         setTheme(R.style.Theme_22recycler)
                         Toast.makeText(this@Splach, "1", Toast.LENGTH_LONG).show()
-
                         intentTheme ="1"
-                       /* val intent = Intent(this@Splach, MainActivity::class.java)
-                        intent.putExtra("Theme", "1")
-                        startActivity(intent)*/
                     }
                     if (t == "2") {
                         setTheme(R.style.Theme2)
                         Toast.makeText(this@Splach, "2", Toast.LENGTH_LONG).show()
                         intentTheme ="2"
-                        /*val intent = Intent(this@Splach, MainActivity::class.java)
-                        intent.putExtra("Theme", "2")
-                        startActivity(intent)*/
                     }
                 }
             })
@@ -82,16 +76,10 @@ class Splach : AppCompatActivity() {
                     if (t =="1"){
                         setLocale("ru")
                         intentLanguage="1"
-                        /*val intent = Intent(this@Splach, MainActivity::class.java)
-                        intent.putExtra("Language", "1")
-                        startActivity(intent)*/
                     }
                     if (t =="2"){
                         setLocale("en")
                         intentLanguage="2"
-                        /*val intent = Intent(this@Splach, MainActivity::class.java)
-                        intent.putExtra("Language", "2")
-                        startActivity(intent)*/
                     }
                 }
 
@@ -101,7 +89,6 @@ class Splach : AppCompatActivity() {
             intent.putExtra("Theme",intentTheme)
             intent.putExtra("Language",intentLanguage)
             startActivity(intent)
-
         }, 10000)
 
 

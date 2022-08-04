@@ -1,20 +1,17 @@
-package com.rorono.a22recycler.settings
+package com.rorono.a22recycler.utils
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rorono.a22recycler.models.remotemodels.Currency
+import com.rorono.a22recycler.settings.DataStoreRepository
+import com.rorono.a22recycler.settings.StateDS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import androidx.lifecycle.asLiveData
-import com.rorono.a22recycler.utils.BaseViewModel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.handleCoroutineException
 
-class ViewModelDataStore(application: Application) : BaseViewModel<StateDS>(application = application) {
+class SplashViewModels(application: Application) : AndroidViewModel(application) {
 
     val repository = DataStoreRepository(application)
     val selectTheme = MutableLiveData<String>()
@@ -31,36 +28,26 @@ class ViewModelDataStore(application: Application) : BaseViewModel<StateDS>(appl
     }
 
     fun getCollect() {
-        state.value = StateDS.Success
+
         viewModelScope.launch {
             repository.readFromThemeDataStore.collect {
                 selectTheme.postValue(it)
 
             }
-            state.value=StateDS.Success
+
         }
     }
 
     fun getLanguageCollect() {
-        state.value = StateDS.Success
+
         viewModelScope.launch {
-         repository.readFromLanguageDataStore.collect {
+            val result = repository.readFromLanguageDataStore.collect {
                 language.postValue(it)
                 Log.d("TEST", " language ${it}")
             }
-            state.value=StateDS.Success
+
         }
     }
 
-    /* suspend fun read(key: String):String {
-       val result =   repository.read(key)
-         Log.d("TEST","Result 56 ${result}")
-         return  result ?:"1"
-     }*/
 
-}
-
-sealed class StateDS {
-    object Loading : StateDS()
-    object Success : StateDS()
 }

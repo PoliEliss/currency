@@ -14,12 +14,14 @@ import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.R
 import com.rorono.a22recycler.Splach
 import com.rorono.a22recycler.databinding.FragmentSettingsCurrencyBinding
+import com.rorono.a22recycler.settings.StateDS
 import com.rorono.a22recycler.utils.Settings
 import com.rorono.a22recycler.settings.ViewModelDataStore
 import kotlinx.coroutines.delay
@@ -29,20 +31,25 @@ import kotlinx.coroutines.launch
 class SettingsCurrencyFragment :
     BaseViewBindingFragment<FragmentSettingsCurrencyBinding>(FragmentSettingsCurrencyBinding::inflate) {
 
-    private lateinit var viewModel: ViewModelDataStore
-
+    val viewModel: ViewModelDataStore by activityViewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("TEST","onViewCreated")
+        Log.d("TEST", "onViewCreated")
         val settingAnimation =
             AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_animation)
         binding.ivIconSettings.startAnimation(settingAnimation)
 
-        viewModel = ViewModelProvider(this)[ViewModelDataStore::class.java]
+        viewModel.observeState(viewLifecycleOwner) {
+            Log.d("TEST","$it")
+           when(it){
+               StateDS.Loading -> Unit
+               StateDS.Success -> requireActivity().recreate()
+           }
+        }
 
-        viewModel.test.observe(viewLifecycleOwner) {
+        viewModel.selectTheme.observe(viewLifecycleOwner) {
             when (it) {
                 "1" -> {
                     binding.radioButtonLightTheme.isChecked = true
@@ -51,9 +58,13 @@ class SettingsCurrencyFragment :
                         binding.ivIconSettings,
                         ContextCompat.getColorStateList(requireContext(), R.color.blu)
                     )
-                    binding.tvToolbarTitleSettings.setTextColor(ContextCompat.getColor(requireContext(),R.color.blu))
+                    binding.tvToolbarTitleSettings.setTextColor(
+                        requireContext().getColor(
+                            R.color.blu
+                        )
+                    )
                     binding.toolbarSettingsCurrencyFragment.setNavigationIconTint(
-                        getResources().getColor(
+                       requireContext().getColor(
                             R.color.blu
                         )
                     )
@@ -64,7 +75,7 @@ class SettingsCurrencyFragment :
                         ContextCompat.getColorStateList(requireContext(), R.color.black)
                     )
                     binding.toolbarSettingsCurrencyFragment.setNavigationIconTint(
-                        getResources().getColor(
+                      requireContext().getColor(
                             R.color.black
                         )
                     )
@@ -74,24 +85,29 @@ class SettingsCurrencyFragment :
                     binding.radioButtonChooseRU.setBackgroundResource(R.drawable.radio_selector_black_theme)
                     binding.radioButtonChooseTile.setBackgroundResource(R.drawable.radio_selector_black_theme)
                     binding.radioButtonChooseLine.setBackgroundResource(R.drawable.radio_selector_black_theme)
-                    binding.tvToolbarTitleSettings.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+                    binding.tvToolbarTitleSettings.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.black
+                        )
+                    )
 
                 }
             }
         }
-         viewModel.language.observe(viewLifecycleOwner){
-             when(it){
-                 "1" ->{
-                     binding.radioButtonChooseRU.isChecked = true
+        viewModel.language.observe(viewLifecycleOwner) {
+            when (it) {
+                "1" -> {
+                    binding.radioButtonChooseRU.isChecked = true
 
-                 }
-                 "2" ->{
-                     binding.radioButtonChooseEN.isChecked = true
-                 }
+                }
+                "2" -> {
+                    binding.radioButtonChooseEN.isChecked = true
+                }
 
-             }
-             Log.d("TEST","it it ${it}")
-         }
+            }
+            Log.d("TEST", "it it ${it}")
+        }
 
         when (Settings.loadOrientation(requireContext())) {
             1 -> binding.radioButtonChooseLine.isChecked = true
@@ -109,26 +125,17 @@ class SettingsCurrencyFragment :
             viewModel.saveToDataStore("theme", "2")
             requireActivity().recreate()
 
-
         }
 
         binding.radioButtonChooseRU.setOnClickListener {
             viewModel.saveToDataStore("language", "1")
-            Log.d("TEST","Click 1")
+            Log.d("TEST", "Click 1")
 
-
-            lifecycleScope.launch {
-                requireActivity().recreate()
-                delay(500)
-            }
-
-            val intent = Intent(activity,MainActivity::class.java)
-            intent.putExtra("Language","1")
-            requireActivity().startActivity(intent)
+            requireActivity().recreate()
         }
         binding.radioButtonChooseEN.setOnClickListener {
             viewModel.saveToDataStore("language", "2")
-            Log.d("TEST","Click 2")
+            Log.d("TEST", "Click 2")
 
             requireActivity().recreate()
         }
@@ -136,7 +143,7 @@ class SettingsCurrencyFragment :
         binding.radioButtonChooseLine.setOnClickListener {
             viewModel.saveToDataStore("orientation", "1")
             //  Settings.saveOrientation(requireContext(), 1)
-            
+
         }
         binding.radioButtonChooseTile.setOnClickListener {
             viewModel.saveToDataStore("orientation", "2")
@@ -147,17 +154,17 @@ class SettingsCurrencyFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("TEST","onDestroyView()")
+        Log.d("TEST", "onDestroyView()")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("TEST","onDestroy")
+        Log.d("TEST", "onDestroy")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d("TEST"," super.onDetach()")
+        Log.d("TEST", " super.onDetach()")
     }
 }
 
