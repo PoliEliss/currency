@@ -134,7 +134,7 @@ class CurrencyFragment :
                     listFavorite.addAll(list)
                 }
                 val res =
-                    if (listFavorite.any { it.fullName == currency.fullName }) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+                    if (listFavorite.any { it.fullName == currency.fullName }) R.drawable.ic_favorite_50_50 else R.drawable.ic_favorite_border
                 binding.include.ivChoseCurrency.setImageResource(res)
 
                 binding.include.ivChoseCurrency.setOnClickListener {
@@ -143,7 +143,7 @@ class CurrencyFragment :
                     if (!searchCurrency) {
                         listFavorite.add(currency)
                         viewModel.setSaveCurrencyDao(listFavorite)
-                        binding.include.ivChoseCurrency.setImageResource(R.drawable.ic_favorite)
+                        binding.include.ivChoseCurrency.setImageResource(R.drawable.ic_favorite_50_50)
                     } else {
                         listFavorite.remove(currency)
                         viewModel.deleteSaveCurrency(currency)
