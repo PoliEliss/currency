@@ -19,7 +19,7 @@ interface AppComponent {
     fun inject(calculateCurrencyFragment: CalculateCurrencyFragment)
 
     @Component.Factory
-    interface factory {
+    interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
 }
