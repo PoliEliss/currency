@@ -36,4 +36,5 @@
     <string name="favorites">Избранное</string>
     <string name="add_to_favorites_button">add to favorites button</string>
     <string name="blinking_heart_animation">blinking_heart_animation</string>
+    <string name="icon_when_clicked_which_will_remove_the_currency_from_favorites">icon when clicked, which will remove the currency from favorites</string>
 </resources>

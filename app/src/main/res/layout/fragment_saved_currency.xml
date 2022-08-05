@@ -42,5 +42,5 @@
         android:layout_marginBottom="@dimen/recycler_view_chosen_currency_margin_bottom"
         android:splitMotionEvents="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_save_currency" />
+        tools:listitem="@layout/item_currency" />
 </LinearLayout>

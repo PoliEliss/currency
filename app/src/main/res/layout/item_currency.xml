@@ -8,12 +8,13 @@
     app:cardCornerRadius="@dimen/radius_card_corner">
 
     <ImageView
-        android:id="@+id/ivClose1"
+        android:id="@+id/ivClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:visibility="gone"
-        android:src="@drawable/ic_close_24" />
+        android:src="@drawable/ic_close_24"
+        android:contentDescription="@string/icon_when_clicked_which_will_remove_the_currency_from_favorites" />
     <TextView
         android:id="@+id/textViewNameRate"
         android:layout_width="wrap_content"
@@ -32,7 +33,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/_89p"
         android:textColor="@color/gray"
-        android:textSize="@dimen/size_item_currency_echangeRate" />
+        android:textSize="@dimen/size_item_currency_exchange_rate" />
 
 
 </com.rorono.a22recycler.presentation.customview.CustomCardView>

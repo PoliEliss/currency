@@ -53,7 +53,7 @@ class ChosenCurrencyAdapter :
         fun bind(currency: Currency) {
             val tvNameRate = itemView.findViewById<TextView>(R.id.textViewNameRate)
             tvNameRate.text = currency.charCode
-            val ivClose = itemView.findViewById<ImageView>(R.id.ivClose1)
+            val ivClose = itemView.findViewById<ImageView>(R.id.ivClose)
             ivClose.visibility = View.VISIBLE
             val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewCurrencyRate)
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
