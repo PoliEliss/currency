@@ -1,9 +1,7 @@
 package com.rorono.a22recycler.viewmodel
 
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rorono.a22recycler.models.localmodels.CurrencyItem
 import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
@@ -23,24 +21,11 @@ import javax.inject.Inject
 class CurrencyViewModel @Inject constructor(
     private val repository: Repository,
     private val repositoryDataBase: RepositoryDataBase
-) :
-    ViewModel() {
-    private val _listCurrency: MutableLiveData<List<Currency>> = MutableLiveData()
-    val listCurrency: LiveData<List<Currency>>
-        get() = _listCurrency
-
-    private val _messageError: MutableLiveData<String> = MutableLiveData()
-    val messageError: LiveData<String>
-        get() = _messageError
+) : BaseViewModel<CurrencyState>() {
 
     val date: MutableLiveData<String> = MutableLiveData(getDate())
-
     var currencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
-
     var saveCurrencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
-
-    private val _currencyState = MutableLiveData<CurrencyState>()
-    val currencyState = _currencyState
 
     fun getDate(): String {
         val currentDate = Date()
@@ -51,7 +36,7 @@ class CurrencyViewModel @Inject constructor(
     fun getCurrency(date: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _currencyState.postValue(CurrencyState.Loading)
+               state.postValue(CurrencyState.Loading)
                 val response = repository.getCurrency(date)
                 withContext(Dispatchers.Main) {
                     when (response) {
@@ -59,13 +44,11 @@ class CurrencyViewModel @Inject constructor(
                             val list = mutableListOf<Currency>()
                             list.addAll(response.currency.values.toList())
                             list.add(Currency("Российский рубль", "RUB", 1.0, 0))
-                           //  _listCurrency.postValue(response.currency.values.toList())
-                            _currencyState.postValue(CurrencyState.Success(response.currency.values.toList()))
+                            state.postValue(CurrencyState.Success(response.currency.values.toList()))
                             setCurrencyDao(list, getDate())
                         }
                         is Result.Error -> {
-                            _currencyState.postValue(CurrencyState.Error("Ошибка"))
-                            //_messageError.postValue(response.error)
+                            state.postValue(CurrencyState.Error("Ошибка"))
                         }
                     }
                 }
