@@ -34,4 +34,6 @@
     <dimen name="recycler_margin_bottom">50dp</dimen>
     <dimen name="recycler_view_chosen_currency_margin_bottom">50dp</dimen>
     <dimen name="text_view_size">20sp</dimen>
+    <dimen name="text_view_currency_rate_layout_margin_top">15dp</dimen>
+    <dimen name="tv_name_rate_layout_margin_bottom">15dp</dimen>
 </resources>

@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="@dimen/tv_name_rate_layout_margin_bottom"
         android:text="@string/ada"
         android:textSize="@dimen/size_name_currency"
         android:textStyle="bold" />
@@ -30,10 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/text_view_currency_rate_layout_margin_top"
         android:text="@string/_89p"
         android:textColor="@color/gray"
         android:textSize="@dimen/size_item_currency_exchange_rate" />
-
 
 </com.rorono.a22recycler.presentation.customview.CustomCardView>
