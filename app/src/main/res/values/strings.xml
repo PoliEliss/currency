@@ -34,4 +34,5 @@
     <string name="calculator">Калькулятор</string>
     <string name="_1">1</string>
     <string name="favorites">Избранное</string>
+    <string name="add_to_favorites_button">add to favorites button</string>
 </resources>

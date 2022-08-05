@@ -23,4 +23,11 @@
     <dimen name="text_input_layout_margin_end">20dp</dimen>
     <dimen name="text_input_layout_margin_top">22dp</dimen>
     <dimen name="height_bottom_navigation">40dp</dimen>
+    <dimen name="width_control">40dp</dimen>
+    <dimen name="margin_end_20_dp">20dp</dimen>
+    <dimen name="height_control">8dp</dimen>
+    <dimen name="peek_height_behavior">0dp</dimen>
+    <dimen name="char_code_title_margin_top">10dp</dimen>
+    <dimen name="char_code_title_text_size">25sp</dimen>
+    <dimen name="et_transfer_rubles_margin_bottom">50dp</dimen>
 </resources>

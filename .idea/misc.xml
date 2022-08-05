@@ -17,6 +17,7 @@
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_favorite_black.xml" value="0.3185" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_money.xml" value="0.36512820512820515" />
+        <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/ic_settings.xml" value="0.2185" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/layout_bg.xml" value="0.37083333333333335" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/radio_button.xml" value="0.3185" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/radio_button_selected_black_theme.xml" value="0.3185" />
@@ -29,6 +30,8 @@
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/text_color.xml" value="0.3185" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/drawable/text_color_night_theme.xml" value="0.3185" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/activity_main.xml" value="0.340625" />
+        <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/activity_splash.xml" value="0.3546875" />
+        <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.3546875" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/chosen_currency_item.xml" value="0.3546875" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/currency_item.xml" value="0.3546875" />
         <entry key="..\:/Users/Polina/AndroidStudioProjects/22recycler/app/src/main/res/layout/dialog.xml" value="0.3546875" />
