@@ -56,4 +56,5 @@
     <dimen name="tv_layout_margin_top">40dp</dimen>
     <dimen name="spinner_layout_margin">16dp</dimen>
     <dimen name="et_currency_converted_to_layout_margin_bottom">50dp</dimen>
+    <dimen name="et_transfer_rubles_layout_margin_bottom">50dp</dimen>
 </resources>
