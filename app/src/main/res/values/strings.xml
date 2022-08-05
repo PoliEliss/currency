@@ -2,7 +2,6 @@
     <string name="app_name">Валюты</string>
     <string name="aud">AUD</string>
     <string name="_59_22p">59.22P</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="_0">0</string>
     <string name="rub">RUB</string>
@@ -17,8 +16,8 @@
     <string name="entered_value_greater_zero">Введите значение больше нуля</string>
     <string name="attention_error_get_data">Внимание! \n Произошла ошибка при загрузке данных. \nЗагружены последние данные посещения на </string>
     <string name="attention_state_error">Не удалось получить данные за этот день, пожалуйста выберите другую дату!!!!  </string>
-    <string name="search_currency">search_currency</string>
-    <string name="close_search">close_search</string>
+    <string name="search_currency">Поиск валюты</string>
+    <string name="close_search">Закрыть поиск</string>
     <string name="eng">ENG</string>
     <string name="ru">RU</string>
     <string name="choose_language">Выберите язык</string>
@@ -34,8 +33,8 @@
     <string name="calculator">Калькулятор</string>
     <string name="_1">1</string>
     <string name="favorites">Избранное</string>
-    <string name="add_to_favorites_button">add to favorites button</string>
-    <string name="blinking_heart_animation">blinking_heart_animation</string>
-    <string name="icon_when_clicked_which_will_remove_the_currency_from_favorites">icon when clicked, which will remove the currency from favorites</string>
-    <string name="spinning_gear_animation">spinning gear animation</string>
+    <string name="add_to_favorites_button">Кнопка добавить в избранное</string>
+    <string name="blinking_heart_animation">Анимация мерцающего сердечка</string>
+    <string name="icon_when_clicked_which_will_remove_the_currency_from_favorites">Иконка при нажатии на которую происходит удаление валюты из избранного</string>
+    <string name="spinning_gear_animation">Аниация вращающейся шестеренки</string>
 </resources>

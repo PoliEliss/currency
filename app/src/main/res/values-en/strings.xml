@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">Валюты</string>
+    <string name="app_name">Currencies</string>
     <string name="aud">AUD</string>
     <string name="_59_22p">59.22P</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="_0">0</string>
     <string name="rub">RUB</string>
@@ -11,11 +10,11 @@
     <string name="_89p">89P</string>
     <string name="date">Date</string>
     <string name="edit_date">20.03.2022</string>
-    <string name="test_name">Австралийский доллар</string>
+    <string name="test_name">Australian dollar</string>
     <string name="rate">Rate</string>
-    <string name="attention">Внимание! \n Не удается получить данные за указанную дату</string>
+    <string name="attention">Attention! \n Unable to get data for the specified date</string>
     <string name="entered_value_greater_zero">Entered a value great than zero</string>
-    <string name="attention_error_get_data">Внимание! \n Произошла ошибка при загрузке данных. \nЗагружены последние данные посещения на </string>
+    <string name="attention_error_get_data">Attention! \n An error occurred while loading data. \nLoaded last visit data on </string>
     <string name="search_currency">search_currency</string>
     <string name="close_search">close_search</string>
     <string name="eng">ENG</string>
@@ -33,4 +32,9 @@
     <string name="calculator">Calculator</string>
     <string name="_1">1</string>
     <string name="favorites">Favorites</string>
+    <string name="add_to_favorites_button">add to favorites button</string>
+    <string name="blinking_heart_animation">blinking_heart_animation</string>
+    <string name="icon_when_clicked_which_will_remove_the_currency_from_favorites">icon when clicked, which will remove the currency from favorites</string>
+    <string name="spinning_gear_animation">spinning gear animation</string>
+    <string name="attention_state_error">Failed to get data for this day, please select another date! </string>
 </resources>
