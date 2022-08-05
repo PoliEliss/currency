@@ -11,15 +11,15 @@
     <dimen name="edit_text_ext_view_margin_start_end_currency_fragment">32dp</dimen>
     <dimen name="text_size_text_view_fragment_currency">18sp</dimen>
     <dimen name="margin_top_text_view_data">33dp</dimen>
-    <dimen name="toolbar_title_margin_start_fragmnet_transfer">35dp</dimen>
+    <dimen name="toolbar_title_margin_start_fragment_transfer">35dp</dimen>
     <dimen name="margin_start_text_view_fragment_currency_transfer">16dp</dimen>
-    <dimen name="margin_bottonechangerate">20dp</dimen>
+    <dimen name="margin_bottom_exchange_rate">20dp</dimen>
     <dimen name="text_view_margin_top_name_currency">20dp</dimen>
     <dimen name="text_size_text_view_name_currency">18sp</dimen>
     <dimen name="text_view_margin_top_fragment_currency_transfer">6dp</dimen>
     <dimen name="size_text_view_rate">15sp</dimen>
     <dimen name="text_view_fragment_currency_transfer">4dp</dimen>
-    <dimen name="text_size_exchange_rate_transfer_fragmnet">26sp</dimen>
+    <dimen name="text_size_exchange_rate_transfer_fragment">26sp</dimen>
     <dimen name="text_input_layout_margin_end">20dp</dimen>
     <dimen name="text_input_layout_margin_top">22dp</dimen>
     <dimen name="height_bottom_navigation">40dp</dimen>
@@ -54,4 +54,6 @@
     <dimen name="radio_button_layout_margin_start">20dp</dimen>
     <dimen name="radio_group_language_layout_margin_top">20dp</dimen>
     <dimen name="tv_layout_margin_top">40dp</dimen>
+    <dimen name="spinner_layout_margin">16dp</dimen>
+    <dimen name="et_currency_converted_to_layout_margin_bottom">50dp</dimen>
 </resources>

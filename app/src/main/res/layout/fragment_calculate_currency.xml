@@ -34,7 +34,7 @@
                 android:id="@+id/spinnerSelectedCurrency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="@dimen/spinner_layout_margin"
                 android:entries="@array/charCode" />
 
             <TextView
@@ -52,12 +52,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
                 android:layout_marginTop="@dimen/text_view_fragment_currency_transfer"
-                android:layout_marginBottom="@dimen/margin_bottonechangerate"
+                android:layout_marginBottom="@dimen/margin_bottom_exchange_rate"
                 android:text="@string/_1"
                 android:textColor="@color/black_currency"
-                android:textSize="@dimen/text_size_exchange_rate_transfer_fragmnet"
+                android:textSize="@dimen/text_size_exchange_rate_transfer_fragment"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +69,7 @@
                 android:id="@+id/spinnerTransferredCurrency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="@dimen/spinner_layout_margin"
                 android:entries="@array/charCode" />
 
             <TextView
@@ -88,15 +87,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
                 android:layout_marginTop="@dimen/text_view_fragment_currency_transfer"
-                android:layout_marginBottom="@dimen/margin_bottonechangerate"
+                android:layout_marginBottom="@dimen/margin_bottom_exchange_rate"
                 android:text="@string/_59_22p"
                 android:textColor="@color/black_currency"
-                android:textSize="@dimen/text_size_exchange_rate_transfer_fragmnet"
+                android:textSize="@dimen/text_size_exchange_rate_transfer_fragment"
                 android:textStyle="bold" />
-
         </LinearLayout>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -110,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
-            android:layout_marginTop="@dimen/margin_bottonechangerate"
+            android:layout_marginTop="@dimen/margin_bottom_exchange_rate"
             android:layout_marginEnd="@dimen/text_input_layout_margin_end"
             app:boxStrokeColor="@color/blu"
             app:expandedHintEnabled="false"
@@ -123,7 +120,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/_0"
                 android:inputType="numberDecimal" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -143,7 +139,7 @@
                 android:id="@+id/etCurrencyConvertedTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="@dimen/et_currency_converted_to_layout_margin_bottom"
                 android:hint="@string/_0"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>

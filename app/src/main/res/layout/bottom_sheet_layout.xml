@@ -70,10 +70,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
         android:layout_marginTop="@dimen/text_view_fragment_currency_transfer"
-        android:layout_marginBottom="@dimen/margin_bottonechangerate"
+        android:layout_marginBottom="@dimen/margin_bottom_exchange_rate"
         android:text="@string/_59_22p"
         android:textColor="@color/black_currency"
-        android:textSize="@dimen/text_size_exchange_rate_transfer_fragmnet"
+        android:textSize="@dimen/text_size_exchange_rate_transfer_fragment"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start_text_view_fragment_currency_transfer"
-                android:layout_marginTop="@dimen/margin_bottonechangerate"
+                android:layout_marginTop="@dimen/margin_bottom_exchange_rate"
                 android:layout_marginEnd="@dimen/text_input_layout_margin_end"
                 app:boxStrokeColor="@color/blu"
                 app:expandedHintEnabled="false"
