@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:text="@string/favorites"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_view_size"
             android:textStyle="bold" />
 
         <ImageView
@@ -29,19 +29,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_favorite" />
+            android:layout_marginEnd="@dimen/margin_end_20_dp"
+            android:src="@drawable/ic_favorite"
+            android:contentDescription="@string/blinking_heart_animation" />
     </com.google.android.material.appbar.MaterialToolbar>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChosenCurrency"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|top"
-        android:paddingBottom="50dp"
+        android:layout_marginBottom="@dimen/recycler_view_chosen_currency_margin_bottom"
         android:splitMotionEvents="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_save_currency" />
-
 </LinearLayout>

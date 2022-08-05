@@ -32,4 +32,6 @@
     <dimen name="et_transfer_rubles_margin_bottom">50dp</dimen>
     <dimen name="swipe_refresh_layout_margin_top">50dp</dimen>
     <dimen name="recycler_margin_bottom">50dp</dimen>
+    <dimen name="recycler_view_chosen_currency_margin_bottom">50dp</dimen>
+    <dimen name="text_view_size">20sp</dimen>
 </resources>

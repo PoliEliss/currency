@@ -35,4 +35,5 @@
     <string name="_1">1</string>
     <string name="favorites">Избранное</string>
     <string name="add_to_favorites_button">add to favorites button</string>
+    <string name="blinking_heart_animation">blinking_heart_animation</string>
 </resources>
