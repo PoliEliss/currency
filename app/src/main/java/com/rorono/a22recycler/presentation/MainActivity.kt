@@ -14,7 +14,6 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         when (Settings.loadTheme(this)) {
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         when (Settings.loadTheme(this)) {
             2 -> {
                 setTheme(R.style.Theme2)

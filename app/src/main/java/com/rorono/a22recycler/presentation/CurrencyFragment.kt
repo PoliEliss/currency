@@ -56,13 +56,11 @@ class CurrencyFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         val date: EditText = binding.etDate
         date.hint = viewModel.getDate()
         viewModel.getCurrencyDao()
         viewModel.getSaveCurrencyDao()
-
         behavior = BottomSheetBehavior.from(binding.include.bottomSheet)
         binding.swipeRefreshLayout.setOnRefreshListener {
             getData(NetManager(requireContext()).isOnline(), date = date.hint.toString())
@@ -72,7 +70,6 @@ class CurrencyFragment :
             viewModel.getCurrency(it)
             date.hint = it
         }
-
         val (year, month, day) = createCalendar()
         binding.ivCalendar.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
@@ -99,12 +96,10 @@ class CurrencyFragment :
             datePickerDialog.datePicker.maxDate = today
             datePickerDialog.show()
         }
-
         with(binding) {
             recyclerView.layoutManager = GridLayoutManager(view.context, 3)
             recyclerView.adapter = adapter
         }
-
         viewModel.observeState(viewLifecycleOwner) { state ->
             when (state) {
                 is CurrencyState.Error -> {
@@ -128,7 +123,6 @@ class CurrencyFragment :
                 }
             }
         }
-
         adapter.setOnListener(object : OnItemClickListener {
             override fun onItemClick(currency: Currency, position: Int) {
                 initializationBottomSheetBehavior(currency = currency)
@@ -156,10 +150,8 @@ class CurrencyFragment :
                         binding.include.ivChoseCurrency.setImageResource(R.drawable.ic_favorite_border)
                     }
                 }
-
             }
         })
-
         binding.ivSearch.setOnClickListener {
             createAnimationOpenSearch()
         }
@@ -194,10 +186,8 @@ class CurrencyFragment :
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
             } else if (binding.include.etTransferRubles.text.isNullOrBlank()) {
                 binding.include.etCurrencyConvertor.text?.clear()
-
             }
         }
     }
@@ -254,7 +244,6 @@ class CurrencyFragment :
                 tvRate.text = it
             }
         }
-
     }
 
     private fun searchCurrency(response: List<Currency>) {
@@ -299,7 +288,6 @@ class CurrencyFragment :
     }
 
     private fun createAnimationOpenSearch() {
-
         binding.ivCancelSearch.visibility = View.VISIBLE
         binding.search.visibility = View.VISIBLE
         val objectAnimator1 = ObjectAnimator.ofFloat(binding.search, TRANSLATION_X, 500f, 60f)
@@ -367,7 +355,6 @@ class CurrencyFragment :
         if (networkConnection) {
             binding.tvAttention.visibility = View.GONE
             viewModel.getCurrency(date)
-
         } else {
             viewModel.getCurrencyDao()
             binding.tvAttention.visibility = View.VISIBLE
@@ -376,7 +363,6 @@ class CurrencyFragment :
                     getString(R.string.attention_error_get_data) + " ${viewModel.date.value}"
                 binding.tvAttention.text = textAttention
                 adapter.submitList(list)
-
             }
         }
     }

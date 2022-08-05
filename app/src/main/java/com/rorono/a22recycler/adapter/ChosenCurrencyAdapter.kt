@@ -13,7 +13,7 @@ import com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.utils.Rounding
 
 
-class ChosenCurrencyAdapter() :
+class ChosenCurrencyAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var onItemClickChosenCurrency: OnItemClickChosenCurrency
@@ -57,12 +57,12 @@ class ChosenCurrencyAdapter() :
             ivClose.visibility = View.VISIBLE
             val tvExchangeRate = itemView.findViewById<TextView>(R.id.textViewCurrencyRate)
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
-                tvExchangeRate.setText(it)
+                tvExchangeRate.text = it
             }
             itemView.setOnClickListener {
                 onItemClickChosenCurrency.onItemClick(currency = currency, layoutPosition)
             }
-           ivClose.setOnClickListener {
+            ivClose.setOnClickListener {
                 onItemClickChosenCurrency.onItemClickDeleteFavoriteCurrency(
                     currency = currency,
                     position = layoutPosition
@@ -89,7 +89,6 @@ class ChosenCurrencyAdapter() :
         } else {
             (holder as ChosenCurrencyHolder).bind(oldList[position])
         }
-
     }
 
     override fun getItemCount(): Int {

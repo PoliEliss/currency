@@ -8,7 +8,6 @@ import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
 
 @Dao
 interface CurrencyDao {
-
     @Query("SELECT * FROM currency")
     suspend fun getAllCurrency(): List<CurrencyItem>
 

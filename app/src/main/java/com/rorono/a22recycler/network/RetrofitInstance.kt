@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit
 private const val BASE_URL = "https://www.cbr-xml-daily.ru/archive/"
 
 object RetrofitInstance {
-
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(7000,TimeUnit.SECONDS)
         .readTimeout(100,TimeUnit.SECONDS).build()

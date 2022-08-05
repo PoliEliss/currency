@@ -11,7 +11,6 @@ import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
 
 @Database(entities = [CurrencyItem::class, SaveCurrencyItem::class], version = 4)
 abstract class CurrencyDataBase : RoomDatabase() {
-
     abstract fun currencyDao(): CurrencyDao
 
     companion object {
@@ -24,9 +23,7 @@ abstract class CurrencyDataBase : RoomDatabase() {
                 database = Room.databaseBuilder(
                     context, CurrencyDataBase::class.java,
                     "database"
-
                 ).addMigrations(migration2_3).build()
-
                 database as CurrencyDataBase
             } else database as CurrencyDataBase
         }

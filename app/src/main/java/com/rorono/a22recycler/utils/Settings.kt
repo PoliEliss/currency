@@ -23,7 +23,6 @@ object Settings {
         val editor = sharedPreferences.edit()
         editor.putInt(KEY_LANGUAGE, language)
         editor.apply()
-
     }
 
     fun saveOrientation(context: Context, orientation: Int) {

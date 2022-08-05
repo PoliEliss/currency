@@ -13,5 +13,4 @@ data class SaveCurrencyItem(
     @ColumnInfo(name = "value")
     val value: Double,
     val favorite: Int = 0
-
 )

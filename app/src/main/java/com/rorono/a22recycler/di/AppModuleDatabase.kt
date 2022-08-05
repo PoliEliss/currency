@@ -16,6 +16,7 @@ class AppModuleDatabase {
     fun provideRepositoryDataBase(dataBase: CurrencyDataBase): RepositoryDataBase {
         return RepositoryDataBase(database = dataBase)
     }
+
     @Provides
     @Singleton
     fun provideCurrencyDao(dataBase: CurrencyDataBase): CurrencyDao {
@@ -27,5 +28,4 @@ class AppModuleDatabase {
     fun provideDataBase(context: Context): CurrencyDataBase {
         return CurrencyDataBase.getInstance(context)
     }
-
 }

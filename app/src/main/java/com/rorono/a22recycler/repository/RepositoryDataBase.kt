@@ -8,7 +8,6 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RepositoryDataBase @Inject constructor(val database: CurrencyDataBase) {
-
     private val currencyDao = database.currencyDao()
     suspend fun insertCurrency(currencyItem: CurrencyItem) {
         withContext(Dispatchers.IO) {
@@ -41,12 +40,6 @@ class RepositoryDataBase @Inject constructor(val database: CurrencyDataBase) {
     suspend fun deleteAllCurrency() {
         withContext(Dispatchers.IO) {
             currencyDao.deleteAllCurrency()
-        }
-    }
-
-    suspend fun deleteAllSaveCurrency() {
-        withContext(Dispatchers.IO) {
-            currencyDao.deleteAllSaveCurrency()
         }
     }
 

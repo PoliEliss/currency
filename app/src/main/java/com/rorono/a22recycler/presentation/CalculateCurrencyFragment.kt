@@ -35,7 +35,6 @@ class CalculateCurrencyFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         viewModel.getCurrencyDao()
 
@@ -87,7 +86,6 @@ class CalculateCurrencyFragment :
                             }
                         }
                     }
-
                     charCodeCurrencyConverted = adapterView?.getItemAtPosition(position).toString()
                     val calculateResult = viewModel.transferToCurrency(
                         rate = currencyValueToConvert,
@@ -114,7 +112,6 @@ class CalculateCurrencyFragment :
                             Rounding.getTwoNumbersAfterDecimalPoint(currencyValueConverted),
                         ).toString()
                     )
-
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireActivity(),
@@ -141,7 +138,6 @@ class CalculateCurrencyFragment :
                             Rounding.getTwoNumbersAfterDecimalPoint(currencyValueToConvert),
                         ).toString()
                     )
-
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireActivity(),

@@ -8,7 +8,7 @@ import com.rorono.a22recycler.databinding.CurrencyItemBinding
 import com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.utils.Rounding
 
-class CurrencyAdapter() :
+class CurrencyAdapter :
     ListAdapter<Currency, CurrencyAdapter.CurrencyHolder>(
         DiffUtil()
     ) {
@@ -38,7 +38,6 @@ class CurrencyAdapter() :
                 onItemClickListener.onItemClick(currency = currency, position = layoutPosition)
             }
             textViewNameRate.text = currency.charCode
-
             (Rounding.getTwoNumbersAfterDecimalPoint(currency.value).toString() + "₽").also {
                 textViewExchangeRate.text = it
             }

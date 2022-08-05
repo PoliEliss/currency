@@ -2,14 +2,15 @@ package com.rorono.a22recycler.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
 import com.rorono.a22recycler.R
@@ -17,6 +18,7 @@ import com.rorono.a22recycler.adapter.ChosenCurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickChosenCurrency
 import com.rorono.a22recycler.databinding.FragmentSavedCurrencyBinding
 import com.rorono.a22recycler.models.remotemodels.Currency
+import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.utils.Settings
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import java.util.*
@@ -51,7 +53,6 @@ class SavedCurrencyFragment :
                     )
                 findNavController().navigate(action)
             }
-
             override fun onItemClickDeleteFavoriteCurrency(currency: Currency, position: Int) {
                 val listFavorite = mutableListOf<Currency>()
                 viewModel.saveCurrencyDatabase.value?.let { listFavorite.addAll(it) }
@@ -62,14 +63,12 @@ class SavedCurrencyFragment :
             }
         })
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
-
         when (Settings.loadOrientation(requireContext())) {
             1 -> changAdapter(1)
             2 -> changAdapter(2)
         }
         viewModel.getSaveCurrencyDao()
         viewModel.getCurrencyDao()
-
         viewModel.saveCurrencyDatabase.observe(viewLifecycleOwner) {
             adapterChosenCurrency.setData(it)
         }
@@ -107,13 +106,8 @@ class SavedCurrencyFragment :
                     updateData()
                     return true
                 }
-
-                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-                }
-
-
+                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {}
             })
-
         mIth.attachToRecyclerView(binding.recyclerViewChosenCurrency)
     }
 
@@ -133,7 +127,6 @@ class SavedCurrencyFragment :
                 }
                 adapterChosenCurrency.setData(it)
             }
-
             with(binding) {
                 recyclerViewChosenCurrency.layoutManager =
                     GridLayoutManager(requireView().context, 3)

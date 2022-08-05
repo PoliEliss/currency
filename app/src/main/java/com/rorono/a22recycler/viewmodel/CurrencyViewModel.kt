@@ -22,7 +22,6 @@ class CurrencyViewModel @Inject constructor(
     private val repository: Repository,
     private val repositoryDataBase: RepositoryDataBase
 ) : BaseViewModel<CurrencyState>() {
-
     val date: MutableLiveData<String> = MutableLiveData(getDate())
     var currencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
     var saveCurrencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
@@ -36,7 +35,7 @@ class CurrencyViewModel @Inject constructor(
     fun getCurrency(date: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-               state.postValue(CurrencyState.Loading)
+                state.postValue(CurrencyState.Loading)
                 val response = repository.getCurrency(date)
                 withContext(Dispatchers.Main) {
                     when (response) {
@@ -78,12 +77,6 @@ class CurrencyViewModel @Inject constructor(
 
     private suspend fun deleteAllData() {
         repositoryDataBase.deleteAllCurrency()
-    }
-
-    fun deleteAllSaveCurrency() {//todo
-        viewModelScope.launch {
-            repositoryDataBase.deleteAllSaveCurrency()
-        }
     }
 
     fun deleteSaveCurrency(currency: Currency) {

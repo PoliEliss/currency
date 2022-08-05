@@ -8,12 +8,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.MainViewModelFactory
 import com.rorono.a22recycler.MyApplication
 import com.rorono.a22recycler.R
-import  com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.databinding.FragmentCurrencyTransferBinding
+import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import javax.inject.Inject
@@ -21,11 +20,10 @@ import javax.inject.Inject
 
 class CurrencyTransferFragment :
     BaseViewBindingFragment<FragmentCurrencyTransferBinding>(FragmentCurrencyTransferBinding::inflate) {
-
     @Inject
     lateinit var factory: MainViewModelFactory
-
     lateinit var viewModel: CurrencyViewModel
+
     private val args: CurrencyTransferFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
@@ -35,12 +33,9 @@ class CurrencyTransferFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(this, factory)[CurrencyViewModel::class.java]
         val currency = args.currency
         val roundedCurrency = Rounding.getTwoNumbersAfterDecimalPoint(currency.value)
-
-
         with(binding) {
             toolbarCurrencyTransferFragment.title = currency.charCode
             tvFullNameCurrency.text = currency.fullName
@@ -53,8 +48,6 @@ class CurrencyTransferFragment :
                 findNavController().navigateUp()
             }
         }
-
-
         binding.etCurrencyConvertor.addTextChangedListener {
             if (binding.etCurrencyConvertor.text.toString() != "" && binding.etCurrencyConvertor.hasFocus()) {
                 if (binding.etCurrencyConvertor.text.toString() == ".") {
