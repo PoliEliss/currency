@@ -117,14 +117,14 @@
                 android:paddingBottom="50dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:itemCount="4"
-                tools:listitem="@layout/currency_item"
+                tools:listitem="@layout/item_currency"
                 android:visibility="visible"/>
         </LinearLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <include
         android:id="@+id/include"
-        layout="@layout/layout_bottom_sheet" />
+        layout="@layout/bottom_sheet_layout" />
     <ProgressBar
         android:id="@+id/progressBarCurrency"
         android:layout_width="wrap_content"

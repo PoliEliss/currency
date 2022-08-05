@@ -74,11 +74,11 @@ class ChosenCurrencyAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == LIST_TYPE) {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_chosen_currency_item, parent, false)
+                .inflate(R.layout.item_list_chosen_currency, parent, false)
             ListViewHolder(view)
         } else {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.currency_item, parent, false)
+                .inflate(R.layout.item_currency, parent, false)
             ChosenCurrencyHolder(view)
         }
     }
