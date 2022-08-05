@@ -42,4 +42,16 @@
     <dimen name="tv_full_name_layout_margin_top">5dp</dimen>
     <dimen name="tv_name_rate_margin_start">20dp</dimen>
     <dimen name="item_list_chosen_currency_ll_margin_top">5dp</dimen>
+    <dimen name="tv_fragment_settings_currency_margin_top">40dp</dimen>
+    <dimen name="radio_group_themes_layout_margin_top">20dp</dimen>
+    <dimen name="padding_radio_button">10dp</dimen>
+    <dimen name="radio_button_dark_theme_margin_start">10dp</dimen>
+    <dimen name="radio_button_padding">10dp</dimen>
+    <dimen name="radio_button_choose_tile_margin_start">20dp</dimen>
+    <dimen name="radio_group_choose_favorite_layout_margin_top">20dp</dimen>
+    <dimen name="radio_group_choose_favorite_layout_margin_bottom">50dp</dimen>
+    <dimen name="tv_margin_top">40dp</dimen>
+    <dimen name="radio_button_layout_margin_start">20dp</dimen>
+    <dimen name="radio_group_language_layout_margin_top">20dp</dimen>
+    <dimen name="tv_layout_margin_top">40dp</dimen>
 </resources>
