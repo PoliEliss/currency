@@ -1,4 +1,4 @@
-package com.rorono.a22recycler.network.utils
+package com.rorono.a22recycler.viewmodel
 
 import com.rorono.a22recycler.models.remotemodels.Currency
 

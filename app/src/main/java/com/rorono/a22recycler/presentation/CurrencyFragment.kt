@@ -29,7 +29,7 @@ import com.rorono.a22recycler.adapter.CurrencyAdapter
 import com.rorono.a22recycler.adapter.OnItemClickListener
 import com.rorono.a22recycler.databinding.FragmentCurrencyBinding
 import com.rorono.a22recycler.models.remotemodels.Currency
-import com.rorono.a22recycler.network.utils.CurrencyState
+import com.rorono.a22recycler.viewmodel.CurrencyState
 import com.rorono.a22recycler.network.utils.NetManager
 import com.rorono.a22recycler.utils.BaseViewBindingFragment
 import com.rorono.a22recycler.utils.FullNameCurrency

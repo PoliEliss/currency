@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.rorono.a22recycler.models.localmodels.CurrencyItem
 import com.rorono.a22recycler.models.localmodels.SaveCurrencyItem
 import com.rorono.a22recycler.models.remotemodels.Currency
-import com.rorono.a22recycler.network.utils.CurrencyState
 import com.rorono.a22recycler.network.utils.Result
 import com.rorono.a22recycler.repository.Repository
 import com.rorono.a22recycler.repository.RepositoryDataBase
