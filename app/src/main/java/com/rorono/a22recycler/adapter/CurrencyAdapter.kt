@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.rorono.a22recycler.databinding.CurrencyItemBinding
+import com.rorono.a22recycler.databinding.ItemCurrencyBinding
 import com.rorono.a22recycler.models.remotemodels.Currency
 import com.rorono.a22recycler.utils.Rounding
 
@@ -28,7 +28,7 @@ class CurrencyAdapter :
             oldItem.hashCode() == newItem.hashCode()
     }
 
-    inner class CurrencyHolder(binding: CurrencyItemBinding) :
+    inner class CurrencyHolder(binding: ItemCurrencyBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val textViewNameRate = binding.textViewNameRate
         private val textViewExchangeRate = binding.textViewCurrencyRate
@@ -46,7 +46,7 @@ class CurrencyAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyHolder {
         val binding =
-            CurrencyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCurrencyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CurrencyHolder(binding)
     }
 
