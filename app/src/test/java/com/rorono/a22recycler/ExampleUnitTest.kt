@@ -3,11 +3,16 @@ package com.rorono.a22recycler
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.rorono.a22recycler.database.CurrencyDao
 import com.rorono.a22recycler.database.CurrencyDataBase
+import com.rorono.a22recycler.models.remotemodels.Currency
+import com.rorono.a22recycler.network.RetrofitInstance
 import com.rorono.a22recycler.network.utils.Result
 import com.rorono.a22recycler.presentation.CurrencyTransferFragment
 import com.rorono.a22recycler.repository.Repository
+import com.rorono.a22recycler.repository.RepositoryDataBase
 import com.rorono.a22recycler.utils.Rounding
 import com.rorono.a22recycler.viewmodel.CurrencyViewModel
 import kotlinx.coroutines.*
@@ -23,20 +28,25 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
+import org.robolectric.RobolectricTestRunner
 
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(RobolectricTestRunner::class)
 class ExampleUnitTest {
+    private lateinit var currencyDao: CurrencyDao
+    private lateinit var dataBase: CurrencyDataBase
+    private lateinit var repositoryDataBase: RepositoryDataBase
+    private lateinit var repository: Repository
+
+
 
     @Mock
-    lateinit var mockRepository: Repository
-    // val  mockRepository = mock<Repository>()
-    @Mock
-    private var dataBase: CurrencyDataBase? =null
+    val  mockRepository = mock<Repository>()
+
     private var viewModel: CurrencyViewModel? = null
     private var currencyTransferFragment: CurrencyTransferFragment? = null
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
@@ -44,10 +54,17 @@ class ExampleUnitTest {
     @Before
     fun init() {
         val context = ApplicationProvider.getApplicationContext<Context>()
+        dataBase = Room.inMemoryDatabaseBuilder(context, CurrencyDataBase::class.java).build()
+        currencyDao = dataBase.currencyDao()
+        repositoryDataBase = RepositoryDataBase(database = dataBase)
+        repository = Repository(RetrofitInstance.api)
         dataBase = CurrencyDataBase.getInstance(context)
         MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(mainThreadSurrogate)
-        viewModel = CurrencyViewModel(mockRepository, dataBase = dataBase!!.currencyDao())//repositoryDataBase
+        viewModel = CurrencyViewModel(
+            mockRepository,
+            repositoryDataBase = repositoryDataBase
+        )//repositoryDataBase
         currencyTransferFragment = CurrencyTransferFragment()
     }
 
@@ -56,30 +73,25 @@ class ExampleUnitTest {
 
     @Test
     fun successGetData() = runBlocking {
-        Mockito.`when`(mockRepository.getCurrency("2022-06-01")).thenReturn(Result.Error("jjj"))
-        viewModel!!.getCurrency("2022-06-01")
-        val observer = Observer<String> {}
-        //Получаем LiveData
-        val liveData = viewModel!!.messageError
-        val actual = viewModel!!.messageError.value
-        liveData.observeForever(observer)
-        assertNotNull(liveData.value)
+        val currency = mapOf<String, Currency>("AUD" to Currency("Австралийск доллар","AUS",89.0))
+        Mockito.`when`(mockRepository.getCurrency("2022-06-01")).thenReturn(Result.Success(currency = currency))
+        assertEquals(Result.Success(currency),mockRepository.getCurrency("2022-06-01"))
     }
 
     @Test
-    fun testRepository() {
+    fun testRepository() { //он работает. Не работал т.к. функция в репозитории была не open fun
         runBlocking {
-            Mockito.`when`(mockRepository.getCurrency("2022-06-01")).thenReturn(Result.Error("jjj"))
-            assertEquals(Result.Error("jjj"), mockRepository.getCurrency("2022-06-01"))
+            Mockito.`when`(mockRepository.getCurrency("2022-08-07")).thenReturn(com.rorono.a22recycler.network.utils.Result.Error("jjj"))
+            assertEquals(Result.Error("jjj"), mockRepository.getCurrency("2022-08-07"))
         }
     }
-
-    @Test
+    @Test //он работает без мока  с моком тоже работает
     fun getData() {
         val actual = viewModel!!.getDate()
-        val expected = "2022-06-28"
+        val expected = "2022-08-07"
         assertEquals(expected, actual)
     }
+
 
     @Test
     fun getPositiveRoundingWithOneNumberAfterDecimalPoint() {
@@ -88,6 +100,7 @@ class ExampleUnitTest {
         val delta = 0.2
         assertEquals(expected, actual, delta)
     }
+
 
     @Test
     fun getPositiveRoundingWithNumbersAboveTwoAfterDecimalPoint() {
