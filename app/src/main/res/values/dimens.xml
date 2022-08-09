@@ -57,4 +57,5 @@
     <dimen name="spinner_layout_margin">16dp</dimen>
     <dimen name="et_currency_converted_to_layout_margin_bottom">50dp</dimen>
     <dimen name="et_transfer_rubles_layout_margin_bottom">50dp</dimen>
+    <dimen name="card_elevation">10dp</dimen>
 </resources>
