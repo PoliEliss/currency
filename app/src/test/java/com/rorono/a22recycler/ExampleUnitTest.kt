@@ -79,13 +79,13 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun testRepository() { //он работает. Не работал т.к. функция в репозитории была не open fun
+    fun testRepository() {
         runBlocking {
             Mockito.`when`(mockRepository.getCurrency("2022-08-07")).thenReturn(com.rorono.a22recycler.network.utils.Result.Error("jjj"))
             assertEquals(Result.Error("jjj"), mockRepository.getCurrency("2022-08-07"))
         }
     }
-    @Test //он работает без мока  с моком тоже работает
+    @Test
     fun getData() {
         val actual = viewModel!!.getDate()
         val expected = "2022-08-07"
@@ -190,7 +190,3 @@ class ExampleUnitTest {
 
 }
 
-/*class FakeRepository : Repository(retrofit = RetrofitInstance) {
-    override suspend fun getCurrency(data: String): Result {
-        return Result.Error("Не удалось получить данные")
-    }*/
