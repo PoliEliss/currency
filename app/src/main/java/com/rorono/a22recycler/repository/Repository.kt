@@ -1,23 +1,25 @@
 package com.rorono.a22recycler.repository
 
-import com.rorono.a22recycler.network.utils.Result
+import com.rorono.a22recycler.MyApplication
+import com.rorono.a22recycler.R
 import com.rorono.a22recycler.network.ApiService
+import com.rorono.a22recycler.network.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import javax.inject.Inject
 
 open class Repository @Inject constructor(private val apiService: ApiService) {
+   
     suspend fun getCurrency(data: String): Result = withContext(Dispatchers.IO) {
         try {
             val response = apiService.getCurrency(data = data)
             if (response.isSuccessful) {
                 return@withContext Result.Success(response.body()!!.currencies)
             } else {
-                return@withContext Result.Error("Не удалось отобразить данные за этот день \n Пожалуйста, выберите другую дату")
+                return@withContext Result.Error(MyApplication.applicationContext().getString(R.string.attention_state_error))
             }
         } catch (e: Exception) {
-            return@withContext Result.Error("Отсутствует интернет подключение")
+            return@withContext Result.Error(MyApplication.applicationContext().getString(R.string.no_interner_connection))
         }
     }
 }
