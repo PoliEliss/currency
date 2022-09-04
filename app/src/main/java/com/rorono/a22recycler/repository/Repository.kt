@@ -19,7 +19,7 @@ open class Repository @Inject constructor(private val apiService: ApiService) {
                 return@withContext Result.Error(MyApplication.applicationContext().getString(R.string.attention_state_error))
             }
         } catch (e: Exception) {
-            return@withContext Result.Error(MyApplication.applicationContext().getString(R.string.no_interner_connection))
+            return@withContext Result.Error(MyApplication.applicationContext().getString(R.string.no_internet_connection))
         }
     }
 }
