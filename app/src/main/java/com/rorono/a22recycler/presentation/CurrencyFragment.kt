@@ -277,7 +277,7 @@ class CurrencyFragment :
         getData(NetManager(context = requireContext()).isOnline(), viewModel.date.value!!)
     }
 
-    fun Fragment.hideKeyboard() {
+    private fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
     }
 
