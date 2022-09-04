@@ -37,4 +37,5 @@
     <string name="icon_when_clicked_which_will_remove_the_currency_from_favorites">icon when clicked, which will remove the currency from favorites</string>
     <string name="spinning_gear_animation">spinning gear animation</string>
     <string name="attention_state_error">Failed to get data for this day, please select another date! </string>
+    <string name="no_internet_connection">No internet connection</string>
 </resources>

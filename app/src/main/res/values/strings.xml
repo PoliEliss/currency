@@ -15,7 +15,7 @@
     <string name="attention">Внимание! \n Не удается получить данные за указанную дату</string>
     <string name="entered_value_greater_zero">Введите значение больше нуля</string>
     <string name="attention_error_get_data">Внимание! \n Произошла ошибка при загрузке данных. \nЗагружены последние данные посещения на </string>
-    <string name="attention_state_error">Не удалось получить данные за этот день, пожалуйста выберите другую дату!!!!  </string>
+    <string name="attention_state_error">Не удалось получить данные за этот день, пожалуйста выберите другую дату!  </string>
     <string name="search_currency">Поиск валюты</string>
     <string name="close_search">Закрыть поиск</string>
     <string name="eng">ENG</string>
@@ -37,4 +37,5 @@
     <string name="blinking_heart_animation">Анимация мерцающего сердечка</string>
     <string name="icon_when_clicked_which_will_remove_the_currency_from_favorites">Иконка при нажатии на которую происходит удаление валюты из избранного</string>
     <string name="spinning_gear_animation">Аниация вращающейся шестеренки</string>
+    <string name="no_internet_connection">Отсутствует интернет подключение</string>
 </resources>
