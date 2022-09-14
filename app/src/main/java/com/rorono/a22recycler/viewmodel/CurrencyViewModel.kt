@@ -1,6 +1,7 @@
 package com.rorono.a22recycler.viewmodel
 
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.rorono.a22recycler.models.localmodels.CurrencyItem
@@ -21,9 +22,15 @@ class CurrencyViewModel @Inject constructor(
     private val repository: Repository,
     private val repositoryDataBase: RepositoryDataBase
 ) : BaseViewModel<CurrencyState>() {
+
     val date: MutableLiveData<String> = MutableLiveData(getDate())
-    var currencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
+
+    private val _currencyDataBase = MutableLiveData<List<Currency>>()
+    val currencyDatabase: LiveData<List<Currency>>
+        get() = _currencyDataBase
+
     var saveCurrencyDatabase: MutableLiveData<List<Currency>> = MutableLiveData()
+
 
     fun getDate(): String {
         val currentDate = Date()
@@ -160,7 +167,7 @@ class CurrencyViewModel @Inject constructor(
                 currency =
                     Currency(fullName = i.fullName, charCode = i.charCode, value = i.value)
                 currencyListDatabase.add(currency)
-                currencyDatabase.value = currencyListDatabase
+                _currencyDataBase.value = currencyListDatabase
             }
         }
     }
